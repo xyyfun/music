@@ -1,7 +1,7 @@
 <template>
 	<div class="app-sidebar scroll">
 		<div class="sidebar-content">
-			<h1 class="logo"><router-link to="/">QQ音乐</router-link></h1>
+			<h1 class="logo"><router-link to="/" title="QQ音乐">QQ音乐</router-link></h1>
 			<div class="menu">
 				<span>在线音乐</span>
 				<ul>
@@ -70,44 +70,52 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .app-sidebar {
-	width: 200px;
+	width: 14rem;
+	min-width: 14rem;
 	background-color: #f0f0f0;
 	overflow-y: auto;
+	overflow-x: hidden;
 	.sidebar-content {
 		.logo {
-			width: 200px;
+			width: 14rem;
 			a {
 				display: block;
-				height: 70px;
+				height: 5rem;
 				width: 100%;
 				text-indent: -9999px;
-				background: url(../assets/images/logo.png) no-repeat center 20px / contain;
-				background-size: 100px 27px;
+				background: url(../assets/images/logo.png) no-repeat center 1.4rem / contain;
+				background-size: 7.1rem 1.9rem;
 			}
 		}
 		.menu {
-			padding: 25px;
+			padding: 1.7rem;
+			> span {
+				font-size: 1rem;
+			}
 			ul {
 				li {
 					width: 100%;
-					height: 30px;
-					line-height: 30px;
-					margin-top: 10px;
+					height: 2rem;
+					line-height: 2rem;
+					margin-top: 0.71rem;
 					a {
 						display: block;
 						width: 100%;
 						height: 100%;
-						border-radius: 5px;
-						padding: 0 16px;
+						border-radius: 0.35rem;
+						padding: 0 1.1rem;
 						&:hover {
 							background-color: #d8d8d8;
 							transition: all 0.2s;
 						}
 						i {
-							font-size: 16px;
-							margin-right: 4px;
+							font-size: 1.25rem;
+							margin-right: 0.28rem;
+						}
+						span {
+							font-size: 1rem;
 						}
 					}
 					.active {
