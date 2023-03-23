@@ -3,7 +3,15 @@
 		<AppSidebar />
 		<div class="main-container">
 			<AppHeader />
-			<router-view></router-view>
+			<!-- <Transition name="fade">
+				<router-view></router-view>
+			</Transition> -->
+			<router-view v-slot="{ Component }">
+				<transition name="fade" appear>
+					<component :is="Component" />
+				</transition>
+			</router-view>
+
 			<AppProgress />
 		</div>
 	</div>
@@ -29,6 +37,26 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		flex-direction: column;
+		min-width: 43rem;
 	}
+}
+
+/* 进入的起点,离开的终点 */
+.fade-enter-from,
+.fade-leave-to {
+	transform: translateX(1rem);
+	opacity: 0;
+}
+/* 进入进行时,离开进行时 */
+.fade-enter-active,
+.fade-leave-active {
+	transition: all 0.5s;
+}
+
+/* 进入的终点,离开的起点 */
+.fade-enter-to,
+.fade-leave {
+	transform: translateX(0px);
+	opacity: 1;
 }
 </style>
