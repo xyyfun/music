@@ -31,7 +31,7 @@ ul {
   overflow: hidden;
 }
 .scroll::-webkit-scrollbar {
-  width: 6px;
+  width: 0.4rem;
 }
 .scroll::-webkit-scrollbar-thumb {
   background: #ddd;
