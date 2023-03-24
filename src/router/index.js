@@ -10,8 +10,35 @@ const routes = [
 				component: () => import('@/views/Discover'),
 			},
 			{
-				path: '/hall',
-				component: () => import('@/views/Hall'),
+				path: '/music',
+				redirect: '/music/picked',
+				component: () => import('@/views/Music'),
+				children: [
+					{
+						path: 'picked',
+						component: () => import('@/views/Music/MusicPicked'),
+					},
+					{
+						path: 'radar',
+						component: () => import('@/views/Music/MusicRadar'),
+					},
+					{
+						path: 'ranking',
+						component: () => import('@/views/Music/MusicRanking'),
+					},
+					{
+						path: 'singer',
+						component: () => import('@/views/Music/MusicSinger'),
+					},
+					{
+						path: 'playlist',
+						component: () => import('@/views/Music/MusicPlaylist'),
+					},
+					{
+						path: 'album',
+						component: () => import('@/views/Music/MusicAlbum'),
+					},
+				],
 			},
 			{
 				path: '/video',
