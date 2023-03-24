@@ -12,7 +12,7 @@
 						</router-link>
 					</li>
 					<li>
-						<router-link to="/hall" exact-active-class="active">
+						<router-link to="/music" active-class="active">
 							<i class="iconfont icon-yinle"></i>
 							<span>音乐馆</span>
 						</router-link>
