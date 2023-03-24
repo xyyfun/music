@@ -42,6 +42,7 @@ export default {
 				flex-shrink: 0;
 				padding-right: 1rem;
 				scroll-snap-align: start;
+				padding-bottom: 0.5rem;
 				a {
 					display: block;
 					position: relative;
