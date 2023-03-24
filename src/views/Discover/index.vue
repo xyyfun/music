@@ -1,19 +1,33 @@
 <template>
-	<div class="discover scroll"><div class="box">tuijian</div></div>
+	<div class="discover scroll">
+		<div class="discover-content">
+			<MusicTitle title="推荐" />
+			<AppBanner />
+			<DiscoverNewPlaylist />
+			<DiscoverNewSong />
+			<DiscoverMV />
+		</div>
+	</div>
 </template>
 
 <script>
+import MusicTitle from '@/components/library/music-title';
+import AppBanner from '@/components/app-banner';
+import DiscoverNewPlaylist from './components/discover-new-playlist';
+import DiscoverNewSong from './components/discover-new-song';
+import DiscoverMV from './components/discover-mv';
 export default {
 	name: 'AppDiscover',
+	components: { MusicTitle, AppBanner, DiscoverNewPlaylist, DiscoverNewSong, DiscoverMV },
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .discover {
 	flex: 1;
-	overflow: auto;
-	.box {
-		height: 1000px;
+	overflow-y: auto;
+	.discover-content {
+		padding: 0 1.78rem;
 	}
 }
 </style>
