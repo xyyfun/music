@@ -1,22 +1,22 @@
 <template>
-	<div class="title">{{ title }}<i class="iconfont icon-xiangyoujiantou"></i></div>
+	<h1>{{ title }}</h1>
 </template>
 
 <script>
 export default {
 	name: 'MusicTitle',
-	props: ['title'],
+	props: {
+		title: {
+			type: String,
+			default: '',
+		},
+	},
 };
 </script>
 
-<style lang="less" scoped>
-.title {
-	display: flex;
-	align-items: center;
-	padding: 1rem 0;
-	font-size: 1.42rem;
-	i {
-		font-size: 1rem;
-	}
+<style scoped>
+h1 {
+	font-size: 2rem;
+	padding: 1.5rem 0;
 }
 </style>
