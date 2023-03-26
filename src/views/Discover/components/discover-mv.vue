@@ -5,7 +5,7 @@
 			<ul>
 				<li v-for="item in mv" :key="item.id">
 					<a href="javascript:;">
-						<img :src="item.picUrl" alt="" />
+						<img v-lazy="item.picUrl" alt="" />
 						<AppMask />
 					</a>
 					<div class="information">

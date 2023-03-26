@@ -3,7 +3,7 @@
 		<li v-for="item in dataList" :key="item.id">
 			<a href="javascript:;">
 				<div class="img">
-					<img :src="item.picUrl || item.coverUrl" alt="" />
+					<img v-lazy="item.picUrl || item.coverUrl || item.coverImgUrl" alt="" />
 					<AppMask />
 				</div>
 			</a>
