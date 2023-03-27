@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3970665 */
-  src: url('iconfont.woff2?t=1679562512642') format('woff2'),
-       url('iconfont.woff?t=1679562512642') format('woff'),
-       url('iconfont.ttf?t=1679562512642') format('truetype');
+  src: url('iconfont.woff2?t=1679880507211') format('woff2'),
+       url('iconfont.woff?t=1679880507211') format('woff'),
+       url('iconfont.ttf?t=1679880507211') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,18 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-20gf-headphones:before {
+  content: "\ea06";
+}
+
+.icon-gengduo:before {
+  content: "\e67f";
+}
+
+.icon-xiazai:before {
+  content: "\e612";
 }
 
 .icon-zanting:before {
@@ -43,10 +55,6 @@
 
 .icon-bofang:before {
   content: "\e62d";
-}
-
-.icon-xiazai:before {
-  content: "\e627";
 }
 
 .icon-quxiaoquanping:before {
@@ -159,10 +167,6 @@
 
 .icon-xiangzuojiantou:before {
   content: "\e660";
-}
-
-.icon-gengduo:before {
-  content: "\e605";
 }
 
 .icon-xinjian:before {

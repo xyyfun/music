@@ -1,19 +1,21 @@
 <template>
 	<ul>
 		<li v-for="item in dataList" :key="item.id">
-			<a href="javascript:;">
+			<a href="javascript:;" :title="item.name">
 				<div class="img">
-					<img v-lazy="item.picUrl || item.coverUrl || item.coverImgUrl" alt="" />
+					<img v-lazy="item.picUrl" alt="" />
 					<AppMask />
+					<MusicPlayCount :playCount="item.playCount" />
 				</div>
 			</a>
-			<div class="description ellipsis">{{ item.name }}</div>
+			<span class="description ellipsis">{{ item.name }}</span>
 		</li>
 	</ul>
 </template>
 
 <script>
 import AppMask from '@/components/app-mask';
+import MusicPlayCount from '@/components/library/music-play-count';
 export default {
 	name: 'MusicList',
 	props: {
@@ -22,18 +24,15 @@ export default {
 			default: () => [],
 		},
 	},
-	components: { AppMask },
+	components: { AppMask, MusicPlayCount },
 };
 </script>
 
 <style lang="less" scoped>
 ul {
-	display: flex;
-	flex-flow: wrap;
+	display: grid;
+	gap: 0.8rem;
 	li {
-		flex-shrink: 0;
-		padding-right: 0.8rem;
-		padding-top: 0.8rem;
 		.img {
 			position: relative;
 			transition: transform 0.3s;
@@ -43,33 +42,36 @@ ul {
 			&:hover {
 				transform: translateY(-0.3rem);
 			}
+			&:hover > .plays-number {
+				display: none;
+			}
 		}
 		.description {
+			display: block;
 			font-size: 0.8rem;
 			height: 1.5rem;
 			line-height: 1.5rem;
 		}
 	}
 }
-// 屏幕小于1024px
 @media screen and (max-width: 1024px) {
-	li {
-		width: 25%;
+	ul {
+		grid-template-columns: repeat(6, minmax(0, 1fr));
 	}
 }
 @media screen and (min-width: 1024px) {
-	li {
-		width: 20%;
+	ul {
+		grid-template-columns: repeat(6, minmax(0, 1fr));
 	}
 }
 @media screen and (min-width: 1280px) {
-	li {
-		width: 15%;
+	ul {
+		grid-template-columns: repeat(8, minmax(0, 1fr));
 	}
 }
 @media screen and (min-width: 1536px) {
-	li {
-		width: 10%;
+	ul {
+		grid-template-columns: repeat(10, minmax(0, 1fr));
 	}
 }
 </style>

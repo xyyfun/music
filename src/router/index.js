@@ -19,8 +19,8 @@ const routes = [
 						component: () => import('@/views/Music/MusicPicked'),
 					},
 					{
-						path: 'radar',
-						component: () => import('@/views/Music/MusicRadar'),
+						path: 'radio',
+						component: () => import('@/views/Music/MusicRadio'),
 					},
 					{
 						path: 'ranking',

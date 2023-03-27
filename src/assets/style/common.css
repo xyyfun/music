@@ -34,7 +34,7 @@ ul {
   width: 0.4rem;
 }
 .scroll::-webkit-scrollbar-thumb {
-  background: #ddd;
+  background: #d4d4d4;
   border-radius: 5px;
 }
 .scroll::-webkit-scrollbar-thumb:hover {

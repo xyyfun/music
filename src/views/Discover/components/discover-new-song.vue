@@ -1,6 +1,6 @@
 <template>
 	<div class="discover-new-song">
-		<div class="songs overflow">
+		<div class="songs">
 			<MusicTitleChild title="推荐新歌曲" />
 			<ul>
 				<li v-for="item in songs" :key="item.id">
@@ -39,6 +39,7 @@ export default {
 	ul {
 		display: grid;
 		grid-gap: 1rem;
+		grid-template-rows: 4rem;
 		li {
 			border-radius: 0.3rem;
 			transition: box-shadow 0.2s;
@@ -47,6 +48,8 @@ export default {
 				width: 100%;
 				height: 100%;
 				img {
+					width: 4rem;
+					height: 100%;
 					border-radius: 0.3rem;
 					padding: 0.1rem;
 				}
@@ -55,6 +58,7 @@ export default {
 					flex-direction: column;
 					justify-content: space-around;
 					padding: 0 0.8rem;
+					max-width: calc(100% - 4rem);
 					> span {
 						font-size: 0.8rem;
 					}
@@ -66,13 +70,15 @@ export default {
 					}
 				}
 			}
+			&:hover {
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+			}
 		}
 	}
 }
 @media screen and (max-width: 1080px) {
 	.songs {
 		ul {
-			grid-template-rows: repeat(5, 3.5rem);
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
@@ -80,7 +86,6 @@ export default {
 @media screen and (min-width: 1024px) {
 	.songs {
 		ul {
-			grid-template-rows: repeat(4, 3.5rem);
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
 	}
@@ -88,7 +93,6 @@ export default {
 @media screen and (min-width: 1280px) {
 	.songs {
 		ul {
-			grid-template-rows: repeat(3, 3.5rem);
 			grid-template-columns: repeat(4, minmax(0, 1fr));
 		}
 	}
@@ -96,7 +100,6 @@ export default {
 @media screen and (min-width: 1536px) {
 	.songs {
 		ul {
-			grid-template-rows: 3.5rem 3.5rem;
 			grid-template-columns: repeat(5, minmax(0, 1fr));
 		}
 	}

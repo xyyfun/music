@@ -58,7 +58,7 @@ export default {
 			.information {
 				display: flex;
 				flex-direction: column;
-				font-size: 1rem;
+				font-size: 0.9rem;
 				.songName {
 					color: #334155;
 				}
