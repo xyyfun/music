@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3970665 */
-  src: url('iconfont.woff2?t=1679880507211') format('woff2'),
-       url('iconfont.woff?t=1679880507211') format('woff'),
-       url('iconfont.ttf?t=1679880507211') format('truetype');
+  src: url('iconfont.woff2?t=1680608423391') format('woff2'),
+       url('iconfont.woff?t=1680608423391') format('woff'),
+       url('iconfont.ttf?t=1680608423391') format('truetype');
 }
 
 .iconfont {
@@ -13,16 +13,56 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-dianzan:before {
+  content: "\e816";
+}
+
+.icon-shiting:before {
+  content: "\e680";
+}
+
+.icon-MV:before {
+  content: "\e603";
+}
+
+.icon-VIP:before {
+  content: "\e66a";
+}
+
+.icon-yinliang2:before {
+  content: "\e797";
+}
+
+.icon-jingyin:before {
+  content: "\e798";
+}
+
+.icon-yinliang1:before {
+  content: "\e799";
+}
+
+.icon-bofang:before {
+  content: "\e662";
+}
+
+.icon-pause:before {
+  content: "\ea6d";
+}
+
+.icon-xiazai:before {
+  content: "\e678";
+}
+
+.icon-sousuo:before {
+  content: "\e64c";
+}
+
 .icon-20gf-headphones:before {
   content: "\ea06";
 }
 
 .icon-gengduo:before {
   content: "\e67f";
-}
-
-.icon-xiazai:before {
-  content: "\e612";
 }
 
 .icon-zanting:before {
@@ -49,12 +89,8 @@
   content: "\e602";
 }
 
-.icon-shanchu-m:before {
+.icon-remove:before {
   content: "\e608";
-}
-
-.icon-bofang:before {
-  content: "\e62d";
 }
 
 .icon-quxiaoquanping:before {
@@ -69,18 +105,6 @@
   content: "\e663";
 }
 
-.icon-yinliang:before {
-  content: "\e6c4";
-}
-
-.icon-yinliang1:before {
-  content: "\e6c5";
-}
-
-.icon-yinliang2:before {
-  content: "\e6c6";
-}
-
 .icon-pifu:before {
   content: "\e743";
 }
@@ -93,11 +117,11 @@
   content: "\e667";
 }
 
-.icon-24gl-repeat2:before {
+.icon-liebiao:before {
   content: "\ea75";
 }
 
-.icon-24gl-repeatOnce2:before {
+.icon-danqu:before {
   content: "\ea76";
 }
 
@@ -121,12 +145,8 @@
   content: "\e600";
 }
 
-.icon-yinle-shunxubofang:before {
+.icon-shunxu:before {
   content: "\e61b";
-}
-
-.icon-jingyin:before {
-  content: "\e60c";
 }
 
 .icon-tv-full:before {
@@ -139,10 +159,6 @@
 
 .icon-suiji:before {
   content: "\e88d";
-}
-
-.icon-bofangzhong:before {
-  content: "\e6ae";
 }
 
 .icon-list:before {

@@ -2,7 +2,7 @@
 	<div class="ranking-artist">
 		<div class="artist">
 			<MusicTitleChild title="歌手榜" />
-			<MusicList :dataList="artistList" />
+			<MusicList :dataList="artistList" params="/singer" />
 		</div>
 	</div>
 </template>

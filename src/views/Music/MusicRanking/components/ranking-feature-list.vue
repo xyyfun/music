@@ -2,7 +2,7 @@
 	<div class="ranking-feature-list">
 		<div class="feature-list">
 			<MusicTitleChild title="特色榜" />
-			<MusicList :dataList="featureList" />
+			<MusicList :dataList="featureList" params="/playlist" />
 		</div>
 	</div>
 </template>

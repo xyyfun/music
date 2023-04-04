@@ -5,8 +5,12 @@
 			<div class="tool">
 				<!-- 历史/前进/后退 -->
 				<div class="history">
-					<a href="javascript:;" title="后退"><i class="iconfont icon-xiangzuojiantou"></i></a>
-					<a href="javascript:;" title="前进"><i class="iconfont icon-xiangyoujiantou"></i></a>
+					<a href="javascript:;" @click="$router.back()" title="后退">
+						<i class="iconfont icon-xiangzuojiantou"> </i>
+					</a>
+					<a href="javascript:;" @click="$router.forward()" title="前进">
+						<i class="iconfont icon-xiangyoujiantou"></i>
+					</a>
 				</div>
 				<!-- 搜索 -->
 				<div class="search">
@@ -33,7 +37,7 @@ export default {
 <style lang="less" scoped>
 .app-header {
 	width: 100%;
-	height: 4.2rem;
+	height: 5rem;
 	.header-content {
 		display: flex;
 		justify-content: space-between;

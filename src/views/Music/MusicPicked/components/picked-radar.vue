@@ -4,7 +4,9 @@
 			<MusicTitleChild title="推荐电台" />
 			<ul>
 				<li v-for="item in radar" :key="item.id">
-					<a href="javascript:;" :title="item.name"><img v-lazy="item.picUrl" /><AppMask /></a>
+					<a href="javascript:;" :title="item.name"
+						><img v-lazy="item.picUrl + '?param=200y200'" /><AppMask
+					/></a>
 					<span class="ellipsis">{{ item.name }}</span>
 				</li>
 			</ul>
@@ -42,6 +44,7 @@ export default {
 				position: relative;
 				transition: transform 0.3s;
 				img {
+					width: 100%;
 					border-radius: 0.5rem;
 				}
 				&:hover {

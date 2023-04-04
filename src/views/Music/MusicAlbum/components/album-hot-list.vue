@@ -4,7 +4,7 @@
 			<MusicTitleChild title="本周最热" />
 			<ul>
 				<li v-for="item in hotAlbum" :key="item.id">
-					<a href=""><img v-lazy="item.picUrl" alt="" /></a>
+					<a href=""><img v-lazy="item.picUrl + '?param=200y200'" alt="" /></a>
 					<span class="ellipsis">{{ item.name }}</span>
 				</li>
 			</ul>
@@ -38,6 +38,7 @@ export default {
 		li {
 			a {
 				img {
+					width: 100%;
 					border-radius: 0.5rem;
 				}
 			}

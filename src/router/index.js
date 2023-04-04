@@ -64,6 +64,18 @@ const routes = [
 				path: '/audition',
 				component: () => import('@/views/Audition'),
 			},
+			{
+				path: '/playlist/:id',
+				component: () => import('@/views/Playlist'),
+			},
+			{
+				path: '/singer/:id',
+				component: () => import('@/views/Singer'),
+			},
+			{
+				path: '/album/:id',
+				component: () => import('@/views/Album'),
+			},
 		],
 	},
 ];

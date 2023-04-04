@@ -4,7 +4,9 @@
 			<MusicTitleChild title="人气主播" />
 			<ul>
 				<li v-for="item in lists" :key="item.id">
-					<a href="javascript:;" :title="item.nickName"><img v-lazy="item.avatarUrl" alt="" /></a>
+					<a href="javascript:;" :title="item.nickName">
+						<img v-lazy="item.avatarUrl + '?param=200y200'" alt="" />
+					</a>
 					<span class="ellipsis">{{ item.nickName }}</span>
 				</li>
 			</ul>

@@ -2,7 +2,7 @@
 	<div class="discover-new-playlist">
 		<div class="playlist overflow">
 			<MusicTitleChild title="你的专属歌单" />
-			<MusicList :dataList="playlist" />
+			<MusicList :dataList="playlist" params="/playlist" />
 		</div>
 	</div>
 </template>

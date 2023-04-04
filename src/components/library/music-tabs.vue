@@ -2,13 +2,23 @@
 	<div class="tabs">
 		<ul>
 			<li v-for="(item, index) in tabs" :key="index">
-				<router-link :to="item.hash" exact-active-class="active">{{ item.title }}</router-link>
+				<router-link v-if="isRouter" :to="item.hash" exact-active-class="active">
+					{{ item.title }}
+				</router-link>
+				<a
+					href="javascript:;"
+					v-else
+					:class="{ active: now === item.id }"
+					@click="handlerBac(item.id)"
+					>{{ item.title }}</a
+				>
 			</li>
 		</ul>
 	</div>
 </template>
 
 <script>
+import { ref } from 'vue';
 export default {
 	name: 'MusicTabs',
 	props: {
@@ -16,6 +26,19 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+		isRouter: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	emits: ['handlerBac'],
+	setup(props, { emit }) {
+		const now = ref(1);
+		const handlerBac = id => {
+			now.value = id;
+			emit('handlerBac', id);
+		};
+		return { now, handlerBac };
 	},
 };
 </script>
@@ -29,7 +52,7 @@ export default {
 	line-height: 3rem;
 	margin-bottom: 1rem;
 	background-color: #f6f6f6;
-	z-index: 999;
+	z-index: 1;
 	ul {
 		display: flex;
 		li {

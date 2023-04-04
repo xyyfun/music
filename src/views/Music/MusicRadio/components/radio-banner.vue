@@ -4,7 +4,7 @@
 			<ul>
 				<li v-for="item in bannerList" :key="item.targetId">
 					<a href="javascript:;" :title="item.typeTitle">
-						<img v-lazy="item.pic" alt="" />
+						<img :src="item.pic" alt="" />
 					</a>
 				</li>
 			</ul>

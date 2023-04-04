@@ -1,5 +1,5 @@
 <template>
-	<div class="discover scroll">
+	<div class="app-discover scroll">
 		<div class="discover-content">
 			<MusicTitle title="推荐" />
 			<AppBanner />
@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.discover {
+.app-discover {
 	flex: 1;
 	overflow-y: auto;
 	.discover-content {

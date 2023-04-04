@@ -4,16 +4,18 @@
 			<MusicTitleChild title="官方榜" />
 			<ul>
 				<li class="module" v-for="item in officialList" :key="item.id">
-					<img v-lazy="item.coverImgUrl" alt="" />
-					<MusicPlayCount :playCount="item.playCount" />
-					<div class="part">
-						<h2>{{ item.name }}</h2>
-						<ul>
-							<li class="song ellipsis" v-for="(song, index) in item.tracks" :key="index">
-								{{ index + 1 }}、{{ song.first }}-{{ song.second }}
-							</li>
-						</ul>
-					</div>
+					<router-link :to="`/playlist/${item.id}`">
+						<img v-lazy="item.coverImgUrl + '?params=130y130'" alt="" />
+						<MusicPlayCount :playCount="item.playCount" />
+						<div class="part">
+							<h2>{{ item.name }}</h2>
+							<ul>
+								<li class="song ellipsis" v-for="(song, index) in item.tracks" :key="index">
+									{{ index + 1 }}、{{ song.first }}-{{ song.second }}
+								</li>
+							</ul>
+						</div>
+					</router-link>
 				</li>
 			</ul>
 		</div>
@@ -42,30 +44,34 @@ export default {
 		gap: 1.25rem;
 		.module {
 			position: relative;
-			display: flex;
-			align-items: center;
 			border-radius: 0.5rem;
 			background-color: #efefef;
 			transition: box-shadow 0.2s;
-			cursor: pointer;
-			img {
-				border-radius: 0.5rem;
-			}
-			> .plays-number {
-				right: 55%;
-			}
-			.part {
-				padding: 0 1.25rem;
-				max-width: calc(100% - 10rem);
-				h2 {
-					font-size: 1.3rem;
+			a {
+				display: block;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				img {
+					border-radius: 0.5rem;
 				}
-				ul {
-					display: flex;
-					flex-wrap: wrap;
-					margin-top: 1rem;
-					li {
-						font-size: 0.8rem;
+				> .plays-number {
+					right: 55%;
+				}
+				.part {
+					padding: 0 1.25rem;
+					max-width: calc(100% - 10rem);
+					h2 {
+						font-size: 1.3rem;
+					}
+					ul {
+						display: flex;
+						flex-wrap: wrap;
+						margin-top: 1rem;
+						li {
+							font-size: 0.8rem;
+						}
 					}
 				}
 			}
@@ -87,7 +93,7 @@ export default {
 	.official-list {
 		ul {
 			grid-template-rows: repeat(1, 10rem);
-			grid-template-columns: repeat(4, 1fr);
+			grid-template-columns: repeat(4, minmax(0, 1fr));
 		}
 	}
 }

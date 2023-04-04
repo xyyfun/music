@@ -10,6 +10,9 @@
 			</router-view>
 			<AppProgress />
 		</div>
+		<AppLyrics />
+		<MusicDialog />
+		<AppAudio />
 	</div>
 </template>
 
@@ -17,9 +20,12 @@
 import AppSidebar from '@/components/app-sidebar';
 import AppHeader from '@/components/app-header';
 import AppProgress from '@/components/app-progress';
+import AppLyrics from '@/views/Lyrics';
+import MusicDialog from '@/components/library/music-dialog';
+import AppAudio from '@/views/Audio';
 export default {
 	name: 'Layout',
-	components: { AppSidebar, AppHeader, AppProgress },
+	components: { AppSidebar, AppHeader, AppProgress, AppLyrics, MusicDialog, AppAudio },
 };
 </script>
 

@@ -2,7 +2,7 @@
 	<div class="playlist-list">
 		<div class="list">
 			<MusicTitleChild :title="title" />
-			<MusicList :dataList="playlists" />
+			<MusicList :dataList="playlists" params="/playlist" />
 			<AppMore @loadMore="loadMore" :isMore="isMore" />
 		</div>
 	</div>

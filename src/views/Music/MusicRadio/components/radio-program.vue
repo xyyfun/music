@@ -5,7 +5,7 @@
 			<ul>
 				<li v-for="item in list">
 					<a href="">
-						<img v-lazy="item.program.coverUrl" alt="" />
+						<img v-lazy="item.program.coverUrl + '?param=130y130'" alt="" />
 						<div class="description">
 							<span class="name ellipsis">{{ item.program.radio.name }}</span>
 							<span class="category ellipsis">{{ item.program.name }}</span>

@@ -4,8 +4,8 @@
 			<MusicTitleChild title="推荐新歌曲" />
 			<ul>
 				<li v-for="item in songs" :key="item.id">
-					<a href="">
-						<img v-lazy="item.picUrl" alt="" />
+					<a href="javascript:;" @click="playMusic(item.id)">
+						<img v-lazy="item.picUrl + '?param=130y130'" alt="" />
 						<div class="information">
 							<span class="songName ellipsis">{{ item.name }}</span>
 							<span class="artistName ellipsis">{{ item.song.artists[0].name }}</span>
@@ -20,16 +20,22 @@
 <script>
 import MusicTitleChild from '@/components/library/music-title-child';
 import { getRecommendNewSong } from '@/api/discover';
+import { useStore } from 'vuex';
 import { ref } from 'vue';
 export default {
 	name: 'DiscoverNewSong',
 	components: { MusicTitleChild },
 	setup() {
+		const store = useStore();
 		const songs = ref([]);
+		// 播放音乐
+		const playMusic = id => {
+			store.dispatch('song/getMusic', id);
+		};
 		getRecommendNewSong().then(data => {
 			songs.value = data.data.result;
 		});
-		return { songs };
+		return { songs, playMusic };
 	},
 };
 </script>

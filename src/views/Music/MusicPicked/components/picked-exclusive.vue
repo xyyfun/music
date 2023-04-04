@@ -5,7 +5,7 @@
 			<ul>
 				<li v-for="item in exclusive" :key="item.id">
 					<a href="javascript:;">
-						<img v-lazy="item.picUrl" alt="" />
+						<img :src="item.picUrl" alt="" />
 						<AppMask />
 					</a>
 					<div class="ellipsis">{{ item.name }}</div>

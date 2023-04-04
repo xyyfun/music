@@ -1,13 +1,13 @@
 <template>
 	<ul>
 		<li v-for="item in dataList" :key="item.id">
-			<a href="javascript:;" :title="item.name">
+			<router-link :to="`${params}/${item.id}`" :title="item.name">
 				<div class="img">
-					<img v-lazy="item.picUrl" alt="" />
+					<img v-lazy="item.picUrl + '?param=130y130'" alt="" />
 					<AppMask />
 					<MusicPlayCount :playCount="item.playCount" />
 				</div>
-			</a>
+			</router-link>
 			<span class="description ellipsis">{{ item.name }}</span>
 		</li>
 	</ul>
@@ -22,6 +22,10 @@ export default {
 		dataList: {
 			type: Array,
 			default: () => [],
+		},
+		params: {
+			type: String,
+			default: '',
 		},
 	},
 	components: { AppMask, MusicPlayCount },

@@ -1,8 +1,8 @@
 <template>
-	<div class="music scroll">
+	<div class="app-music scroll">
 		<div class="music-content">
 			<MusicTitle title="音乐馆" />
-			<MusicTabs :tabs="tabs" />
+			<MusicTabs :tabs="tabs" :isRouter="true" />
 			<router-view v-slot="{ Component }">
 				<transition name="music">
 					<component :is="Component" />
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.music {
+.app-music {
 	flex: 1;
 	overflow-y: auto;
 	.music-content {
