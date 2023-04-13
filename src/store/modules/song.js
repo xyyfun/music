@@ -171,7 +171,7 @@ export default {
 		// 专辑
 		album(state) {
 			if (!state.detail.al) return undefined;
-			return state.detail.al.name;
+			return state.detail.al;
 		},
 		// 歌词
 		lyr(state) {

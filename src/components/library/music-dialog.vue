@@ -6,11 +6,7 @@
 					<p>播放队列</p>
 					<div class="remove">
 						<span>{{ playlist.length }}首歌曲</span>
-						<i
-							v-if="playlist.length"
-							class="iconfont icon-remove"
-							title="删除"
-							@click="$store.commit('song/removeList')"></i>
+						<i v-if="playlist.length" class="iconfont icon-remove" title="删除" @click="remove"></i>
 					</div>
 				</div>
 				<div class="dialog-body scroll">
@@ -20,15 +16,29 @@
 							:key="item.id"
 							:class="{ active: currentMusicID === item.id }">
 							<div class="info">
-								<div class="songName ellipsis" @click="showlyrics(item.id)">{{ item.name }}</div>
+								<div class="songName ellipsis" @click="showlyrics(item.id)">
+									<span>{{ item.name }}</span>
+									<AppIcon :fee="item.fee" :originCoverType="item.originCoverType" :mv="item.mv" />
+								</div>
 								<div class="msg">
 									<div class="singer ellipsis">
 										<span v-for="(val, index) in item.ar" :key="index">{{ val.name }}</span>
 									</div>
 									<span class="time">{{ item.dt }}</span>
 									<div class="ico">
-										<a href="javascript:;" @click="play(item.id)">
+										<a
+											href="javascript:;"
+											title="播放"
+											@click="play(item.id)"
+											v-if="!isPlay || item.id !== currentMusicID">
 											<i class="iconfont icon-bofang"></i>
+										</a>
+										<a
+											href="javascript:;"
+											v-else
+											@click="$store.commit('song/ISPLAY', false)"
+											title="暂停">
+											<i class="iconfont icon-pause"></i>
 										</a>
 										<a href="javascript:;"><i class="iconfont icon-xihuan21"></i></a>
 										<a href="javascript:;"><i class="iconfont icon-gengduo"></i></a>
@@ -52,14 +62,25 @@
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { onClickOutside } from '@vueuse/core';
+import AppIcon from '@/components/app-icon';
 export default {
 	name: 'MusicDialog',
+	components: { AppIcon },
 	setup() {
 		const dialog = ref(null);
 		const store = useStore();
+		const currentMusicID = computed(() => store.state.song.currentMusicID);
 		const play = id => {
+			// 播放前判断当前是否有音乐暂停且暂停音乐是播放的音乐
+			if (currentMusicID.value === id) return store.commit('song/ISPLAY', true);
 			store.commit('song/ISPLAY', false);
 			store.dispatch('song/getMusic', id);
+		};
+		// 删除所有音乐
+		const remove = () => {
+			store.commit('song/ISPLAY', false);
+			store.commit('song/clearData');
+			store.commit('song/removeList');
 		};
 		const showlyrics = id => {
 			store.commit('song/ISPLAY', false);
@@ -73,10 +94,12 @@ export default {
 		return {
 			dialog,
 			play,
+			currentMusicID,
 			showlyrics,
+			remove,
 			isShowDialog: computed(() => store.state.song.isShowDialog),
 			playlist: computed(() => store.state.song.playlist),
-			currentMusicID: computed(() => store.state.song.currentMusicID),
+			isPlay: computed(() => store.state.song.isPlay),
 		};
 	},
 };
@@ -89,7 +112,7 @@ export default {
 	right: 0;
 	width: 20rem;
 	height: 100vh;
-	background-color: rgba(255, 255, 255, 0.5);
+	background-color: rgba(255, 255, 255, 0.6);
 	z-index: 9999;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 	.dialog-content {
@@ -137,7 +160,11 @@ export default {
 						justify-content: center;
 						height: 100%;
 						.songName {
-							font-size: 1rem;
+							display: flex;
+							align-items: center;
+							span {
+								font-size: 1rem;
+							}
 						}
 						.msg {
 							display: flex;
@@ -172,7 +199,7 @@ export default {
 						}
 					}
 					&:hover {
-						background-color: #f8f8f8;
+						background-color: rgba(255, 255, 255, 0.6);
 						.time {
 							display: none;
 						}
@@ -182,7 +209,7 @@ export default {
 					}
 				}
 				.active {
-					background-color: #f8f8f8;
+					background-color: rgba(255, 255, 255, 0.6);
 					color: #1ece9c;
 					border-left: 2px solid #1ece9c;
 				}
@@ -193,7 +220,7 @@ export default {
 			align-items: center;
 			justify-content: right;
 			height: 5.4rem;
-			border-top: 2px solid #f3f3f3;
+			border-top: 2px solid rgba(230, 230, 230, 0.5);
 			padding: 0 1.5rem;
 			cursor: pointer;
 		}

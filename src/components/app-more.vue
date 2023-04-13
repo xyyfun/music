@@ -14,6 +14,7 @@ export default {
 			default: true,
 		},
 	},
+	emits: ['loadMore'],
 	setup(props, { emit }) {
 		const loadMore = () => {
 			emit('loadMore');

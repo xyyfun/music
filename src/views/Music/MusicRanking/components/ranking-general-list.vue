@@ -67,7 +67,7 @@ export default {
 					}
 					ul {
 						display: flex;
-						flex-wrap: wrap;
+						flex-direction: column;
 						margin-top: 1rem;
 						li {
 							font-size: 0.8rem;

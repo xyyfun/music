@@ -41,7 +41,9 @@ ul {
 			position: relative;
 			transition: transform 0.3s;
 			> img {
+				width: 100%;
 				border-radius: 0.5rem;
+				object-fit: cover;
 			}
 			&:hover {
 				transform: translateY(-0.3rem);

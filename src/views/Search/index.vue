@@ -1,62 +1,47 @@
 <template>
-	<div class="app-search scroll">
+	<div class="app-search scroll" ref="el">
 		<div class="search-content">
 			<MusicTabs :tabs="tabs" :isRouter="false" @handlerBac="handlerBac" />
-			<MusicPlaylistList :lists="lists" :isShowSinger="true" :isShowAlbum="true" />
+			<SearchSongs v-if="now === 1" @viewsTop="viewsTop" />
+			<SearchAlbum v-if="now === 10" @viewsTop="viewsTop" />
+			<SearchSinger v-if="now === 100" />
+			<SearchPlaylist v-if="now === 1000" @viewsTop="viewsTop" />
+			<SearchVideo v-if="now === 1014" @viewsTop="viewsTop" />
 		</div>
 	</div>
 </template>
 
 <script>
 import MusicTabs from '@/components/library/music-tabs';
-import MusicPlaylistList from '@/components/library/music-playlist-list';
-import { search } from '@/api/search';
-import { useRoute } from 'vue-router';
-import { useDateFormat } from '@vueuse/core';
-import { ref, watch } from 'vue';
+import SearchSongs from './components/search-songs';
+import SearchAlbum from './components/search-album';
+import SearchSinger from './components/search-singer';
+import SearchPlaylist from './components/search-playlist';
+import SearchVideo from './components/search-video';
+import { useScroll } from '@vueuse/core';
+import { ref } from 'vue';
 export default {
 	name: 'AppSearch',
-	components: { MusicTabs, MusicPlaylistList },
+	components: { MusicTabs, SearchSongs, SearchAlbum, SearchSinger, SearchPlaylist, SearchVideo },
 	setup() {
-		const route = useRoute();
-		const limit = ref(30);
-		const type = ref(1);
-		const lists = ref([]);
+		const el = ref(null);
+		const { y } = useScroll(el);
+		const now = ref(1); // 当前栏
 		const tabs = ref([
 			{ title: '歌曲', id: 1 },
 			{ title: '专辑', id: 10 },
 			{ title: '歌手', id: 100 },
 			{ title: '歌单', id: 1000 },
-			{ title: '用户', id: 1002 },
-			{ title: 'MV', id: 1004 },
-			{ title: '电台', id: 1009 },
 			{ title: '视频', id: 1014 },
 		]);
-		const handlerBac = () => {};
-
-		watch(
-			() => route.params.keyword,
-			newVal => {
-				search(newVal, limit.value, type.value).then(data => {
-					console.log(data);
-					data.data.result.songs.forEach(e => {
-						e.privilege = { cp: 1 };
-						e.al = e.album;
-						e.ar = e.artists;
-						e.dt = useDateFormat(e.duration, 'mm:ss');
-						delete e.album;
-						delete e.artists;
-						delete e.duration;
-					});
-					lists.value = data.data.result.songs;
-				});
-			},
-			{ immediate: true }
-		);
+		const handlerBac = id => (now.value = id);
+		const viewsTop = () => (y.value = 0);
 		return {
+			now,
+			el,
 			tabs,
-			lists,
 			handlerBac,
+			viewsTop,
 		};
 	},
 };

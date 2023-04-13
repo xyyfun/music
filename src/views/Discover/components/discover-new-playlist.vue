@@ -18,7 +18,6 @@ export default {
 	setup() {
 		const playlist = ref([]);
 		getRecommendPlaylist().then(data => {
-			data.data.result.splice(10);
 			playlist.value = data.data.result;
 		});
 		return { playlist };

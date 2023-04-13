@@ -30,6 +30,7 @@ export default {
 		const songs = ref([]);
 		// 播放音乐
 		const playMusic = id => {
+			store.commit('song/ISPLAY', false);
 			store.dispatch('song/getMusic', id);
 		};
 		getRecommendNewSong().then(data => {

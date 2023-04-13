@@ -8,9 +8,9 @@ import request from '@/utils/request';
  * @param         {*} type:搜索类型默认为1 1单曲10专辑100歌手1000歌单1002用户1004MV1006歌词1009电台1014视频1018综合
  * @return        {*}
  */
-export const search = (keywords, limit, type) => {
+export const search = (keywords, limit, type, offset) => {
 	return request({
-		url: `/search?keywords=${keywords}&limit=${limit}&type=${type}`,
+		url: `/search?keywords=${keywords}&limit=${limit}&type=${type}&offset=${offset}`,
 		method: 'get',
 	});
 };

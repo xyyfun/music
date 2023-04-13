@@ -4,9 +4,9 @@
 			<MusicTitleChild title="推荐电台" />
 			<ul>
 				<li v-for="item in radar" :key="item.id">
-					<a href="javascript:;" :title="item.name"
+					<router-link :to="`/radioplaylist/${item.id}`" :title="item.name"
 						><img v-lazy="item.picUrl + '?param=200y200'" /><AppMask
-					/></a>
+					/></router-link>
 					<span class="ellipsis">{{ item.name }}</span>
 				</li>
 			</ul>

@@ -19,7 +19,9 @@
 					<a href="javascript:;" title="喜欢"><i class="iconfont icon-xihuan21"></i></a>
 					<a href="javascript:;" title="下载该歌曲"><i class="iconfont icon-xiazai"></i></a>
 					<a href="javascript:;" title="更多"><i class="iconfont icon-gengduo"></i></a>
-					<a href="javascript:;" title="评论"><i class="iconfont icon-pinglun1"></i></a>
+					<a href="javascript:;" @click="comment" title="评论">
+						<i class="iconfont icon-pinglun1"></i>
+					</a>
 				</div>
 				<AppControl />
 				<div class="more">
@@ -40,21 +42,32 @@
 <script>
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { handlerDuration } from '@/hooks/useProgress';
 import AppControl from '@/components/app-control';
 export default {
 	name: 'LyricsProgress',
 	components: { AppControl },
 	setup() {
-		const slot = ref(null);
 		const store = useStore();
+		const router = useRouter();
+		const slot = ref(null);
 		const totalTimeS = computed(() => store.state.song.totalDuration);
+		const currentMusicID = computed(() => store.state.song.currentMusicID);
 		const handlerProgress = e => {
 			store.commit('song/DURATION', handlerDuration(e, slot, totalTimeS));
+		};
+		// 查看评论
+		const comment = () => {
+			if (currentMusicID.value) {
+				router.push(`/comment`);
+				store.commit('song/SHOWLYRICS', false);
+			}
 		};
 		return {
 			slot,
 			handlerProgress,
+			comment,
 			totalTimeMin: computed(() => store.state.song.url.time),
 			nowTime: computed(() => store.state.song.nowTime),
 			nowProgress: computed(() => store.state.song.nowProgress),
@@ -74,12 +87,12 @@ export default {
 			display: flex;
 			align-items: center;
 			height: 0.71rem;
-			cursor: pointer;
 			.slot {
 				position: relative;
 				width: 100%;
 				height: 2px;
 				background-color: rgba(0, 0, 0, 0.2);
+				cursor: pointer;
 				.trigger {
 					position: absolute;
 					top: -3px;

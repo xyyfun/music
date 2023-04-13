@@ -23,9 +23,30 @@ import AppProgress from '@/components/app-progress';
 import AppLyrics from '@/views/Lyrics';
 import MusicDialog from '@/components/library/music-dialog';
 import AppAudio from '@/views/Audio';
+import { computed } from 'vue';
+import { loginTourist } from '@/api/login';
+import { getCookie, setCookie } from '@/utils/cookie';
+import { getUserLike } from '@/api/user';
+import { useStore } from 'vuex';
 export default {
 	name: 'Layout',
 	components: { AppSidebar, AppHeader, AppProgress, AppLyrics, MusicDialog, AppAudio },
+	setup() {
+		const store = useStore();
+		const userId = computed(() => store.getters['user/userId']);
+		// 判断当前是否存在cookie
+		if (!getCookie()) {
+			// 不存在直接游客登录
+			loginTourist().then(data => {
+				setCookie(data.data.cookie);
+			});
+		}
+		if (userId) {
+			getUserLike(userId.value).then(data => {
+				store.commit('user/addUserLikeID', data.data.ids);
+			});
+		}
+	},
 };
 </script>
 

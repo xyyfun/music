@@ -35,6 +35,4 @@ div {
 		z-index: -1;
 	}
 }
-@keyframes rotation {
-}
 </style>

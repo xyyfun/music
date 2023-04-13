@@ -4,7 +4,9 @@
 			<MusicTitleChild title="本周最热" />
 			<ul>
 				<li v-for="item in hotAlbum" :key="item.id">
-					<a href=""><img v-lazy="item.picUrl + '?param=200y200'" alt="" /></a>
+					<router-link :to="`/album/${item.id}`">
+						<img v-lazy="item.picUrl + '?param=200y200'" alt="" />
+					</router-link>
 					<span class="ellipsis">{{ item.name }}</span>
 				</li>
 			</ul>

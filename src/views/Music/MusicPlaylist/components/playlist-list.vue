@@ -13,7 +13,7 @@ import MusicTitleChild from '@/components/library/music-title-child';
 import MusicList from '@/components/library/music-list';
 import AppMore from '@/components/app-more';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
-import { getPlaylist } from '@/api/music';
+import { getPlaylist } from '@/api/playlist';
 import emitter from '@/utils/bus';
 export default {
 	name: 'PlaylistList',
@@ -74,5 +74,3 @@ export default {
 	},
 };
 </script>
-
-<style lang="less" scoped></style>

@@ -24,7 +24,7 @@
 						</router-link>
 					</li>
 					<li>
-						<router-link to="/radar" exact-active-class="active">
+						<router-link to="/radio" exact-active-class="active">
 							<i class="iconfont icon-diantai"></i>
 							<span>雷达</span>
 						</router-link>
@@ -60,13 +60,35 @@
 					</li>
 				</ul>
 			</div>
+			<div class="menu">
+				<span>创建的歌单</span>
+				<ul>
+					<li v-for="item in playlist" :key="item.id">
+						<router-link :to="`/playlist/${item.id}`" exact-active-class="active">
+							<span>{{ item.name }}</span>
+						</router-link>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import { getUserPlaylist } from '@/api/user';
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
 export default {
 	name: 'AppSidebar',
+	setup() {
+		const store = useStore();
+		const playlist = ref([]);
+		const userId = computed(() => store.getters['user/userId']);
+		getUserPlaylist(userId.value).then(data => {
+			playlist.value = data.data.playlist;
+		});
+		return { playlist };
+	},
 };
 </script>
 
@@ -100,6 +122,12 @@ export default {
 					height: 2rem;
 					line-height: 2rem;
 					margin-top: 0.71rem;
+					text-overflow: -o-ellipsis-lastline;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 1;
+					-webkit-box-orient: vertical;
 					a {
 						display: block;
 						width: 100%;

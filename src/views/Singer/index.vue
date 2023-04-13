@@ -3,13 +3,10 @@
 		<div class="singer-content">
 			<SingerDescription :artist="artist" />
 			<MusicTabs :tabs="tabs" :isRouter="false" @handlerBac="handlerBac" />
-			<MusicPlaylistList
-				v-if="now === 1"
-				:lists="hotSongs"
-				:isShowSinger="false"
-				:isShowAlbum="true" />
-			<SingerAlbum v-if="now === 2" />
-			<SingerVideo v-if="now === 3" />
+			<MusicPlaylistList v-if="now === 1" :lists="hotSongs" :isShowSinger="false" />
+			<SingerSongs v-if="now === 2" />
+			<SingerAlbum v-if="now === 3" />
+			<SingerVideo v-if="now === 4" />
 		</div>
 	</div>
 </template>
@@ -17,6 +14,7 @@
 <script>
 import SingerDescription from './components/singer-description';
 import MusicTabs from '@/components/library/music-tabs';
+import SingerSongs from './components/singer-songs';
 import MusicPlaylistList from '@/components/library/music-playlist-list';
 import SingerAlbum from './components/singer-album';
 import SingerVideo from './components/singer-video';
@@ -26,16 +24,24 @@ import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 export default {
 	name: 'AppSinger',
-	components: { SingerDescription, MusicTabs, MusicPlaylistList, SingerAlbum, SingerVideo },
+	components: {
+		SingerDescription,
+		MusicTabs,
+		SingerSongs,
+		MusicPlaylistList,
+		SingerAlbum,
+		SingerVideo,
+	},
 	setup() {
 		const route = useRoute();
 		const now = ref(1);
 		const artist = ref({});
 		const hotSongs = ref([]);
 		const tabs = ref([
-			{ title: '歌曲', id: 1 },
-			{ title: '专辑', id: 2 },
-			{ title: 'MV', id: 3 },
+			{ title: '精选', id: 1 },
+			{ title: '歌曲', id: 2 },
+			{ title: '专辑', id: 3 },
+			{ title: 'MV', id: 4 },
 		]);
 		const handlerBac = id => {
 			now.value = id;
@@ -47,9 +53,9 @@ export default {
 			});
 			artist.value = data.data.artist;
 			hotSongs.value = data.data.hotSongs;
-			tabs.value[0].title += data.data.artist.musicSize;
-			tabs.value[1].title += data.data.artist.albumSize;
-			tabs.value[2].title += data.data.artist.mvSize;
+			tabs.value[1].title += data.data.artist.musicSize - 1;
+			tabs.value[2].title += data.data.artist.albumSize;
+			tabs.value[3].title += data.data.artist.mvSize;
 		});
 		return {
 			now,
@@ -62,7 +68,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .app-singer {
 	flex: 1;
 	overflow-y: auto;

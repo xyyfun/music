@@ -45,8 +45,8 @@ const routes = [
 				component: () => import('@/views/Video'),
 			},
 			{
-				path: '/radar',
-				component: () => import('@/views/Radar'),
+				path: '/radio',
+				component: () => import('@/views/Radio'),
 			},
 			{
 				path: '/like',
@@ -76,7 +76,23 @@ const routes = [
 				path: '/album/:id',
 				component: () => import('@/views/Album'),
 			},
+			{
+				path: '/search/:keyword',
+				component: () => import('@/views/Search'),
+			},
+			{
+				path: '/radioplaylist/:id',
+				component: () => import('@/views/Radio/RadioPlaylist'),
+			},
+			{
+				path: '/comment',
+				component: () => import('@/views/Comment'),
+			},
 		],
+	},
+	{
+		path: '/login',
+		component: () => import('@/views/Login'),
 	},
 ];
 

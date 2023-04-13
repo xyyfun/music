@@ -6,3 +6,12 @@ import request from '@/utils/request';
  * @return        {*}
  */
 export const getVideoTagList = () => request({ url: `/video/group/list`, method: 'get' });
+
+/**
+ * @Date         : 2023-04-09 19:58:01
+ * @description  : 获取视频
+ * @return        {*}
+ */
+export const getVideo = id => {
+	return request({ url: `/video/group?id=${id}&offset=10`, method: 'get' });
+};

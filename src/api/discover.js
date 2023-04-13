@@ -14,7 +14,7 @@ export const getBanner = () => request({ url: '/banner', method: 'get' });
  */
 export const getRecommendPlaylist = () => {
 	return request({
-		url: '/personalized',
+		url: '/personalized?limit=10',
 		method: 'get',
 	});
 };

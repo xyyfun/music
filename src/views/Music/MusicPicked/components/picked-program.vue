@@ -2,7 +2,7 @@
 	<div class="picked-program">
 		<div class="program">
 			<MusicTitleChild title="精彩节目推荐" />
-			<MusicList :dataList="programs" />
+			<MusicList :dataList="programs" params="/radioplaylist" />
 		</div>
 	</div>
 </template>

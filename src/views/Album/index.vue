@@ -23,12 +23,14 @@ import AppMore from '@/components/app-more';
 import { useDateFormat } from '@vueuse/core';
 import { ref, shallowRef } from 'vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 import { getAlbumData, getAlbumComment } from '@/api/album';
 export default {
 	name: 'AppAlbum',
 	components: { MusicPlaylistDescription, MusicTabs, MusicPlaylistList, MusicComment, AppMore },
 	setup() {
 		const route = useRoute();
+		const store = useStore();
 		const songs = shallowRef([]);
 		const detail = shallowRef({});
 		const comments = shallowRef([]);

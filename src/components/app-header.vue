@@ -13,14 +13,14 @@
 					</a>
 				</div>
 				<!-- 搜索 -->
-				<div class="search">
-					<input type="text" />
-				</div>
+				<AppSearchBox />
 			</div>
 			<!-- 菜单 -->
 			<div class="menu">
-				<div class="picture"></div>
-				<a href="javascript:;" class="info">请登录</a>
+				<div class="picture"><img :src="userAvatarUrl" alt="" /></div>
+				<a href="javascript:;" v-if="userId">{{ userName }}</a>
+				<router-link to="/login" class="info" v-else>请登录</router-link>
+				<a href="javascript:;" @click="loginOut">退出登录</a>
 				<a href="javascript:;" class="skin"><i class="iconfont icon-pifu"></i></a>
 				<a href="javascript:;" class="more"><i class="iconfont icon-caidan"></i></a>
 			</div>
@@ -29,8 +29,35 @@
 </template>
 
 <script>
+import AppSearchBox from '@/components/app-search-box';
+import { removeCookie } from '@/utils/cookie';
+import { removeUserInfo } from '@/utils/userInfo';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { logout } from '@/api/login';
+import { computed } from 'vue';
 export default {
 	name: 'AppHeader',
+	components: { AppSearchBox },
+	setup() {
+		const store = useStore();
+		const router = useRouter();
+		// 登出
+		const loginOut = () => {
+			logout().then(() => {
+				removeCookie(); // 移除cookie
+				removeUserInfo(); // 移除持久化用户信息
+				store.commit('user/removeInfo'); // 移除vuex信息
+				router.push('/login');
+			});
+		};
+		return {
+			loginOut,
+			userId: computed(() => store.getters['user/userId']),
+			userAvatarUrl: computed(() => store.getters['user/userAvatarUrl']),
+			userName: computed(() => store.getters['user/userName']),
+		};
+	},
 };
 </script>
 
@@ -56,25 +83,20 @@ export default {
 					font-size: 1rem;
 				}
 			}
-			.search {
-				> input {
-					outline: none;
-					height: 2rem;
-					width: 20rem;
-					border: none;
-					border-radius: 1rem;
-					background-color: #e3e3e3;
-					text-indent: 0.7rem;
-				}
-			}
 		}
 		.menu {
 			display: flex;
 			.picture {
+				overflow: hidden;
 				width: 2rem;
 				height: 2rem;
-				background-color: #c0c4cc;
+				// background-color: #c0c4cc;
 				border-radius: 50%;
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
 			}
 			> a {
 				margin: 0 0.5rem;

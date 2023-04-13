@@ -3,11 +3,12 @@ import axios from 'axios';
 // 创建axios实例
 const instance = axios.create({
 	// 基础路径
-	baseURL: 'http://47.120.9.118:3000/',
+	baseURL: 'http://localhost:3000/',
 	// 超时时间
 	timeout: 5000,
+	// 允许携带cookie
+	withCredentials: true,
 });
-
 // 请求拦截器
 instance.interceptors.request.use(
 	config => {

@@ -2,7 +2,10 @@
 	<div class="lyrics-songs">
 		<div class="songs">
 			<div class="info">
-				<span class="songName">{{ songName }}</span>
+				<div class="songName">
+					<span>{{ songName }}</span>
+					<AppIcon :fee="fee" :originCoverType="originCoverType" :mv="mv" />
+				</div>
 				<span class="singer" v-if="singer">
 					歌手：<router-link
 						@click="$store.commit('song/SHOWLYRICS', false)"
@@ -12,7 +15,11 @@
 						>{{ item.name }}</router-link
 					>
 				</span>
-				<a class="album" v-if="album">专辑：{{ album }}</a>
+				<span class="album" v-if="album">
+					<router-link @click="$store.commit('song/SHOWLYRICS', false)" :to="`/album/${album.id}`">
+						专辑：{{ album.name }}
+					</router-link>
+				</span>
 			</div>
 			<div class="lyr" ref="ul">
 				<ul :style="{ transform: `translateY(${-y}px)` }">
@@ -32,8 +39,10 @@
 <script>
 import { computed, onMounted, watch, ref } from 'vue';
 import { useStore } from 'vuex';
+import AppIcon from '@/components/app-icon';
 export default {
 	name: 'LyricsSongs',
+	components: { AppIcon },
 	setup() {
 		const store = useStore();
 		const lis = ref([]);
@@ -75,6 +84,9 @@ export default {
 			songName: computed(() => store.getters['song/songName']),
 			singer: computed(() => store.getters['song/singer']),
 			album: computed(() => store.getters['song/album']),
+			fee: computed(() => store.state.song.detail.fee),
+			originCoverType: computed(() => store.state.song.detail.originCoverType),
+			mv: computed(() => store.state.song.detail.mv),
 		};
 	},
 };
@@ -90,6 +102,7 @@ export default {
 		.info {
 			display: flex;
 			flex-wrap: wrap;
+			justify-content: center;
 			height: 10rem;
 			padding: 1rem 0;
 			.singer {
@@ -112,7 +125,12 @@ export default {
 				font-size: 0.9rem;
 			}
 			.songName {
-				font-size: 2rem;
+				display: flex;
+				align-items: center;
+				span {
+					font-size: 1.8rem;
+					margin-right: 0.5rem;
+				}
 			}
 		}
 		.lyr {

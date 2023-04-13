@@ -104,7 +104,8 @@ export default {
 				} else if (playOrder.value === 2) {
 					sequentialPlay();
 				} else if (playOrder.value === 3) {
-					singleCycle();
+					// 单曲循环
+					aud.value.load(); // 重新加载音频
 				} else if (playOrder.value === 4) {
 					randomPlay();
 				}

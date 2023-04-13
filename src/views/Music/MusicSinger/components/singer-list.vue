@@ -40,6 +40,10 @@ export default {
 					border-radius: 50%;
 					display: block;
 					overflow: hidden;
+					img {
+						width: 100%;
+						object-fit: cover;
+					}
 				}
 				span {
 					text-align: center;

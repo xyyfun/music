@@ -1,7 +1,7 @@
 <template>
 	<div class="music-playlist-description" v-if="detail.picUrl">
 		<div class="description">
-			<img :src="detail.picUrl" alt="" />
+			<img :src="detail.picUrl + '?param=130y130'" alt="" />
 			<div class="msg">
 				<div class="info">
 					<p class="name ellipsis">{{ detail.name }}</p>

@@ -23,3 +23,16 @@ export const getSongDetail = id => request({ url: `/song/detail?ids=${id}`, meth
  * @return        {*}
  */
 export const getSongLyric = id => request({ url: `/lyric?id=${id}`, method: 'get' });
+
+/**
+ * @Date         : 2023-04-07 23:05:05
+ * @description  : 获取歌曲评论
+ * @param         {*} id:
+ * @return        {*}
+ */
+export const getSongComment = (id, offset = 1) => {
+	return request({
+		url: `/comment/music?id=${id}&limit=50&offset=${offset}`,
+		method: 'get',
+	});
+};

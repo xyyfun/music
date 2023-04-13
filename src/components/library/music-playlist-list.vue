@@ -17,14 +17,11 @@
 					:class="{ active: item.id === currentMusicID }">
 					<ul>
 						<li class="songs">
-							<span class="number" :style="index < 3 ? 'color:red' : ''">
-								{{ index + 1 <= 9 ? '0' + (index + 1) : index + 1 }}
-							</span>
-							<i class="iconfont icon-xihuan21"></i>
+							<span class="number">{{ index + 1 <= 9 ? '0' + (index + 1) : index + 1 }}</span>
+							<i class="iconfont icon-xihuan2" v-if="item.isLike"></i>
+							<i class="iconfont icon-xihuan21" @click="like(item.id)" v-else></i>
 							<span class="singer ellipsis">{{ item.name }}</span>
-							<a href="" v-if="!item.privilege.cp"><i class="iconfont icon-shiting"></i></a>
-							<a href="" v-if="item.privilege.cp"><i class="iconfont icon-VIP"></i></a>
-							<a href="" v-if="item.mv"><i class="iconfont icon-MV"></i></a>
+							<AppIcon :fee="item.fee" :originCoverType="item.originCoverType" :mv="item.mv" />
 						</li>
 						<li class="ico">
 							<i
@@ -47,7 +44,9 @@
 								{{ val.name }}
 							</router-link>
 						</li>
-						<li v-if="isShowAlbum" class="album ellipsis">{{ item.al.name }}</li>
+						<li v-if="isShowAlbum" class="album ellipsis">
+							<router-link :to="`/album/${item.al.id}`">{{ item.al.name }}</router-link>
+						</li>
 						<li class="time">{{ item.dt }}</li>
 					</ul>
 				</div>
@@ -59,18 +58,28 @@
 <script>
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import AppIcon from '@/components/app-icon';
+import message from '@/utils/message';
 export default {
 	name: 'MusicPlaylistList',
+	components: { AppIcon },
 	props: {
 		lists: {
 			type: Array,
 			default: () => [],
 		},
+		// 是否显示歌手
 		isShowSinger: {
 			type: Boolean,
 			default: true,
 		},
+		// 是否显示专辑
 		isShowAlbum: {
+			type: Boolean,
+			default: true,
+		},
+		// 是否显示特权
+		isShowPrivilege: {
 			type: Boolean,
 			default: true,
 		},
@@ -85,8 +94,14 @@ export default {
 			store.commit('song/ISPLAY', false); // 播放前将播放器暂停
 			store.dispatch('song/getMusic', id);
 		};
+		// 喜欢音乐
+		const like = async id => {
+			const result = await store.dispatch('user/userLike', { id, bol: true });
+			if (result) message({ type: 'success', message: '已添加到我喜欢的音乐！' });
+		};
 		return {
 			play,
+			like,
 			currentMusicID,
 			isPlay: computed(() => store.state.song.isPlay),
 		};
@@ -143,27 +158,16 @@ export default {
 						align-items: center;
 						.number {
 							margin-right: 5rem;
+							margin-left: 1rem;
+						}
+						.icon-xihuan2 {
+							color: #ff6664;
 						}
 						> i {
 							padding-right: 0.5rem;
 							&:hover {
 								color: #ff6664;
 								cursor: pointer;
-							}
-						}
-						a {
-							margin: 0 0.2rem;
-							i {
-								font-size: 1.3rem;
-							}
-							.icon-shiting {
-								color: #ff6664;
-							}
-							.icon-VIP {
-								color: #1fd3ac;
-							}
-							.icon-MV {
-								color: #e5b046;
 							}
 						}
 					}
@@ -194,6 +198,7 @@ export default {
 			}
 			.active {
 				background-color: #efefef;
+				border-left: 2px solid #1fd3ac;
 			}
 		}
 	}

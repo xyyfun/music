@@ -57,20 +57,6 @@ export const getSinger = ({ type, area, initial, offset }) => {
 };
 
 /**
- * @Date         : 2023-03-26 18:23:31
- * @description  : 分类歌单
- * @param         {*} before:分页参数,取上一页最后一个歌单的 updateTime 获取下一页数据
- * @param         {*} cat:歌单分类
- * @return        {*}
- */
-export const getPlaylist = ({ before, cat }) => {
-	return request({
-		url: `/top/playlist/highquality?limit=35&before=${before}&cat=${cat}`,
-		method: 'get',
-	});
-};
-
-/**
  * @Date         : 2023-03-26 20:03:10
  * @description  : 获取新碟上架列表
  * @return        {*}
@@ -112,3 +98,11 @@ export const getRadioProgram = () =>
  * @return        {*}
  */
 export const getRadioAnchor = () => request({ url: '/dj/toplist/popular?limit=30', method: 'get' });
+
+/**
+ * @Date         : 2023-04-09 15:44:21
+ * @description  : 获取电台个性推荐
+ * @return        {*}
+ */
+export const getRadioPersonality = () =>
+	request({ url: '/dj/personalize/recommend', method: 'get' });

@@ -32,10 +32,17 @@
 							</a>
 						</div>
 						<div class="operation">
-							<a href="javascript:;"><i class="iconfont icon-xihuan21" title="喜欢"></i></a>
+							<a href="javascript:;" v-if="isLike" @click="cancelLike">
+								<i class="iconfont icon-xihuan2" title="取消喜欢"></i>
+							</a>
+							<a href="javascript:;" v-else @click="like"
+								><i class="iconfont icon-xihuan21" title="喜欢"></i
+							></a>
 							<a href="javascript:;"><i class="iconfont icon-xiazai" title="下载该歌曲"></i></a>
 							<a href="javascript:;"><i class="iconfont icon-gengduo" title="更多"></i></a>
-							<a href="javascript:;"><i class="iconfont icon-pinglun1" title="评论"></i></a>
+							<a href="javascript:;" @click="comment">
+								<i class="iconfont icon-pinglun1" title="评论"></i>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -55,16 +62,24 @@
 <script>
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { handlerDuration } from '@/hooks/useProgress';
 import AppControl from '@/components/app-control';
+import message from '@/utils/message';
 export default {
 	name: 'AppProgress',
 	components: { AppControl },
 	setup() {
+		const router = useRouter();
 		const store = useStore();
 		const slot = ref(null);
 		const isShowLyrics = computed(() => store.state.song.isShowLyrics);
 		const totalTimeS = computed(() => store.state.song.totalDuration);
+		const currentMusicID = computed(() => store.state.song.currentMusicID);
+		const userLikeList = computed(() => store.state.user.userLikeList);
+		const isLike = computed(() => {
+			return userLikeList.value.some(item => item === currentMusicID.value);
+		});
 		// 点击显示或隐藏歌曲详情页
 		const showLyrics = () => {
 			store.commit('song/SHOWLYRICS', true);
@@ -73,11 +88,29 @@ export default {
 		const handlerProgress = e => {
 			store.commit('song/DURATION', handlerDuration(e, slot, totalTimeS));
 		};
+		// 查看评论
+		const comment = () => {
+			if (currentMusicID.value) router.push(`/comment`);
+		};
+		// 喜欢该歌曲
+		const like = () => {
+			const result = store.dispatch('user/userLike', { id: currentMusicID.value, bol: true });
+			if (result) message({ type: 'success', message: '已添加到我喜欢的音乐！' });
+		};
+		// 取消喜欢歌曲
+		const cancelLike = () => {
+			const result = store.dispatch('user/userLike', { id: currentMusicID.value, bol: false });
+			if (result) message({ type: 'success', message: '已取消喜欢！' });
+		};
 		return {
 			isShowLyrics,
 			showLyrics,
 			slot,
+			comment,
 			handlerProgress,
+			isLike,
+			like,
+			cancelLike,
 			totalTimeMin: computed(() => store.state.song.url.time),
 			songName: computed(() => store.getters['song/songName']),
 			singer: computed(() => store.getters['song/singer']),
@@ -209,6 +242,9 @@ export default {
 							&:hover {
 								color: #1ecc94;
 							}
+						}
+						.icon-xihuan2 {
+							color: #ff6664 !important;
 						}
 					}
 				}

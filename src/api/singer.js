@@ -14,6 +14,20 @@ export const getSingerData = id => {
 };
 
 /**
+ * @Date         : 2023-04-12 19:10:16
+ * @description  : 获取歌手所有歌曲
+ * @param         {*} id:
+ * @param         {*} offset:
+ * @return        {*}
+ */
+export const getSingerAllSongs = (id, limit) => {
+	return request({
+		url: `/artist/songs?id=${id}&limit=${limit}&offset=1`,
+		method: 'get',
+	});
+};
+
+/**
  * @Date         : 2023-04-03 14:57:52
  * @description  : 获取歌手专辑
  * @param         {*} id:

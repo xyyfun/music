@@ -2,7 +2,7 @@
 	<div class="radio-hot">
 		<div class="hot">
 			<MusicTitleChild title="热门电台" />
-			<MusicList :dataList="djRadios" />
+			<MusicList :dataList="djRadios" params="/radioplaylist" />
 		</div>
 	</div>
 </template>

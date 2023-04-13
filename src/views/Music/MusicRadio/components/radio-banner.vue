@@ -3,9 +3,9 @@
 		<div class="banner">
 			<ul>
 				<li v-for="item in bannerList" :key="item.targetId">
-					<a href="javascript:;" :title="item.typeTitle">
+					<router-link :to="`/radioplaylist/${item.targetId}`" :title="item.typeTitle">
 						<img :src="item.pic" alt="" />
-					</a>
+					</router-link>
 				</li>
 			</ul>
 		</div>

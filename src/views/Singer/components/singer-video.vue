@@ -4,7 +4,7 @@
 			<div class="lists">
 				<div class="list" v-for="item in lists" :key="item.id">
 					<a href="">
-						<img :src="item.imgurl16v9 + '?param=660y350'" alt="" />
+						<img :src="item.imgurl16v9 + '?param=460y244'" alt="" />
 						<AppMask />
 					</a>
 					<span>{{ item.name }}</span>
@@ -61,17 +61,20 @@ export default {
 				display: flex;
 				flex-direction: column;
 				a {
+					overflow: hidden;
 					position: relative;
-					transition: all 0.3s;
-					&:hover {
-						transform: translateY(-0.3rem);
+					border-radius: 0.5rem;
+					&:hover > img {
+						transform: scale(1.1);
 					}
 					img {
-						border-radius: 0.5rem;
+						width: 100%;
+						max-height: 244px;
+						transition: all 0.3s;
 					}
 				}
 				span {
-					font-size: 0.85rem;
+					font-size: 0.8rem;
 					text-overflow: -o-ellipsis-lastline;
 					overflow: hidden;
 					text-overflow: ellipsis;

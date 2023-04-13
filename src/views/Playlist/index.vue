@@ -3,7 +3,7 @@
 		<div class="playlist-content">
 			<MusicPlaylistDescription :detail="detail" @addList="addPlaylist" />
 			<MusicTabs :tabs="tabs" :isRouter="false" @handlerBac="handlerBac" />
-			<MusicPlaylistList v-if="now === 1" :lists="lists" :isShowSinger="true" :isShowAlbum="true" />
+			<MusicPlaylistList v-if="now === 1" :lists="lists" />
 			<MusicComment v-if="now === 2" :comments="comments" />
 		</div>
 	</div>
@@ -15,7 +15,7 @@ import MusicTabs from '@/components/library/music-tabs';
 import MusicPlaylistList from '@/components/library/music-playlist-list';
 import MusicComment from '@/components/library/music-comment';
 import { getPlaylistDetail, getPlaylistComment } from '@/api/playlist';
-import { ref, shallowRef, watch } from 'vue';
+import { computed, ref, shallowRef, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useDateFormat } from '@vueuse/core';
@@ -35,6 +35,7 @@ export default {
 			{ title: '歌曲', id: 1 },
 			{ title: '评论', id: 2 },
 		];
+		const userLikeList = computed(() => store.state.user.userLikeList);
 		watch(playlist, newVal => {
 			const {
 				description,
@@ -58,6 +59,8 @@ export default {
 			newVal.tracks.forEach(e => {
 				const str = useDateFormat(e.dt, 'mm:ss');
 				e.dt = str.value.replace(/\"/g, '');
+				const result = userLikeList.value.some(item => item === e.id);
+				if (result) e.isLike = true;
 			});
 			lists.value = newVal.tracks;
 		});
@@ -71,15 +74,20 @@ export default {
 			store.dispatch('song/getMusic', id);
 			store.commit('song/addList', lists.value);
 		};
-		getPlaylistComment(route.params.id, offset.value).then(data => {
-			comments.value = data.data.comments;
-		});
-		getPlaylistDetail(route.params.id).then(data => {
-			data.data.playlist.tracks.forEach((e, i) => {
-				e.privilege = data.data.privileges[i];
-			});
-			playlist.value = data.data.playlist;
-		});
+		watch(
+			() => route.params.id,
+			newVal => {
+				if (newVal) {
+					getPlaylistComment(newVal, offset.value).then(data => {
+						comments.value = data.data.comments;
+					});
+					getPlaylistDetail(newVal).then(data => {
+						playlist.value = data.data.playlist;
+					});
+				}
+			},
+			{ immediate: true }
+		);
 		return { now, tabs, handlerBac, playlist, detail, lists, addPlaylist, comments };
 	},
 };
