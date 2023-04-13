@@ -2,7 +2,7 @@
 
 <script>
 export default {
-	name: 'AppRadar',
+	name: 'AppRadio',
 };
 </script>
 

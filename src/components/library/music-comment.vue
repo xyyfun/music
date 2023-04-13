@@ -16,8 +16,8 @@
 							<p>{{ item.user.nickname }}</p>
 							<p>
 								{{ item.timeStr }}
-								<span v-if="item.ipLocation.ip">ip：来自{{ item.ipLocation.location }}</span>
-								<span v-else>ip：未知</span>
+								<span v-if="item.ipLocation.ip">IP：来自{{ item.ipLocation.location }}</span>
+								<span v-else>IP：未知</span>
 							</p>
 						</div>
 					</div>
@@ -42,8 +42,8 @@
 									<p>{{ item.user.nickname }}</p>
 									<p>
 										{{ item.timeStr }}
-										<span v-if="item.ipLocation.ip">ip：来自{{ item.ipLocation.location }}</span>
-										<span v-else>ip：未知</span>
+										<span v-if="item.ipLocation.ip">IP：来自{{ item.ipLocation.location }}</span>
+										<span v-else>IP：未知</span>
 									</p>
 								</div>
 							</div>
@@ -72,8 +72,8 @@
 							<p>{{ item.user.nickname }}</p>
 							<p>
 								{{ item.timeStr }}
-								<span v-if="item.ipLocation.ip">ip:来自{{ item.ipLocation.location }}</span>
-								<span v-else>ip:未知</span>
+								<span v-if="item.ipLocation.ip">IP:来自{{ item.ipLocation.location }}</span>
+								<span v-else>IP:未知</span>
 							</p>
 						</div>
 					</div>
@@ -97,8 +97,8 @@
 									<p>{{ item.user.nickname }}</p>
 									<p>
 										{{ item.timeStr }}
-										<span v-if="item.ipLocation.ip">ip：来自{{ item.ipLocation.location }}</span>
-										<span v-else>ip：未知</span>
+										<span v-if="item.ipLocation.ip">IP：来自{{ item.ipLocation.location }}</span>
+										<span v-else>IP：未知</span>
 									</p>
 								</div>
 							</div>
@@ -207,16 +207,12 @@ export default {
 				}
 			}
 			.more {
-				display: flex;
-				flex-direction: column;
 				margin-left: 3.5rem;
 				a {
 					font-size: 0.9rem;
 				}
-				> a {
-					padding: 0.5rem 0;
-				}
 				.praise {
+					padding: 0.5rem 0;
 					i {
 						font-size: 0.9rem;
 					}
