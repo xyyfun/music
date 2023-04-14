@@ -10,7 +10,11 @@
 
 项目基于 Vue3 全家桶开发的 QQ 音乐播放器，项目界面模仿 QQ 音乐客户端
 
-适配 PC+iPad；手机端未适配
+后端 API[Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
+适配 PC+iPad；移动端未适配
+
+喜欢的话欢迎 star
 
 **注**：部分音乐由于版权问题无法播放
 
@@ -83,7 +87,7 @@ $ npm run build
 
 ### 之后的方向
 
-项目由组合式 API 编写，没有用到 TS，目前项目仍在大量细小的 bug，后期可能会用 TS 进行二次维护
+项目由组合式 API 编写，没有用到 TS，目前项目仍存在大量细小的 bug，后期可能会用 TS 进行二次维护
 
 ### 鸣谢
 
