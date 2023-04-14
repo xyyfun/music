@@ -5,11 +5,12 @@
 	<a href="https://github.com/developit/mitt"><img src="https://img.shields.io/badge/mitt-v3.0.0-blue" alt=""></a>
 	<a href="https://github.com/hilongjw/vue-lazyload"><img src="https://img.shields.io/badge/vue--lazyload-v3.0.0--rc.2-orange" alt=""></a>
 </p>
+
 ## Vue3 Music
 
-项目基于Vue3全家桶开发的QQ音乐播放器，项目界面模仿QQ音乐客户端
+项目基于 Vue3 全家桶开发的 QQ 音乐播放器，项目界面模仿 QQ 音乐客户端
 
-适配PC+iPad；手机端未适配
+适配 PC+iPad；手机端未适配
 
 **注**：部分音乐由于版权问题无法播放
 
@@ -73,12 +74,18 @@ $ npm run build
 
 ### 效果图
 
-![首页](https://github.com/xyyfun/music/blob/master/image/uTools_1681392203600.png)
-![音乐馆-精选](https://github.com/xyyfun/music/blob/master/image/uTools_1681392278499.png)
-![音乐馆-有声电台](https://github.com/xyyfun/music/blob/master/image/uTools_1681392289524.png)
-![音乐馆-排行](https://github.com/xyyfun/music/blob/master/image/uTools_1681392302552.png)
-![播放器](https://github.com/xyyfun/music/blob/master/image/uTools_1681392327499.png)
-![歌单](https://github.com/xyyfun/music/blob/master/image/uTools_1681392409401.png)
+![首页](https://gitee.com/xyyfun/music/blob/master/image/uTools_1681392203600.png)
+![音乐馆-精选](https://gitee.com/xyyfun/music/blob/master/image/uTools_1681392278499.png)
+![音乐馆-有声电台](https://gitee.com/xyyfun/music/blob/master/image/uTools_1681392289524.png)
+![音乐馆-排行](https://gitee.com/xyyfun/music/blob/master/image/uTools_1681392302552.png)
+![播放器](https://gitee.com/xyyfun/music/blob/master/image/uTools_1681392327499.png)
+![歌单](https://gitee.com/xyyfun/music/blob/master/image/uTools_1681392409401.png)
+
+
+
+### 之后的方向
+
+项目由组合式API编写，没有用到TS，目前项目仍在大量细小的bug，后期可能会用TS进行二次维护
 
 ### 鸣谢
 
