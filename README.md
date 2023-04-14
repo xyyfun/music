@@ -74,18 +74,16 @@ $ npm run build
 
 ### 效果图
 
-![首页](https://gitee.com/xyyfun/music/blob/master/image/uTools_1681392203600.png)
-![音乐馆-精选](https://gitee.com/xyyfun/music/blob/master/image/uTools_1681392278499.png)
-![音乐馆-有声电台](https://gitee.com/xyyfun/music/blob/master/image/uTools_1681392289524.png)
-![音乐馆-排行](https://gitee.com/xyyfun/music/blob/master/image/uTools_1681392302552.png)
-![播放器](https://gitee.com/xyyfun/music/blob/master/image/uTools_1681392327499.png)
-![歌单](https://gitee.com/xyyfun/music/blob/master/image/uTools_1681392409401.png)
-
-
+![首页](./image/uTools_1681392203600.png)
+![音乐馆-精选](./image/uTools_1681392278499.png)
+![音乐馆-有声电台](./image/uTools_1681392289524.png)
+![音乐馆-排行](./image/uTools_1681392302552.png)
+![播放器](./image/uTools_1681392327499.png)
+![歌单](./image/uTools_1681392409401.png)
 
 ### 之后的方向
 
-项目由组合式API编写，没有用到TS，目前项目仍在大量细小的bug，后期可能会用TS进行二次维护
+项目由组合式 API 编写，没有用到 TS，目前项目仍在大量细小的 bug，后期可能会用 TS 进行二次维护
 
 ### 鸣谢
 
