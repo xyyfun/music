@@ -2,16 +2,13 @@
 	<div class="app-progress">
 		<div class="progress-content">
 			<!-- 进度条 -->
-			<div class="slider">
+			<div class="slider" ref="slot">
 				<!-- 槽 -->
-				<div class="slot" ref="slot" @click.self="handlerProgress($event)">
+				<div class="slot">
 					<!-- 滑块 -->
-					<div class="trigger" :style="{ left: nowProgress + '%' }"></div>
+					<div class="trigger" :style="{ transform: `translateX(${trigger}px)` }"></div>
 					<!-- 已完成的进度 -->
-					<div
-						@click="handlerProgress($event)"
-						class="complete"
-						:style="{ width: nowProgress + '%' }"></div>
+					<div class="complete" :style="{ transform: `scaleX(${nowProgress})` }"></div>
 				</div>
 			</div>
 			<!-- 歌词信息 -->
@@ -60,10 +57,10 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { handlerDuration } from '@/hooks/useProgress';
+import { useClick } from '@/hooks/useProgress';
 import AppControl from '@/components/app-control';
 import message from '@/utils/message';
 export default {
@@ -74,20 +71,23 @@ export default {
 		const store = useStore();
 		const slot = ref(null);
 		const isShowLyrics = computed(() => store.state.song.isShowLyrics);
-		const totalTimeS = computed(() => store.state.song.totalDuration);
-		const currentMusicID = computed(() => store.state.song.currentMusicID);
-		const userLikeList = computed(() => store.state.user.userLikeList);
+		const totalTimeS = computed(() => store.state.song.totalDuration); // 当前音乐播放到哪秒
+		const currentMusicID = computed(() => store.state.song.currentMusicID); // 当前音乐ID
+		const userLikeList = computed(() => store.state.user.userLikeList); // 用户喜欢
+		const nowProgress = computed(() => store.state.song.nowProgress); // 当前进度
+		// 滑块位置
+		const trigger = computed(() => {
+			if (slot.value) return nowProgress.value * slot.value.offsetWidth;
+		});
 		const isLike = computed(() => {
 			return userLikeList.value.some(item => item === currentMusicID.value);
 		});
 		// 点击显示或隐藏歌曲详情页
-		const showLyrics = () => {
-			store.commit('song/SHOWLYRICS', true);
-		};
-		// 用户修改进度
-		const handlerProgress = e => {
-			store.commit('song/DURATION', handlerDuration(e, slot, totalTimeS));
-		};
+		const showLyrics = () => store.commit('song/SHOWLYRICS', true);
+		// 绑定点击事件 返回点击位置的音乐秒数
+		const { x } = useClick(slot, totalTimeS);
+		// 监视用户点击进度条 根据点击位置修改音乐进度
+		watch(x, newVal => store.commit('song/DURATION', newVal), { immediate: true });
 		// 查看评论
 		const comment = () => {
 			if (currentMusicID.value) router.push(`/comment`);
@@ -107,16 +107,16 @@ export default {
 			showLyrics,
 			slot,
 			comment,
-			handlerProgress,
 			isLike,
 			like,
 			cancelLike,
+			nowProgress,
+			trigger,
 			totalTimeMin: computed(() => store.state.song.url.time),
 			songName: computed(() => store.getters['song/songName']),
 			singer: computed(() => store.getters['song/singer']),
 			pirUrl: computed(() => store.state.song.picUrl),
 			nowTime: computed(() => store.state.song.nowTime),
-			nowProgress: computed(() => store.state.song.nowProgress),
 			playlistNumber: computed(() => store.state.song.playlist.length),
 		};
 	},
@@ -132,6 +132,7 @@ export default {
 			display: flex;
 			align-items: center;
 			height: 0.71rem;
+			cursor: pointer;
 			&:hover .slot .trigger {
 				opacity: 1;
 			}
@@ -140,11 +141,11 @@ export default {
 				width: 100%;
 				height: 2px;
 				background-color: rgba(0, 0, 0, 0.2);
-				cursor: pointer;
 				.trigger {
 					opacity: 0;
 					position: absolute;
 					top: -3px;
+					left: -4px;
 					width: 8px;
 					height: 8px;
 					background-color: #1ecc94;
@@ -155,6 +156,7 @@ export default {
 					height: 2px;
 					background-color: #1ecc94;
 					transition: all 0.2s;
+					transform-origin: left;
 				}
 			}
 		}

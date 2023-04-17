@@ -2,16 +2,13 @@
 	<div class="lyrics-progress">
 		<div class="progress">
 			<!-- 滑动 -->
-			<div class="slider">
+			<div class="slider" ref="slot">
 				<!-- 槽 -->
-				<div class="slot" ref="slot" @click.self="handlerProgress($event)">
+				<div class="slot">
 					<!-- 滑块 -->
-					<div class="trigger" :style="{ left: nowProgress + '%' }"></div>
+					<div class="trigger" :style="{ transform: `translateX(${trigger}px)` }"></div>
 					<!-- 播放进度 -->
-					<div
-						class="complete"
-						@click.self="handlerProgress($event)"
-						:style="{ width: nowProgress + '%' }"></div>
+					<div class="complete" :style="{ transform: `scaleX(${nowProgress})` }"></div>
 				</div>
 			</div>
 			<div class="info">
@@ -40,10 +37,10 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { handlerDuration } from '@/hooks/useProgress';
+import { useClick } from '@/hooks/useProgress';
 import AppControl from '@/components/app-control';
 export default {
 	name: 'LyricsProgress',
@@ -54,9 +51,19 @@ export default {
 		const slot = ref(null);
 		const totalTimeS = computed(() => store.state.song.totalDuration);
 		const currentMusicID = computed(() => store.state.song.currentMusicID);
-		const handlerProgress = e => {
-			store.commit('song/DURATION', handlerDuration(e, slot, totalTimeS));
-		};
+		const nowProgress = computed(() => store.state.song.nowProgress);
+		// 滑块位置
+		const trigger = computed(() => {
+			if (slot.value) return nowProgress.value * slot.value.offsetWidth;
+		});
+		const { x } = useClick(slot, totalTimeS);
+		watch(
+			x,
+			newVal => {
+				if (newVal) store.commit('song/DURATION', newVal);
+			},
+			{ immediate: true }
+		);
 		// 查看评论
 		const comment = () => {
 			if (currentMusicID.value) {
@@ -66,11 +73,11 @@ export default {
 		};
 		return {
 			slot,
-			handlerProgress,
 			comment,
+			trigger,
+			nowProgress,
 			totalTimeMin: computed(() => store.state.song.url.time),
 			nowTime: computed(() => store.state.song.nowTime),
-			nowProgress: computed(() => store.state.song.nowProgress),
 			playlistNumber: computed(() => store.state.song.playlist.length),
 		};
 	},
@@ -87,16 +94,16 @@ export default {
 			display: flex;
 			align-items: center;
 			height: 0.71rem;
+			cursor: pointer;
 			.slot {
 				position: relative;
 				width: 100%;
 				height: 2px;
 				background-color: rgba(0, 0, 0, 0.2);
-				cursor: pointer;
 				.trigger {
 					position: absolute;
 					top: -3px;
-					left: 30%;
+					left: -4px;
 					width: 8px;
 					height: 8px;
 					background-color: #1ece9b;
@@ -104,10 +111,10 @@ export default {
 					transition: all 0.2s;
 				}
 				.complete {
-					width: 20%;
 					height: 2px;
 					background-color: #1ece9b;
 					transition: all 0.2s;
+					transform-origin: left;
 				}
 			}
 		}

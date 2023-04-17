@@ -1,31 +1,31 @@
 <template>
-	<div class="sound" v-show="isShowVolume" ref="sound">
+	<div class="sound">
 		<div class="volume">
-			<div class="slot" ref="father">
-				<div class="complete" :style="{ height: y + '%' }"></div>
-				<div class="trigger" :style="{ bottom: y + '%' }" ref="trigger"></div>
+			<div class="slot" ref="slot">
+				<div class="complete" :style="{ transform: `scaleY(${volume / 100})` }"></div>
+				<div class="trigger" :style="{ transform: `translateY(${-volumePosition}px)` }"></div>
 			</div>
-			<div class="number">{{ y }}%</div>
+			<div class="number">{{ volume }}%</div>
 		</div>
 		<div class="icon"><i class="iconfont" :class="icon"></i></div>
 	</div>
 </template>
 
 <script>
-import mouseDownMove from '@/utils/mouseDownMove';
-import { onClickOutside } from '@vueuse/core';
-import { ref, onMounted, computed, watch } from 'vue';
+import { useClick } from '@/hooks/useProgress';
+import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 export default {
 	name: 'AppSound',
 	setup() {
 		const store = useStore();
-		const isShowVolume = ref(false);
-		const trigger = ref(null);
-		const father = ref(null);
-		const sound = ref(null);
-		const volume = computed(() => store.state.song.volume);
-		const y = computed(() => store.state.song.volume);
+		const slot = ref(null); // 父元素
+		const volume = computed(() => store.state.song.volume); // 音量
+		const volumePosition = computed(() => {
+			if (slot.value) return (volume.value / 100) * slot.value.offsetHeight;
+		});
+		const { y } = useClick(slot, volume);
+		watch(y, newVal => store.commit('song/changVolume', newVal));
 		// 字体图标
 		const icon = computed(() => {
 			if (volume.value === 0) {
@@ -36,27 +36,11 @@ export default {
 				return 'icon-yinliang2';
 			}
 		});
-		onClickOutside(sound, () => (isShowVolume.value = false));
-		onMounted(() => {
-			watch(
-				isShowVolume,
-				newVal => {
-					if (newVal) {
-						mouseDownMove(trigger.value, volume, father.value, value => {
-							store.commit('song/changVolume', value);
-						});
-					}
-				},
-				{ immediate: true }
-			);
-		});
 		return {
-			isShowVolume,
-			father,
-			sound,
-			trigger,
-			y,
+			slot,
 			icon,
+			volume,
+			volumePosition,
 		};
 	},
 };
@@ -92,23 +76,24 @@ export default {
 			width: 0.2rem;
 			background-color: #ececec;
 			margin-top: 0.7rem;
+			cursor: pointer;
 			.trigger {
 				position: absolute;
-				bottom: 0;
-				left: 50%;
-				transform: translate(-50%, 50%);
+				bottom: -0.3rem;
+				left: -0.3rem;
 				width: 0.8rem;
 				height: 0.8rem;
 				background-color: #1fd1a7;
 				border-radius: 50%;
+				transition: transform 0.2s;
 				cursor: pointer;
 			}
 			.complete {
-				position: absolute;
-				bottom: 0;
 				width: 100%;
-				height: 20px;
+				height: 100%;
 				background-color: #1fd1a7;
+				transform-origin: bottom;
+				transition: transform 0.2s;
 			}
 		}
 		.number {
