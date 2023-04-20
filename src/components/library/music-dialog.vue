@@ -1,6 +1,6 @@
 <template>
 	<Transition name="dialog">
-		<div class="app-dialog" v-if="isShowDialog" ref="dialog">
+		<div class="app-dialog" v-show="isShowDialog" ref="dialog">
 			<div class="dialog-content">
 				<div class="dialog-head">
 					<p>播放队列</p>
@@ -40,7 +40,13 @@
 											title="暂停">
 											<i class="iconfont icon-pause"></i>
 										</a>
-										<a href="javascript:;"><i class="iconfont icon-xihuan21"></i></a>
+										<a href="javascript:;">
+											<i
+												class="iconfont icon-xihuan2"
+												@click="cancelLike(item.id, index)"
+												v-if="item.isLike"></i>
+											<i class="iconfont icon-xihuan21" @click="like(item.id, index)" v-else></i>
+										</a>
 										<a href="javascript:;"><i class="iconfont icon-gengduo"></i></a>
 									</div>
 								</div>
@@ -63,6 +69,7 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { onClickOutside } from '@vueuse/core';
 import AppIcon from '@/components/app-icon';
+import message from '@/utils/message';
 export default {
 	name: 'MusicDialog',
 	components: { AppIcon },
@@ -88,15 +95,41 @@ export default {
 			store.commit('song/SHOWLYRICS', true);
 			store.commit('song/handlerDialog', false);
 		};
-		onClickOutside(dialog, () => {
-			store.commit('song/handlerDialog', false);
-		});
+		// 喜欢音乐
+		const like = async id => {
+			try {
+				await store.dispatch('playlist/changUserLike', { id, boolean: true });
+				store.commit('song/changPlaylistLike', {
+					id: currentMusicID.value,
+					boolean: true,
+				});
+				message({ type: 'success', message: '已添加到我喜欢的音乐！' });
+			} catch (error) {
+				message({ type: 'error', message: error.data.message });
+			}
+		};
+		// 取消喜欢
+		const cancelLike = async id => {
+			try {
+				await store.dispatch('playlist/changUserLike', { id, boolean: false });
+				store.commit('song/changPlaylistLike', {
+					id: currentMusicID.value,
+					boolean: false,
+				});
+				message({ type: 'success', message: '已取消喜欢！' });
+			} catch (error) {
+				message({ type: 'error', message: error.data.message });
+			}
+		};
+		onClickOutside(dialog, () => store.commit('song/handlerDialog', false));
 		return {
 			dialog,
 			play,
 			currentMusicID,
 			showlyrics,
 			remove,
+			like,
+			cancelLike,
 			isShowDialog: computed(() => store.state.song.isShowDialog),
 			playlist: computed(() => store.state.song.playlist),
 			isPlay: computed(() => store.state.song.isPlay),
@@ -193,6 +226,9 @@ export default {
 						font-size: 1rem;
 						a {
 							padding: 0 0.5rem;
+							.icon-xihuan2 {
+								color: #ff6664;
+							}
 							&:hover {
 								color: #1ece9c;
 							}

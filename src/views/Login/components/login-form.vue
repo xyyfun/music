@@ -19,9 +19,11 @@ import { QRkey, QRbase, QRstate, loginStatus } from '@/api/login';
 import { getUserDetail } from '@/api/user';
 import { ref, watch } from 'vue';
 import { setCookie, removeCookie } from '@/utils/cookie';
-import { setUserInfo } from '@/utils/userInfo';
+import { setUserInfo } from '@/utils/user';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { getUserLike } from '@/api/user';
+import { setUserLike } from '@/utils/user';
 import none from '../../../assets/images/song_300.png';
 import message from '@/utils/message';
 export default {
@@ -76,6 +78,10 @@ export default {
 										store.commit('user/setInfo', data.data.profile); // 存储至vuex
 										router.replace('/');
 										message({ type: 'success', message: '登录成功！' });
+										// 获取用户喜欢歌曲
+										getUserLike(data.data.profile.userId).then(data => {
+											setUserLike(data.data.ids);
+										});
 									});
 								}
 							});

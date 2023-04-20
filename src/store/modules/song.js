@@ -1,4 +1,5 @@
 import { getSongUrl, getSongDetail, getSongLyric } from '@/api/songs';
+import { getUserLike } from '@/utils/user';
 import tidy from '@/utils/tidy';
 import { useDateFormat } from '@vueuse/core';
 export default {
@@ -36,7 +37,8 @@ export default {
 		// 主要的 频繁调用
 		NOWTIME(state, val) {
 			state.playerTime = val;
-			state.nowProgress = (val / state.totalDuration) * 100;
+			// 进度位置=当前播放事件秒/总时间秒*100
+			state.nowProgress = val / state.totalDuration;
 			const time = useDateFormat(val * 1000, 'mm:ss');
 			state.nowTime = time.value;
 		},
@@ -59,38 +61,26 @@ export default {
 			state.isShowLyrics = val;
 		},
 		// 添加播放列表
-		addList(state, val) {
-			const playlistLength = state.playlist.length;
-			if (val instanceof Array) {
-				if (playlistLength) {
-					const arr = [];
-					state.playlist.forEach(e => {
-						val.forEach(event => {
-							if (!e.id === event.id) arr.push(event);
-						});
-					});
-					arr.forEach(e => {
-						state.playlist.push(e);
-					});
-				} else {
-					val.forEach(e => {
-						state.playlist.push(e);
-					});
-				}
-			} else {
-				if (playlistLength) {
-					let flag = true;
-					for (let i = 0; i < playlistLength; i++) {
-						if (state.playlist[i].id === val.id) {
-							flag = false;
-							break;
-						}
-					}
-					if (flag) state.playlist.push(val);
-				} else {
-					state.playlist.push(val);
-				}
+		addList(state, list) {
+			// val类型 Array Object
+			if (!(list instanceof Array)) {
+				list.isLike = false;
+				const like = getUserLike();
+				const result = like.some(e => e === list.id);
+				if (result) list.isLike = true;
+				list = [list];
 			}
+			list.forEach(e => {
+				let repeat = false;
+				// 添加前判断是否已存在
+				for (let i = 0; i < state.playlist.length; i++) {
+					if (state.playlist[i].id === e.id) {
+						repeat = true;
+						break;
+					}
+				}
+				if (!repeat) state.playlist.push(e);
+			});
 		},
 		// 删除播放列表
 		removeList(state) {
@@ -107,6 +97,15 @@ export default {
 		// 修改播放顺序
 		changPlayOrder(state, val) {
 			state.playOrder = val;
+		},
+		// 修改播放列表音乐喜欢
+		changPlaylistLike(state, { id, boolean }) {
+			for (let i = 0; i < state.playlist.length; i++) {
+				if (state.playlist[i].id === id) {
+					state.playlist[i].isLike = boolean;
+					break;
+				}
+			}
 		},
 		// 修改音量
 		changVolume(store, val) {

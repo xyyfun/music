@@ -12,14 +12,17 @@
 			<div class="list">
 				<div
 					class="item"
-					v-for="(item, index) in lists"
+					v-for="(item, index) in songLists"
 					:key="item.id"
 					:class="{ active: item.id === currentMusicID }">
 					<ul>
 						<li class="songs">
 							<span class="number">{{ index + 1 <= 9 ? '0' + (index + 1) : index + 1 }}</span>
-							<i class="iconfont icon-xihuan2" v-if="item.isLike"></i>
-							<i class="iconfont icon-xihuan21" @click="like(item.id)" v-else></i>
+							<i
+								class="iconfont icon-xihuan2"
+								@click="cancelLike(item.id, index)"
+								v-if="item.isLike"></i>
+							<i class="iconfont icon-xihuan21" @click="like(item.id, index)" v-else></i>
 							<span class="singer ellipsis">{{ item.name }}</span>
 							<AppIcon :fee="item.fee" :originCoverType="item.originCoverType" :mv="item.mv" />
 						</li>
@@ -27,7 +30,7 @@
 							<i
 								class="iconfont icon-bofang"
 								v-if="!isPlay || item.id !== currentMusicID"
-								@click="play(item.id, item)"
+								@click="play(item.id)"
 								title="播放">
 							</i>
 							<i
@@ -64,10 +67,6 @@ export default {
 	name: 'MusicPlaylistList',
 	components: { AppIcon },
 	props: {
-		lists: {
-			type: Array,
-			default: () => [],
-		},
 		// 是否显示歌手
 		isShowSinger: {
 			type: Boolean,
@@ -85,8 +84,9 @@ export default {
 		},
 	},
 	setup() {
-		const currentMusicID = computed(() => store.state.song.currentMusicID);
 		const store = useStore();
+		const currentMusicID = computed(() => store.state.song.currentMusicID);
+		const songLists = computed(() => store.state.playlist.songLists);
 		// 播放
 		const play = id => {
 			// 播放前判断当前是否有音乐暂停且暂停音乐是播放的音乐
@@ -96,12 +96,29 @@ export default {
 		};
 		// 喜欢音乐
 		const like = async id => {
-			const result = await store.dispatch('user/userLike', { id, bol: true });
-			if (result) message({ type: 'success', message: '已添加到我喜欢的音乐！' });
+			try {
+				await store.dispatch('playlist/changUserLike', { id, boolean: true });
+				store.commit('song/changPlaylistLike', { id, boolean: true });
+				message({ type: 'success', message: '已添加到我喜欢的音乐！' });
+			} catch (error) {
+				message({ type: 'error', message: error.data.message });
+			}
+		};
+		// 取消喜欢
+		const cancelLike = async id => {
+			try {
+				await store.dispatch('playlist/changUserLike', { id, boolean: false });
+				store.commit('song/changPlaylistLike', { id, boolean: false });
+				message({ type: 'success', message: '已取消喜欢！' });
+			} catch (error) {
+				message({ type: 'error', message: error.data.message });
+			}
 		};
 		return {
+			songLists,
 			play,
 			like,
+			cancelLike,
 			currentMusicID,
 			isPlay: computed(() => store.state.song.isPlay),
 		};

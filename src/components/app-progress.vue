@@ -32,9 +32,9 @@
 							<a href="javascript:;" v-if="isLike" @click="cancelLike">
 								<i class="iconfont icon-xihuan2" title="取消喜欢"></i>
 							</a>
-							<a href="javascript:;" v-else @click="like"
-								><i class="iconfont icon-xihuan21" title="喜欢"></i
-							></a>
+							<a href="javascript:;" v-else @click="like">
+								<i class="iconfont icon-xihuan21" title="喜欢"></i>
+							</a>
 							<a href="javascript:;"><i class="iconfont icon-xiazai" title="下载该歌曲"></i></a>
 							<a href="javascript:;"><i class="iconfont icon-gengduo" title="更多"></i></a>
 							<a href="javascript:;" @click="comment">
@@ -73,14 +73,19 @@ export default {
 		const isShowLyrics = computed(() => store.state.song.isShowLyrics);
 		const totalTimeS = computed(() => store.state.song.totalDuration); // 当前音乐播放到哪秒
 		const currentMusicID = computed(() => store.state.song.currentMusicID); // 当前音乐ID
-		const userLikeList = computed(() => store.state.user.userLikeList); // 用户喜欢
 		const nowProgress = computed(() => store.state.song.nowProgress); // 当前进度
 		// 滑块位置
 		const trigger = computed(() => {
 			if (slot.value) return nowProgress.value * slot.value.offsetWidth;
 		});
+		// 当前歌曲是否为我喜欢的歌曲
 		const isLike = computed(() => {
-			return userLikeList.value.some(item => item === currentMusicID.value);
+			const playlist = computed(() => store.state.song.playlist);
+			let flag = false;
+			playlist.value.forEach(e => {
+				if (e.id === currentMusicID.value) if (e.isLike) flag = true;
+			});
+			return flag;
 		});
 		// 点击显示或隐藏歌曲详情页
 		const showLyrics = () => store.commit('song/SHOWLYRICS', true);
@@ -92,15 +97,41 @@ export default {
 		const comment = () => {
 			if (currentMusicID.value) router.push(`/comment`);
 		};
-		// 喜欢该歌曲
-		const like = () => {
-			const result = store.dispatch('user/userLike', { id: currentMusicID.value, bol: true });
-			if (result) message({ type: 'success', message: '已添加到我喜欢的音乐！' });
+		// 喜欢音乐
+		const like = async () => {
+			if (currentMusicID.value) {
+				try {
+					await store.dispatch('playlist/changUserLike', {
+						id: currentMusicID.value,
+						boolean: true,
+					});
+					store.commit('song/changPlaylistLike', {
+						id: currentMusicID.value,
+						boolean: true,
+					});
+					message({ type: 'success', message: '已添加到我喜欢的音乐！' });
+				} catch (error) {
+					message({ type: 'error', message: error.data.message });
+				}
+			}
 		};
-		// 取消喜欢歌曲
-		const cancelLike = () => {
-			const result = store.dispatch('user/userLike', { id: currentMusicID.value, bol: false });
-			if (result) message({ type: 'success', message: '已取消喜欢！' });
+		// 取消喜欢
+		const cancelLike = async () => {
+			if (currentMusicID.value) {
+				try {
+					await store.dispatch('playlist/changUserLike', {
+						id: currentMusicID.value,
+						boolean: false,
+					});
+					store.commit('song/changPlaylistLike', {
+						id: currentMusicID.value,
+						boolean: false,
+					});
+					message({ type: 'success', message: '已取消喜欢！' });
+				} catch (error) {
+					message({ type: 'error', message: error.data.message });
+				}
+			}
 		};
 		return {
 			isShowLyrics,

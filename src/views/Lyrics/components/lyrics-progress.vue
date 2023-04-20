@@ -13,7 +13,12 @@
 			</div>
 			<div class="info">
 				<div class="operation">
-					<a href="javascript:;" title="喜欢"><i class="iconfont icon-xihuan21"></i></a>
+					<a href="javascript:;" v-if="isLike" @click="cancelLike">
+						<i class="iconfont icon-xihuan2" title="取消喜欢"></i>
+					</a>
+					<a href="javascript:;" v-else @click="like">
+						<i class="iconfont icon-xihuan21" title="喜欢"></i>
+					</a>
 					<a href="javascript:;" title="下载该歌曲"><i class="iconfont icon-xiazai"></i></a>
 					<a href="javascript:;" title="更多"><i class="iconfont icon-gengduo"></i></a>
 					<a href="javascript:;" @click="comment" title="评论">
@@ -42,6 +47,7 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { useClick } from '@/hooks/useProgress';
 import AppControl from '@/components/app-control';
+import message from '@/utils/message';
 export default {
 	name: 'LyricsProgress',
 	components: { AppControl },
@@ -71,11 +77,59 @@ export default {
 				store.commit('song/SHOWLYRICS', false);
 			}
 		};
+		// 当前歌曲是否为我喜欢的歌曲
+		const isLike = computed(() => {
+			const playlist = computed(() => store.state.song.playlist);
+			let flag = false;
+			playlist.value.forEach(e => {
+				if (e.id === currentMusicID.value) if (e.isLike) flag = true;
+			});
+			return flag;
+		});
+		// 喜欢音乐
+		const like = async () => {
+			if (currentMusicID.value) {
+				try {
+					await store.dispatch('playlist/changUserLike', {
+						id: currentMusicID.value,
+						boolean: true,
+					});
+					store.commit('song/changPlaylistLike', {
+						id: currentMusicID.value,
+						boolean: true,
+					});
+					message({ type: 'success', message: '已添加到我喜欢的音乐！' });
+				} catch (error) {
+					message({ type: 'error', message: error.data.message });
+				}
+			}
+		};
+		// 取消喜欢
+		const cancelLike = async () => {
+			if (currentMusicID.value) {
+				try {
+					await store.dispatch('playlist/changUserLike', {
+						id: currentMusicID.value,
+						boolean: false,
+					});
+					store.commit('song/changPlaylistLike', {
+						id: currentMusicID.value,
+						boolean: false,
+					});
+					message({ type: 'success', message: '已取消喜欢！' });
+				} catch (error) {
+					message({ type: 'error', message: error.data.message });
+				}
+			}
+		};
 		return {
 			slot,
 			comment,
 			trigger,
 			nowProgress,
+			cancelLike,
+			like,
+			isLike,
 			totalTimeMin: computed(() => store.state.song.url.time),
 			nowTime: computed(() => store.state.song.nowTime),
 			playlistNumber: computed(() => store.state.song.playlist.length),
@@ -135,6 +189,9 @@ export default {
 						&:hover {
 							color: #1ecc94;
 						}
+					}
+					.icon-xihuan2 {
+						color: #ff6664 !important;
 					}
 				}
 			}

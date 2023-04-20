@@ -26,7 +26,6 @@ import AppAudio from '@/views/Audio';
 import { computed } from 'vue';
 import { loginTourist } from '@/api/login';
 import { getCookie, setCookie } from '@/utils/cookie';
-import { getUserLike } from '@/api/user';
 import { useStore } from 'vuex';
 export default {
 	name: 'Layout',
@@ -39,11 +38,6 @@ export default {
 			// 不存在直接游客登录
 			loginTourist().then(data => {
 				setCookie(data.data.cookie);
-			});
-		}
-		if (userId) {
-			getUserLike(userId.value).then(data => {
-				store.commit('user/addUserLikeID', data.data.ids);
 			});
 		}
 	},
@@ -60,7 +54,7 @@ export default {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		min-width: 43rem;
+		min-width: 790px;
 		max-width: 1536px;
 		margin: 0 auto;
 	}

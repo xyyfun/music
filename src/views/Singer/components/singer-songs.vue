@@ -1,5 +1,5 @@
 <template>
-	<MusicPlaylistList :lists="allSongs" :isShowSinger="false" />
+	<MusicPlaylistList :isShowSinger="false" />
 	<AppMore @loadMore="loadMore" :isMore="isMore" />
 </template>
 
@@ -8,14 +8,15 @@ import MusicPlaylistList from '@/components/library/music-playlist-list';
 import AppMore from '@/components/app-more';
 import { getSingerAllSongs } from '@/api/singer';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 import { ref } from 'vue';
 import { useDateFormat } from '@vueuse/core';
 export default {
 	name: 'SingerSongs',
 	components: { MusicPlaylistList, AppMore },
 	setup() {
+		const store = useStore();
 		const route = useRoute();
-		const allSongs = ref([]);
 		const limit = ref(50);
 		const isMore = ref(true);
 		const loadMore = () => {
@@ -26,14 +27,11 @@ export default {
 			getSingerAllSongs(route.params.id, limit.value).then(data => {
 				console.log(data);
 				isMore.value = data.data.more;
-				data.data.songs.forEach(e => {
-					e.dt = useDateFormat(e.dt, 'mm:ss');
-				});
-				allSongs.value = data.data.songs;
+				store.commit('playlist/lists', data.data.songs);
 			});
 		};
 		getData();
-		return { allSongs, loadMore, isMore };
+		return { loadMore, isMore };
 	},
 };
 </script>
