@@ -45,6 +45,10 @@ const routes = [
 				component: () => import('@/views/Video'),
 			},
 			{
+				path: '/player',
+				component: () => import('@/views/Player'),
+			},
+			{
 				path: '/radio',
 				component: () => import('@/views/Radio'),
 			},
@@ -99,6 +103,10 @@ const routes = [
 const router = createRouter({
 	history: createWebHashHistory(),
 	routes,
+	scrollBehavior(to, from, savedPosition) {
+		// 始终滚动到顶部
+		return { top: 0 };
+	},
 });
 
 export default router;
