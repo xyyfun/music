@@ -1,45 +1,46 @@
 <template>
 	<div class="singer-video">
-		<div class="video">
-			<div class="lists">
-				<div class="list" v-for="item in lists" :key="item.id">
-					<a href="">
-						<img :src="item.imgurl16v9 + '?param=460y244'" alt="" />
-						<AppMask />
-					</a>
-					<span>{{ item.name }}</span>
-				</div>
-			</div>
-			<AppMore @loadMore="loadMore" :isMore="isMore" />
-		</div>
+		<MusicMvList :lists="lists" :isShowSinger="false" />
+		<AppMore v-if="lists.length" @loadMore="loadMore" :isMore="isMore" />
 	</div>
 </template>
 
 <script>
-import AppMask from '@/components/app-mask';
 import AppMore from '@/components/app-more';
+import MusicMvList from '@/components/library/music-mv-list';
 import { getSingerMV } from '@/api/singer';
 import { useRoute } from 'vue-router';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 export default {
 	name: 'SingerVideo',
-	components: { AppMask, AppMore },
+	components: { MusicMvList, AppMore },
 	setup() {
 		const route = useRoute();
 		const lists = ref([]);
 		const isMore = ref(true);
-		const num = ref(30);
+		const offset = ref(1);
 		const loadMore = () => {
-			num.value += 30;
+			offset.value++;
 			getDataList();
 		};
 		const getDataList = () => {
-			getSingerMV(route.params.id, num.value).then(data => {
-				lists.value = data.data.mvs;
+			getSingerMV(route.params.id, offset.value).then(data => {
+				data.data.mvs.forEach(e => {
+					e.cover = e.imgurl;
+					delete e.imgurl;
+					lists.value.push(e);
+				});
 				isMore.value = data.data.hasMore;
 			});
 		};
-		getDataList();
+		watch(
+			() => route.params.id,
+			newVal => {
+				lists.value = [];
+				if (newVal) getDataList();
+			},
+			{ immediate: true }
+		);
 		return {
 			lists,
 			loadMore,

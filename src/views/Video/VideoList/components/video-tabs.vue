@@ -3,13 +3,15 @@
 		<div class="tag-list">
 			<div class="select-tab">
 				<a href="javascript:;" @click="isShowList = true">
-					<span>{{ defaultTab }}</span>
+					<template v-for="item in tabList" :key="item.id">
+						<span v-if="nowTab === item.id">{{ item.name }}</span>
+					</template>
 					<i class="iconfont icon-xiangyoujiantou"></i>
 				</a>
 			</div>
 			<div class="more scroll" ref="more" v-show="isShowList">
 				<div class="head">
-					<a href="javascript:;" @click="changTab(undefined, '全部视频')">全部视频</a>
+					<router-link to="/video" @click="isShowList = false">全部视频</router-link>
 				</div>
 				<div class="item">
 					<ul>
@@ -17,8 +19,8 @@
 							v-for="item in tabList"
 							:key="item.id"
 							:class="{ active: nowTab === item.id }"
-							@click="changTab(item.id, item.name)">
-							<a href="javascript:;">{{ item.name }}</a>
+							@click="isShowList = false">
+							<router-link :to="`/video?id=${item.id}`">{{ item.name }}</router-link>
 						</li>
 					</ul>
 				</div>
@@ -26,12 +28,8 @@
 		</div>
 		<div class="category-list">
 			<ul>
-				<li
-					v-for="item in categoryList"
-					:key="item.id"
-					:class="{ active: nowTab === item.id }"
-					@click="changCategory(item.id, item.name)">
-					<a href="javascript:;">{{ item.name }}</a>
+				<li v-for="item in categoryList" :key="item.id" :class="{ active: nowTab === item.id }">
+					<router-link :to="`/video?id=${item.id}`">{{ item.name }}</router-link>
 				</li>
 			</ul>
 		</div>
@@ -40,41 +38,42 @@
 
 <script>
 import { getVideoTagList, getVideoCategoryList } from '@/api/video';
-import { ref, shallowRef } from 'vue';
+import { ref, shallowRef, watch } from 'vue';
 import { onClickOutside } from '@vueuse/core';
+import { useRoute } from 'vue-router';
 export default {
 	name: 'VideoTabs',
-	emits: ['changVideoLists'],
-	setup(props, { emit }) {
+	setup() {
+		const route = useRoute();
 		const categoryList = shallowRef([]);
 		const tabList = shallowRef([]);
 		const nowTab = ref(0);
 		const isShowList = ref(false);
 		const more = ref(null);
-		const defaultTab = ref('全部视频');
-		const changTab = (id, name) => {
-			emit('changVideoLists', id);
-			nowTab.value = id;
-			isShowList.value = false;
-			defaultTab.value = name;
-		};
-		const changCategory = (id, name) => {
-			emit('changVideoLists', id);
-			nowTab.value = id;
-			defaultTab.value = name;
-		};
+		watch(
+			() => route.query.id,
+			newVal => {
+				if (newVal && route.name === 'video') {
+					const id = +newVal;
+					nowTab.value = id;
+				} else {
+					nowTab.value = 0;
+				}
+			},
+			{ immediate: true }
+		);
 		getVideoCategoryList().then(data => (categoryList.value = data.data.data));
-		getVideoTagList().then(data => (tabList.value = data.data.data));
+		getVideoTagList().then(data => {
+			data.data.data.push({ id: 0, name: '全部视频' });
+			tabList.value = data.data.data;
+		});
 		onClickOutside(more, () => (isShowList.value = false));
 		return {
 			categoryList,
 			tabList,
 			more,
 			nowTab,
-			changTab,
-			changCategory,
 			isShowList,
-			defaultTab,
 		};
 	},
 };

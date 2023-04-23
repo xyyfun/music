@@ -2,19 +2,21 @@
 	<div class="app-player scroll">
 		<div class="player-content">
 			<PlayerPlayVideo />
-			<PlayDetail />
-			<PlayRelated />
+			<PlayerDetail />
+			<PlayerRelated />
+			<PlayerComment />
 		</div>
 	</div>
 </template>
 
 <script>
 import PlayerPlayVideo from './components/player-play-video';
-import PlayDetail from './components/play-detail';
-import PlayRelated from './components/play-related';
+import PlayerDetail from './components/player-detail';
+import PlayerRelated from './components/player-related';
+import PlayerComment from './components/player-comment';
 export default {
 	name: 'AppPlayer',
-	components: { PlayerPlayVideo, PlayDetail, PlayRelated },
+	components: { PlayerPlayVideo, PlayerDetail, PlayerRelated, PlayerComment },
 };
 </script>
 

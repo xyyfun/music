@@ -3,7 +3,7 @@
 		<div class="list">
 			<MusicTitleChild :title="title" />
 			<MusicList :dataList="playlists" params="/playlist" />
-			<AppMore @loadMore="loadMore" :isMore="isMore" />
+			<AppMore v-if="playlists.length" @loadMore="loadMore" :isMore="isMore" />
 		</div>
 	</div>
 </template>

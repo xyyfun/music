@@ -11,53 +11,43 @@
 				<div class="title"><span>热门评论</span></div>
 				<div class="item" v-for="item in hotComments" :key="item.commentId">
 					<div class="userInfo">
-						<img :src="item.user.avatarUrl" alt="" />
-						<div class="msg">
-							<p>{{ item.user.nickname }}</p>
-							<p>
-								{{ item.timeStr }}
-								<span v-if="item.ipLocation.ip">IP：来自{{ item.ipLocation.location }}</span>
-								<span v-else>IP：未知</span>
-							</p>
-						</div>
+						<a href="javascript:;">
+							<div class="image">
+								<img class="avatarUrl" :src="item.user.avatarUrl + '?param=130y130'" alt="" />
+								<img
+									class="pendantData"
+									v-if="item.pendantData"
+									:src="item.pendantData.imageUrl + '?param=130y130'"
+									alt="" />
+							</div>
+							<div class="msg">
+								<div>
+									<p
+										:style="
+											item.user.vipRights && item.user.vipRights.associator ? 'color:#ff6664' : ''
+										">
+										{{ item.user.nickname }}
+									</p>
+									<img
+										v-if="item.user.vipRights && item.user.vipRights.associator"
+										:src="item.user.vipRights.associator.iconUrl + '?param=80y34'"
+										alt="" />
+								</div>
+								<div>
+									<p>{{ item.timeStr }}</p>
+									<p v-if="item.ipLocation.ip">IP:来自{{ item.ipLocation.location }}</p>
+									<p v-else>IP:未知</p>
+								</div>
+							</div>
+						</a>
 					</div>
 					<div class="content">
-						<p>
-							{{ item.content }}
-						</p>
+						<p>{{ item.content }}</p>
 					</div>
 					<div class="more">
 						<div class="praise">
-							<i class="iconfont icon-dianzan"></i>
-							<span>{{ item.likedCount }}<a href="javascript:;">回复</a></span>
-						</div>
-
-						<a href="javascript:;" v-if="item.beReplied.length">
-							查看{{ item.beReplied.length }}条评论
-						</a>
-						<div class="item" v-if="false">
-							<div class="userInfo">
-								<img :src="item.user.avatarUrl" alt="" />
-								<div class="msg">
-									<p>{{ item.user.nickname }}</p>
-									<p>
-										{{ item.timeStr }}
-										<span v-if="item.ipLocation.ip">IP：来自{{ item.ipLocation.location }}</span>
-										<span v-else>IP：未知</span>
-									</p>
-								</div>
-							</div>
-							<div class="content">
-								<p>
-									{{ item.content }}
-								</p>
-							</div>
-							<div class="more">
-								<div class="praise">
-									<i class="iconfont icon-dianzan"></i>
-									<span>{{ item.likedCount }}<a href="javascript:;">回复</a></span>
-								</div>
-							</div>
+							<i class="iconfont icon-dianzan"></i><span>{{ item.likedCount }}</span>
+							<a href="javascript:;">回复</a>
 						</div>
 					</div>
 				</div>
@@ -67,15 +57,35 @@
 				<div class="title"><span>全部评论</span></div>
 				<div class="item" v-for="item in comments" :key="item.commentId">
 					<div class="userInfo">
-						<img :src="item.user.avatarUrl" alt="" />
-						<div class="msg">
-							<p>{{ item.user.nickname }}</p>
-							<p>
-								{{ item.timeStr }}
-								<span v-if="item.ipLocation.ip">IP:来自{{ item.ipLocation.location }}</span>
-								<span v-else>IP:未知</span>
-							</p>
-						</div>
+						<a href="javascript:;">
+							<div class="image">
+								<img class="avatarUrl" :src="item.user.avatarUrl + '?param=130y130'" alt="" />
+								<img
+									class="pendantData"
+									v-if="item.pendantData"
+									:src="item.pendantData.imageUrl + '?param=130y130'"
+									alt="" />
+							</div>
+							<div class="msg">
+								<div>
+									<p
+										:style="
+											item.user.vipRights && item.user.vipRights.associator ? 'color:#ff6664' : ''
+										">
+										{{ item.user.nickname }}
+									</p>
+									<img
+										v-if="item.user.vipRights && item.user.vipRights.associator"
+										:src="item.user.vipRights.associator.iconUrl + '?param=80y34'"
+										alt="" />
+								</div>
+								<div>
+									<p>{{ item.timeStr }}</p>
+									<p v-if="item.ipLocation.ip">IP:来自{{ item.ipLocation.location }}</p>
+									<p v-else>IP:未知</p>
+								</div>
+							</div>
+						</a>
 					</div>
 					<div class="content">
 						<p>
@@ -86,33 +96,6 @@
 						<div class="praise">
 							<i class="iconfont icon-dianzan"></i><span>{{ item.likedCount }}</span>
 							<a href="javascript:;">回复</a>
-						</div>
-						<a href="javascript:;" v-if="item.beReplied.length" @click="isShowMore">
-							查看{{ item.beReplied.length }}条评论
-						</a>
-						<div class="item" v-if="false">
-							<div class="userInfo">
-								<img :src="item.user.avatarUrl" alt="" />
-								<div class="msg">
-									<p>{{ item.user.nickname }}</p>
-									<p>
-										{{ item.timeStr }}
-										<span v-if="item.ipLocation.ip">IP：来自{{ item.ipLocation.location }}</span>
-										<span v-else>IP：未知</span>
-									</p>
-								</div>
-							</div>
-							<div class="content">
-								<p>
-									{{ item.content }}
-								</p>
-							</div>
-							<div class="more">
-								<div class="praise">
-									<i class="iconfont icon-dianzan"></i>
-									<span>{{ item.likedCount }}<a href="javascript:;">回复</a></span>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -134,7 +117,6 @@ export default {
 			default: () => [],
 		},
 	},
-	setup() {},
 };
 </script>
 
@@ -178,36 +160,61 @@ export default {
 			padding: 2rem 0;
 			border-bottom: 1px solid #ddd;
 			.userInfo {
-				display: flex;
-				img {
-					width: 2.5rem;
-					height: 2.5rem;
-					border-radius: 50%;
-				}
-				.msg {
+				a {
 					display: flex;
-					flex-direction: column;
-					justify-content: space-around;
-					margin: 0 1rem;
-					span,
-					p {
-						font-size: 0.9rem;
-						color: #7b7b7b;
+					.image {
+						display: flex;
+						justify-content: center;
+						justify-items: center;
+						align-items: center;
+						position: relative;
+						width: 4rem;
+						height: 4rem;
+						img {
+							object-fit: cover;
+						}
+						.avatarUrl {
+							width: 3rem;
+							height: 3rem;
+							border-radius: 50%;
+						}
+						.pendantData {
+							position: absolute;
+							left: 0;
+							top: 0;
+						}
 					}
-					span {
-						margin: 0 1rem;
+					.msg {
+						display: flex;
+						flex-direction: column;
+						justify-content: space-around;
+						margin: 0 0.5rem;
+						> div {
+							display: flex;
+							align-items: center;
+							span,
+							p {
+								font-size: 0.9rem;
+								color: #7b7b7b;
+								margin-right: 1rem;
+							}
+							img {
+								width: 2.63rem;
+								height: 1rem;
+							}
+						}
 					}
 				}
 			}
 			.content {
 				margin: 0.5rem 0;
-				margin-left: 3.5rem;
+				margin-left: 4.5rem;
 				p {
 					font-size: 0.9rem;
 				}
 			}
 			.more {
-				margin-left: 3.5rem;
+				margin-left: 4.5rem;
 				a {
 					font-size: 0.9rem;
 				}
@@ -219,11 +226,6 @@ export default {
 					a {
 						margin-left: 1rem;
 					}
-				}
-				.item {
-					background-color: #efefef;
-					border-radius: 0.5rem;
-					padding-left: 1.78rem;
 				}
 			}
 		}

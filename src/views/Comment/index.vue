@@ -21,7 +21,7 @@
 				</div>
 			</div>
 			<MusicComment :comments="comments" :hotComments="hotComments" />
-			<AppMore @loadMore="loadMore" :isMore="isMore" />
+			<AppMore v-if="hotComments.length" @loadMore="loadMore" :isMore="isMore" />
 		</div>
 	</div>
 </template>
@@ -29,30 +29,41 @@
 <script>
 import MusicComment from '@/components/library/music-comment';
 import AppMore from '@/components/app-more';
-import { getSongDetail, getSongComment } from '@/api/songs';
+import { getSongDetail } from '@/api/songs';
+import { getHotComment, getSongComment } from '@/api/comment';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 export default {
 	name: 'AppComment',
 	components: { MusicComment, AppMore },
 	setup() {
 		const router = useRouter();
 		const store = useStore();
-		const comments = ref([]);
-		const hotComments = ref([]);
-		const detail = ref({});
-		const isMore = ref(true);
-		const loadMore = () => {};
+		const comments = ref([]); // 全部评论
+		const hotComments = ref([]); // 热门评论
+		const detail = ref({}); // 歌曲详情
+		const isMore = ref(false); // 是否拥有更多
+		const offset = ref(1); // 偏移数
+		const currentMusicID = computed(() => store.state.song.currentMusicID);
+		const loadMore = () => {
+			offset.value++;
+			getData();
+		};
+		const getData = () => {
+			getSongComment(currentMusicID.value, offset.value).then(data => {
+				data.data.comments.forEach(e => comments.value.push(e));
+				isMore.value = data.data.more;
+			});
+		};
 		watch(
-			() => store.state.song.currentMusicID,
+			currentMusicID,
 			newVal => {
-				// 歌曲评论
 				if (newVal) {
-					getSongComment(newVal).then(data => {
-						comments.value = data.data.comments;
-						hotComments.value = data.data.hotComments;
-					});
+					// 全部评论
+					getData();
+					// 热门评论
+					getHotComment(newVal, 0, 1).then(data => (hotComments.value = data.data.hotComments));
 					// 歌曲详情
 					getSongDetail(newVal).then(data => {
 						const { ar, al, name } = data.data.songs[0];

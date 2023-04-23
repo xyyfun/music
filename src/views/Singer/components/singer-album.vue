@@ -11,7 +11,7 @@
 					<span class="time">{{ item.publishTime }}</span>
 				</div>
 			</div>
-			<AppMore @loadMore="loadMore" :isMore="isMore" />
+			<AppMore v-if="album.length" @loadMore="loadMore" :isMore="isMore" />
 		</div>
 	</div>
 </template>
@@ -21,7 +21,7 @@ import AppMask from '@/components/app-mask';
 import AppMore from '@/components/app-more';
 import { getSingerAlbum } from '@/api/singer';
 import { useRoute } from 'vue-router';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useDateFormat } from '@vueuse/core';
 export default {
 	name: 'SingerAlbum',
@@ -30,22 +30,28 @@ export default {
 		const route = useRoute();
 		const album = ref([]);
 		const isMore = ref(true);
-		const num = ref(30);
+		const offset = ref(2);
 		const loadMore = () => {
-			num.value += 30;
+			offset.value++;
 			getDataList();
 		};
 		const getDataList = () => {
-			getSingerAlbum(route.params.id, num.value).then(data => {
+			getSingerAlbum(route.params.id, offset.value).then(data => {
 				data.data.hotAlbums.forEach(e => {
 					const str = useDateFormat(e.publishTime, 'YYYY-MM-DD');
 					e.publishTime = str.value;
+					album.value.push(e);
 				});
-				album.value = data.data.hotAlbums;
 				isMore.value = data.data.more;
 			});
 		};
-		getDataList();
+		watch(
+			() => route.params.id,
+			newVal => {
+				if (newVal) getDataList();
+			},
+			{ immediate: true }
+		);
 		return {
 			album,
 			isMore,

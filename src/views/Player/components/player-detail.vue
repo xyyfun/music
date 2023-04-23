@@ -14,7 +14,9 @@
 				<p>发布时间：{{ publishTime }}</p>
 			</div>
 			<div class="video-group" v-if="videoGroup.length">
-				<a href="javascript:;" v-for="item in videoGroup" :key="item.id">{{ item.name }}</a>
+				<router-link :to="`/video?id=${item.id}`" v-for="item in videoGroup" :key="item.id">
+					{{ item.name }}
+				</router-link>
 			</div>
 			<div class="count">
 				<div class="praise">
@@ -35,12 +37,6 @@
 						<span>分享</span>
 					</a>
 				</div>
-				<div class="comment">
-					<a href="javascript:;">
-						<i class="iconfont icon-pinglun1"></i>
-						<span>评论</span>
-					</a>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -51,18 +47,20 @@ import { computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 export default {
-	name: 'PlayDetail',
+	name: 'PlayerDetail',
 	setup() {
 		const store = useStore();
 		const route = useRoute();
 		// 监视路由变化获取数据
 		watch(
 			() => route.query.id,
-			() => {
-				if (route.query.type === 'video') {
-					store.dispatch('video/videoDetail', route.query.id);
-				} else {
-					store.dispatch('video/mvDetail', route.query.id);
+			newVal => {
+				if (newVal && route.name === 'player') {
+					if (route.query.type === 'video') {
+						store.dispatch('video/videoDetail', route.query.id);
+					} else {
+						store.dispatch('video/mvDetail', route.query.id);
+					}
 				}
 			},
 			{ immediate: true }

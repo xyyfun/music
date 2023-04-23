@@ -10,8 +10,22 @@ import request from '@/utils/request';
  */
 export const getComment = (id, type, pageNo) => {
 	return request({
-		url: `/comment/new?type=${type}&id=${id}&sortType=1&pageSize=20&pageNo=${pageNo}`,
+		url: `/comment/new?id=${id}&type=${type}&sortType=1&pageSize=20&pageNo=${pageNo}`,
 		method: 'get',
+	});
+};
+
+/**
+ * @Date         : 2023-04-22 15:16:17
+ * @description  : 获取热门评论
+ * @param         {*} id:
+ * @param         {*} type::评论类型，0歌曲，1mv，2歌单，3专辑，4电台节目，5视频，6动态，7电台
+ * @param         {*} offset: 分页
+ * @return        {*}
+ */
+export const getHotComment = (id, type, offset) => {
+	return request({
+		url: `/comment/hot?id=${id}&type=${type}&limit=20&offset=${offset}`,
 	});
 };
 
@@ -27,5 +41,70 @@ export const getFloorComment = (id, parentCommentId, type) => {
 	return request({
 		url: `/comment/floor?parentCommentId=${parentCommentId}&id=${id}&type=${type}`,
 		method: 'get',
+	});
+};
+
+/**
+ * @Date         : 2023-04-23 16:15:33
+ * @description  : 获取歌曲评论
+ * @param         {*} id:
+ * @param         {*} offset:
+ * @return        {*}
+ */
+export const getSongComment = (id, offset) => {
+	return request({
+		url: `/comment/music?id=${id}&limit=20&offset=${(offset - 1) * 20}`,
+	});
+};
+
+/**
+ * @Date         : 2023-04-23 16:40:14
+ * @description  : 获取歌单评论
+ * @param         {*} id:
+ * @param         {*} offset:
+ * @return        {*}
+ */
+export const getPlaylistComment = (id, offset) => {
+	return request({
+		url: `/comment/playlist?id=${id}&limit=20&offset=${(offset - 1) * 20}`,
+	});
+};
+
+/**
+ * @Date         : 2023-04-23 17:14:35
+ * @description  : 获取专辑评论
+ * @param         {*} id:
+ * @param         {*} offset:
+ * @return        {*}
+ */
+export const getAlbumComment = (id, offset) => {
+	return request({
+		url: `/comment/album?id=${id}&limit=20&offset=${(offset - 1) * 20}`,
+	});
+};
+
+/**
+ * @Date         : 2023-04-23 18:34:36
+ * @description  : 获取视频评论
+ * @param         {*} id:
+ * @param         {*} offset:
+ * @return        {*}
+ */
+export const getVideoComment = (id, offset) => {
+	return request({
+		url: `/comment/video?id=${id}&limit=20&offset=${(offset - 1) * 20}`,
+	});
+};
+
+/**
+ * @Date         : 2023-04-23 18:41:12
+ * @description  : 获取mv评论
+ * @param         {*} id:
+ * @param         {*} offset:
+ * @return        {*}
+ */
+export const getMvComment = (id, offset) => {
+	return request({
+		url: `/comment/mv?id=${id}&limit=20&offset=${(offset - 1) * 20}`,
 	});
 };
