@@ -39,13 +39,15 @@ export default {
 		watch(
 			() => route.params.id,
 			newVal => {
-				artist.value = {};
-				identify.value = {};
-				if (newVal) {
-					getSingerDetail(newVal).then(data => {
-						artist.value = data.data.data.artist;
-						identify.value = data.data.data.identify;
-					});
+				if (newVal && route.name === 'singer') {
+					artist.value = {};
+					identify.value = {};
+					if (newVal) {
+						getSingerDetail(newVal).then(data => {
+							artist.value = data.data.data.artist;
+							identify.value = data.data.data.identify;
+						});
+					}
 				}
 			},
 			{ immediate: true }

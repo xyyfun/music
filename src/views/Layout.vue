@@ -23,7 +23,6 @@ import AppProgress from '@/components/app-progress';
 import AppLyrics from '@/views/Lyrics';
 import MusicDialog from '@/components/library/music-dialog';
 import AppAudio from '@/views/Audio';
-import { computed } from 'vue';
 import { loginTourist } from '@/api/login';
 import { getCookie, setCookie } from '@/utils/cookie';
 import { useStore } from 'vuex';
@@ -32,7 +31,6 @@ export default {
 	components: { AppSidebar, AppHeader, AppProgress, AppLyrics, MusicDialog, AppAudio },
 	setup() {
 		const store = useStore();
-		const userId = computed(() => store.getters['user/userId']);
 		// 判断当前是否存在cookie
 		if (!getCookie()) {
 			// 不存在直接游客登录

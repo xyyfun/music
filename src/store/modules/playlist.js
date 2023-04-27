@@ -1,4 +1,5 @@
-import { getPlaylistDetail, getPlaylistComment } from '@/api/playlist';
+import { getPlaylistDetail } from '@/api/playlist';
+import { getAlbumData } from '@/api/album';
 import { like } from '@/api/user';
 import { getUserLike, setUserLike } from '@/utils/user';
 import { useDateFormat } from '@vueuse/core';
@@ -6,11 +7,11 @@ export default {
 	// 开启命名空间
 	namespaced: true,
 	state: {
-		songLists: [], // 歌单列表
-		playlistDetail: {}, // 歌单详情
-		comments: {}, // 歌单评论
+		songLists: [], // 歌单/专辑列表
+		playlistDetail: {}, // 歌单/专辑详情
 	},
 	mutations: {
+		// 歌曲列表
 		lists(state, lists) {
 			const userLikeSongs = getUserLike();
 			lists.forEach(e => {
@@ -22,10 +23,11 @@ export default {
 				} else {
 					e.isLike = false;
 				}
+				state.songLists.push(e);
 			});
-			state.songLists = lists;
 		},
-		detail(state, val) {
+		// 歌单详情处理
+		playlistDetail(state, val) {
 			const {
 				description,
 				creator: { nickname, avatarUrl },
@@ -46,6 +48,12 @@ export default {
 				shareCount,
 			};
 		},
+		// 专辑详情处理
+		albumDetail(state, val) {
+			const { description, artists, name, picUrl, publishTime } = val;
+			state.playlistDetail = { description, artists, name, picUrl, publishTime };
+		},
+		// 添加喜欢的歌曲id
 		addUserLikeID(state, id) {
 			const result = getUserLike();
 			for (let i = 0; i < state.songLists.length; i++) {
@@ -56,6 +64,7 @@ export default {
 			}
 			setUserLike([id, ...result]);
 		},
+		// 移除喜欢的歌曲id
 		removeUserLikeID(state, id) {
 			const result = getUserLike();
 			for (let i = 0; i < state.songLists.length; i++) {
@@ -72,17 +81,27 @@ export default {
 			}
 			setUserLike(result);
 		},
+		// 移除数据
+		clearData(state) {
+			state.songLists = [];
+			state.playlistDetail = {};
+		},
 	},
 	actions: {
 		// 歌单详情
 		getPlaylistDetail({ commit }, id) {
 			getPlaylistDetail(id).then(data => {
 				commit('lists', data.data.playlist.tracks);
-				commit('detail', data.data.playlist);
+				commit('playlistDetail', data.data.playlist);
 			});
 		},
-		// 歌单评论
-		getComment({ commit }, id) {},
+		// 专辑详情
+		getAlbumDetail({ commit }, id) {
+			getAlbumData(id).then(data => {
+				commit('lists', data.data.songs);
+				commit('albumDetail', data.data.album);
+			});
+		},
 		// 修改用户喜欢
 		changUserLike({ commit }, { id, boolean }) {
 			return new Promise((resolve, reject) => {

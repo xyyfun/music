@@ -4,7 +4,7 @@
 			<ul>
 				<li v-for="item in singerDataList" :key="item.id">
 					<router-link :to="`/singer/${item.id}`" :title="item.name">
-						<img v-lazy="item.img1v1Url + '?param=130y130'" alt="" />
+						<img v-lazy="item.img1v1Url + '?param=200y200'" alt="" />
 					</router-link>
 					<span class="ellipsis">{{ item.name }}</span>
 				</li>

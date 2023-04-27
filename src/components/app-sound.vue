@@ -55,7 +55,7 @@ export default {
 	background-color: #fff;
 	border-radius: 0.5rem;
 	filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
-	z-index: 2;
+	z-index: 11;
 	&::after {
 		content: '';
 		position: absolute;
@@ -75,7 +75,7 @@ export default {
 			flex: 1;
 			width: 0.2rem;
 			background-color: #ececec;
-			margin-top: 0.7rem;
+			margin-top: 1rem;
 			cursor: pointer;
 			.trigger {
 				position: absolute;

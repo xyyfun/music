@@ -1,15 +1,15 @@
 <template>
 	<div class="album">
-		<AlbumHotList />
+		<AlbumNewList />
 		<AlbumAllList />
 	</div>
 </template>
 
 <script>
-import AlbumHotList from './components/album-hot-list';
+import AlbumNewList from './components/album-new-list';
 import AlbumAllList from './components/album-all-list';
 export default {
 	name: 'MusicAlbum',
-	components: { AlbumHotList, AlbumAllList },
+	components: { AlbumNewList, AlbumAllList },
 };
 </script>

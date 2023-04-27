@@ -5,21 +5,20 @@
 <script>
 import { ref, onMounted, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { musicPositionLoop, musicPositionRandom } from '@/hooks/usePosition';
+import { musicPositionLoop, musicPositionRandom } from '@/utils/usePosition';
 export default {
 	name: 'AppAudio',
 	setup() {
 		const aud = ref(null); // 音源
-		const timer = ref(null);
 		const store = useStore();
-		const url = computed(() => store.getters['song/playUrl']);
 		const playlist = computed(() => store.state.song.playlist);
 		const currentMusicID = computed(() => store.state.song.currentMusicID);
 		const playOrder = computed(() => store.state.song.playOrder);
 		// 播放器当前时间
 		const playTime = ele => {
+			if (!aud.value) return;
 			const time = ele.currentTime;
-			console.log(123);
+			console.log('歌曲播放中');
 			store.commit('song/NOWTIME', time);
 		};
 		// 单曲循环
@@ -61,23 +60,25 @@ export default {
 		onMounted(() => {
 			// 音频加载可以播放时调用
 			aud.value.oncanplay = function () {
+				if (!aud.value) return;
 				store.commit('song/initial', {
 					bol: true,
 					time: aud.value.duration,
 				});
 			};
+			aud.value.ondurationchange = () => {
+				console.log('当媒体时长被改变');
+			};
+			// 音频时间发生变化时调用
+			aud.value.ontimeupdate = () => playTime(aud.value); // 获取播放器当前时间
 			// 监视变化，播放或暂停音频
 			watch(
 				() => store.state.song.isPlay,
 				newVal => {
 					if (newVal) {
 						aud.value.play(); // 播放
-						timer.value = setInterval(() => {
-							playTime(aud.value); // 获取播放器当前时间
-						}, 200);
 					} else {
 						aud.value.pause(); // 暂停
-						clearInterval(timer.value);
 					}
 				}
 			);
@@ -113,7 +114,7 @@ export default {
 		});
 		return {
 			aud,
-			url,
+			url: computed(() => store.getters['song/playUrl']),
 		};
 	},
 };

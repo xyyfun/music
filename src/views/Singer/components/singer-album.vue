@@ -48,7 +48,7 @@ export default {
 		watch(
 			() => route.params.id,
 			newVal => {
-				if (newVal) getDataList();
+				if (newVal&&route.name==="singer") getDataList();
 			},
 			{ immediate: true }
 		);

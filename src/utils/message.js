@@ -1,29 +1,40 @@
-import { render, createVNode, createApp } from 'vue';
+import { render, createVNode } from 'vue';
 import MusicMessage from '@/components/library/music-message';
 
-// DOM消息容器
-const div = document.createElement('div');
-div.setAttribute('class', 'messageNode');
-
 let timer = null;
+let mountNode = null;
 
-export default ({ type, message }) => {
-	const app = createApp(MusicMessage, {
-		type,
-		message,
-	});
-	if (div.children[0]) {
-		app.unmount(div);
+export default function (options) {
+	const messageDefaults = {
+		duration: 3000,
+		id: '',
+		message: '',
+		onClose: undefined,
+		showClose: false,
+		type: 'warn',
+		offset: 16,
+		zIndex: 0,
+		repeatNum: 1,
+	};
+	const messageProps = {
+		type: options.type || messageDefaults.type,
+		message: options.message || messageDefaults.message,
+		duration: options.duration || messageDefaults.duration,
+	};
+	//确保只存在一个弹框，如果前一个弹窗还在，就移除
+	if (mountNode) {
+		document.body.removeChild(mountNode);
+		mountNode = null;
 		clearTimeout(timer);
-		document.body.removeChild(div);
 	}
-	app.mount(div);
-	// const VNode = createVNode(MusicMessage, { type, message });
-	// render(VNode, div);
-	document.body.appendChild(div);
+	const app = createVNode(MusicMessage, { messageProps });
+	mountNode = document.createElement('div');
+	render(app, mountNode);
+	document.body.appendChild(mountNode);
 	timer = setTimeout(() => {
-		// render(null, div);
-		app.unmount(div);
-		document.body.removeChild(div);
-	}, 3500);
-};
+		render(null, mountNode);
+		document.body.removeChild(mountNode);
+		mountNode = null;
+		clearTimeout(timer);
+	}, messageProps.duration + 500);
+}

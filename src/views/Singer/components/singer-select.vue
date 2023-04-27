@@ -19,7 +19,7 @@ export default {
 			() => route.params.id,
 			newVal => {
 				store.commit('playlist/clearData');
-				if (newVal) {
+				if (newVal && route.name === 'singer') {
 					getSingerHotSong(newVal).then(data => {
 						store.commit('playlist/lists', data.data.songs);
 					});

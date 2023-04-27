@@ -34,43 +34,6 @@ export const getRecommendRadar = () => request({ url: '/personalized/djprogram',
 export const getAllList = () => request({ url: '/toplist/detail', method: 'get' });
 
 /**
- * @Date         : 2023-03-25 16:52:18
- * @description  : 获取歌手榜
- * @return        {*}
- */
-export const getArtist = () => request({ url: '/toplist/artist', method: 'get' });
-
-/**
- * @Date         : 2023-03-26 14:12:13
- * @description  : 歌手过滤
- * @param         {Number} type: 1：男歌手 2：女歌手 3：乐队组合
- * @param         {Number} area: 0：其他 7：华语 8：日本 16：韩国 96：欧美
- * @param         {String} initial: 首字母索引
- * @param         {Number} offset: 多少数据
- * @return        {*}
- */
-export const getSinger = ({ type, area, initial, offset }) => {
-	return request({
-		url: `/artist/list?type=${type}&area=${area}&initial=${initial}&limit=60&offset=${offset}`,
-		method: 'get',
-	});
-};
-
-/**
- * @Date         : 2023-03-26 20:03:10
- * @description  : 获取新碟上架列表
- * @return        {*}
- */
-export const getAlbum = () => request({ url: '/top/album', method: 'get' });
-
-/**
- * @Date         : 2023-03-26 20:21:56
- * @description  : 获取最热新蝶
- * @return        {*}
- */
-export const getHotAlbum = () => request({ url: '/album/newest', method: 'get' });
-
-/**
  * @Date         : 2023-03-26 23:39:32
  * @description  : 获取电台banner
  * @return        {*}

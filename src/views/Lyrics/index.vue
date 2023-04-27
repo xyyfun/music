@@ -1,9 +1,9 @@
 <template>
-	<Transition name="lyrics" appear mode="in-out">
-		<div class="app-lyrics overflow" v-if="isShowLyrics">
+	<Transition name="lyrics" mode="in-out">
+		<div class="app-lyrics overflow" v-show="isShowLyrics" ref="lyricsContent">
 			<LyricsBac />
 			<div class="lyrics-content">
-				<LyricsHeader />
+				<LyricsHeader @enlarge="enlarge" />
 				<div class="lyrics-main">
 					<LyricsDisc />
 					<LyricsSongs />
@@ -21,15 +21,19 @@ import LyricsDisc from './components/lyrics-disc';
 import LyricsSongs from './components/lyrics-songs';
 import LyricsProgress from './components/lyrics-progress.vue';
 import AppProgress from '@/components/app-progress';
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 export default {
 	name: 'AppLyrics',
 	components: { LyricsBac, LyricsHeader, LyricsDisc, LyricsSongs, LyricsProgress, AppProgress },
 	setup() {
+		const lyricsContent = ref(null);
 		const store = useStore();
 		const isShowLyrics = computed(() => store.state.song.isShowLyrics);
-		return { isShowLyrics };
+		const enlarge = () => {
+			lyricsContent.value.requestFullscreen();
+		};
+		return { lyricsContent, isShowLyrics, enlarge };
 	},
 };
 </script>
@@ -49,10 +53,11 @@ export default {
 		align-content: space-between;
 		width: 100%;
 		height: 100%;
+		min-width: 800px;
 		.lyrics-main {
 			width: 100%;
 			display: flex;
-			justify-content: space-around;
+			justify-content: space-evenly;
 		}
 		> .app-progress {
 			padding: 0 3rem;

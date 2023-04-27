@@ -20,9 +20,9 @@ export default {
 	background-size: 3.5rem;
 	border-radius: 0.5rem;
 	opacity: 0;
+	transition: opacity 0.5s;
 	&:hover {
 		opacity: 1;
-		transition: opacity 0.5s;
 	}
 }
 </style>

@@ -34,7 +34,7 @@ export default {
 			() => route.params.id,
 			newVal => {
 				store.commit('playlist/clearData');
-				if (newVal) getData();
+				if (newVal && route.name === 'singer') getData();
 			},
 			{ immediate: true }
 		);

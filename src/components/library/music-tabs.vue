@@ -52,7 +52,7 @@ export default {
 	line-height: 3rem;
 	margin-bottom: 1rem;
 	background-color: #f6f6f6;
-	z-index: 1;
+	z-index: 10;
 	ul {
 		display: flex;
 		li {

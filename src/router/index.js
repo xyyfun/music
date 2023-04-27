@@ -41,10 +41,12 @@ const routes = [
 				],
 			},
 			{
+				name: 'video',
 				path: '/video',
 				component: () => import('@/views/Video'),
 			},
 			{
+				name: 'player',
 				path: '/player',
 				component: () => import('@/views/Player'),
 			},
@@ -69,14 +71,17 @@ const routes = [
 				component: () => import('@/views/Audition'),
 			},
 			{
+				name: 'playlist',
 				path: '/playlist/:id',
 				component: () => import('@/views/Playlist'),
 			},
 			{
+				name: 'singer',
 				path: '/singer/:id',
 				component: () => import('@/views/Singer'),
 			},
 			{
+				name: 'album',
 				path: '/album/:id',
 				component: () => import('@/views/Album'),
 			},

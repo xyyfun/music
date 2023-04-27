@@ -17,7 +17,7 @@
 			</div>
 			<!-- 菜单 -->
 			<div class="menu">
-				<div class="picture"><img :src="userAvatarUrl" alt="" /></div>
+				<div class="picture" @click="aaa"><img :src="userAvatarUrl" alt="" /></div>
 				<a href="javascript:;" v-if="userId">{{ userName }}</a>
 				<router-link to="/login" class="info" v-else>请登录</router-link>
 				<a href="javascript:;" @click="loginOut">退出登录</a>
@@ -31,11 +31,12 @@
 <script>
 import AppSearchBox from '@/components/app-search-box';
 import { removeCookie } from '@/utils/cookie';
-import { removeUserInfo } from '@/utils/userInfo';
+import { removeUserInfo } from '@/utils/user';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { logout } from '@/api/login';
 import { computed } from 'vue';
+import message from '@/utils/message';
 export default {
 	name: 'AppHeader',
 	components: { AppSearchBox },
@@ -51,7 +52,15 @@ export default {
 				router.push('/login');
 			});
 		};
+		const aaa = () => {
+			message({
+				type: 'warn',
+				message: '123123123111111111111',
+				duration: 1000,
+			});
+		};
 		return {
+			aaa,
 			loginOut,
 			userId: computed(() => store.getters['user/userId']),
 			userAvatarUrl: computed(() => store.getters['user/userAvatarUrl']),

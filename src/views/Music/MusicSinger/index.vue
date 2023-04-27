@@ -10,7 +10,7 @@
 import SingerFilters from './components/singer-filters';
 import SingerList from './components/singer-list';
 import AppMore from '@/components/app-more';
-import { getSinger } from '@/api/music';
+import { getSinger } from '@/api/singer';
 import { ref, watch } from 'vue';
 export default {
 	name: 'MusicSinger',
@@ -22,14 +22,14 @@ export default {
 			type: -1,
 			area: -1,
 			initial: -1,
-			offset: 0,
+			offset: 1,
 		});
 		const handlerParams = (item, val) => {
 			params.value[item] = val;
 		};
 		//
 		const loadMore = () => {
-			params.value.offset += 60;
+			params.value.offset++;
 		};
 		// 初始化数据
 		watch(

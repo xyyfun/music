@@ -29,7 +29,7 @@ export const setUserLike = val => localStorage.setItem('userLike', JSON.stringif
  * @description  : 获取用户喜欢
  * @return        {*}
  */
-export const getUserLike = () => JSON.parse(localStorage.getItem('userLike'));
+export const getUserLike = () => JSON.parse(localStorage.getItem('userLike')) || [];
 
 /**
  * @Date         : 2023-04-12 17:50:44

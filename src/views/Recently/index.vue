@@ -2,7 +2,7 @@
 	<div class="app-recently scroll">
 		<div class="recently-content">
 			<MusicTitle title="最近播放" />
-			<MusicPlaylistList :lists="playRecord" />
+			<MusicPlaylistList />
 		</div>
 	</div>
 </template>
@@ -11,26 +11,21 @@
 import MusicTitle from '@/components/library/music-title';
 import MusicPlaylistList from '@/components/library/music-playlist-list';
 import { getUserPlayRecord } from '@/api/user';
-import { ref, computed } from 'vue';
+import { computed, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
-import { useDateFormat } from '@vueuse/core';
 export default {
 	name: 'AppRecently',
 	components: { MusicTitle, MusicPlaylistList },
 	setup() {
 		const store = useStore();
-		const playRecord = ref([]);
 		const userId = computed(() => store.getters['user/userId']);
 		getUserPlayRecord(userId.value).then(data => {
-			console.log(data);
-			playRecord.value = data.data.allData.map(e => {
-				e.song.dt = useDateFormat(e.song.dt, 'mm:ss');
-				return e.song;
-			});
+			store.commit(
+				'playlist/lists',
+				data.data.allData.map(e => e.song)
+			);
 		});
-		return {
-			playRecord,
-		};
+		onUnmounted(() => store.commit('playlist/clearData'));
 	},
 };
 </script>

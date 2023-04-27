@@ -10,7 +10,7 @@
 <script>
 import MusicTitleChild from '@/components/library/music-title-child';
 import MusicList from '@/components/library/music-list';
-import { getArtist } from '@/api/music';
+import { getArtist } from '@/api/singer';
 import { shallowRef } from 'vue';
 export default {
 	name: 'RankingArtist',

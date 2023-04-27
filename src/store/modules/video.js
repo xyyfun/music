@@ -15,16 +15,20 @@ export default {
 		duration: 0, // 指定播放器到哪秒
 	},
 	mutations: {
+		// 视频播放地址
 		VIDEOURL(state, val) {
 			state.videoUrl = val;
 		},
+		// 视频详情
 		VIDEODETAIL(state, val) {
 			state.detail = val;
 		},
+		// 视频创作者
 		videoCreator(state, val) {
 			const { avatarUrl: img1v1Url, nickname: name, userId: id } = val;
 			state.creator = [{ img1v1Url, name, id }];
 		},
+		// mv创作者
 		mvCreator(state, val) {
 			state.creator = val;
 		},
@@ -64,32 +68,40 @@ export default {
 	actions: {
 		// 视频URL
 		videoUrl({ commit }, id) {
-			getVideoUrl(id).then(data => {
-				commit('VIDEOURL', data.data.urls[0].url);
-			});
+			if (id) {
+				getVideoUrl(id).then(data => {
+					commit('VIDEOURL', data.data.urls[0].url);
+				});
+			}
 		},
 		// 视频详情
 		videoDetail({ commit }, id) {
-			getVideoDetail(id).then(data => {
-				data.data.data.publishTime = useDateFormat(data.data.data.publishTime, 'YYYY-MM-DD');
-				commit('VIDEODETAIL', data.data.data);
-				commit('videoCreator', data.data.data.creator);
-			});
+			if (id) {
+				getVideoDetail(id).then(data => {
+					data.data.data.publishTime = useDateFormat(data.data.data.publishTime, 'YYYY-MM-DD');
+					commit('VIDEODETAIL', data.data.data);
+					commit('videoCreator', data.data.data.creator);
+				});
+			}
 		},
 		// mvUrl
 		mvUrl({ commit }, { id, r }) {
-			getMvUrl(id, r).then(data => {
-				commit('VIDEOURL', data.data.data.url);
-			});
+			if (id) {
+				getMvUrl(id, r).then(data => {
+					commit('VIDEOURL', data.data.data.url);
+				});
+			}
 		},
 		// mv详情
 		mvDetail({ commit }, id) {
-			getMvDetail(id).then(data => {
-				data.data.data.description = data.data.data.desc;
-				delete data.data.data.desc;
-				commit('VIDEODETAIL', data.data.data);
-				commit('mvCreator', data.data.data.artists);
-			});
+			if (id) {
+				getMvDetail(id).then(data => {
+					data.data.data.description = data.data.data.desc;
+					delete data.data.data.desc;
+					commit('VIDEODETAIL', data.data.data);
+					commit('mvCreator', data.data.data.artists);
+				});
+			}
 		},
 	},
 	getters: {

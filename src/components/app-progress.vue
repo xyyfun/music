@@ -71,7 +71,7 @@ export default {
 		const store = useStore();
 		const slot = ref(null);
 		const isShowLyrics = computed(() => store.state.song.isShowLyrics);
-		const totalTimeS = computed(() => store.state.song.totalDuration); // 当前音乐播放到哪秒
+		const totalDuration = computed(() => store.state.song.totalDuration); // 当前音乐总秒数
 		const currentMusicID = computed(() => store.state.song.currentMusicID); // 当前音乐ID
 		const nowProgress = computed(() => store.state.song.nowProgress); // 当前进度
 		// 滑块位置
@@ -90,7 +90,7 @@ export default {
 		// 点击显示或隐藏歌曲详情页
 		const showLyrics = () => store.commit('song/SHOWLYRICS', true);
 		// 绑定点击事件 返回点击位置的音乐秒数
-		const { x } = useClick(slot, totalTimeS);
+		const { x } = useClick(slot, totalDuration);
 		// 监视用户点击进度条 根据点击位置修改音乐进度
 		watch(x, newVal => store.commit('song/DURATION', newVal), { immediate: true });
 		// 查看评论
@@ -185,7 +185,7 @@ export default {
 				}
 				.complete {
 					height: 2px;
-					background-color: #1ecc94;
+					background-image: linear-gradient(45deg, #1fd4ae, #1ecc95);
 					transition: all 0.2s;
 					transform-origin: left;
 				}

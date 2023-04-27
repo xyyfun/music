@@ -4,10 +4,10 @@
 			<MusicTitleChild title="独家放送" />
 			<ul>
 				<li v-for="item in exclusive" :key="item.id">
-					<a href="javascript:;">
+					<router-link :to="`/player?id=${item.id}&type=mv`">
 						<img :src="item.picUrl" alt="" />
 						<AppMask />
-					</a>
+					</router-link>
 					<div class="ellipsis">{{ item.name }}</div>
 				</li>
 			</ul>

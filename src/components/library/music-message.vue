@@ -1,29 +1,27 @@
 <template>
-	<transition name="message">
-		<div class="music-message" v-show="visible">
-			<i class="iconfont" :style="style[type]" :class="style[type].ico"></i>
-			<p>{{ message }}</p>
+	<transition name="message-fade">
+		<div class="music-message" v-show="visible" :style="{ color: fontColor }">
+			<i class="iconfont" :class="[typeStyle[messageProps.type].ico]"></i>
+			<p class="ellipsis">{{ messageProps.message }}</p>
 		</div>
 	</transition>
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 export default {
 	name: 'MusicMessage',
 	props: {
-		type: {
-			type: String,
-			default: 'success',
-		},
-		message: {
-			type: String,
-			default: '',
+		messageProps: {
+			type: Object,
+			default: () => {},
 		},
 	},
 	setup(props) {
+		const timer = ref(null);
 		const visible = ref(false);
-		const style = {
+
+		const typeStyle = {
 			// 成功
 			success: {
 				ico: 'icon-success',
@@ -40,13 +38,20 @@ export default {
 				color: '#e6a23c',
 			},
 		};
+
+		const fontColor = computed(() => typeStyle[props.messageProps.type].color);
+
+		const startTimer = () => {
+			timer.value = setTimeout(() => {
+				visible.value = false;
+				clearTimeout(timer.value);
+			}, props.messageProps.duration);
+		};
 		onMounted(() => {
 			visible.value = true;
-			setTimeout(() => {
-				visible.value = false;
-			}, 3000);
+			startTimer();
 		});
-		return { visible, style };
+		return { visible, typeStyle, fontColor };
 	},
 };
 </script>
@@ -59,33 +64,34 @@ export default {
 	transform: translate3d(-50%, 0, 0);
 	display: flex;
 	align-items: center;
-	width: 24rem;
+	max-width: 30rem;
 	height: 3rem;
-	padding: 0 1rem;
+	padding: 0 2rem;
 	border-radius: 0.3rem;
-	background-color: #fff;
+	background-color: rgba(255, 255, 255, 0.4);
+	backdrop-filter: blur(5px);
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	z-index: 9999;
 	i {
-		width: 7%;
 		font-size: 0.9rem;
+		margin-right: 0.5rem;
 	}
 	p {
 		font-size: 0.85rem;
 	}
 }
 
-.message-enter-from,
-.message-leave-to {
+.message-fade-enter-from,
+.message-fade-leave-to {
 	transform: translate3d(-50%, -2rem, 0);
 	opacity: 0;
 }
-.message-enter-active,
-.message-leave-active {
+.message-fade-enter-active,
+.message-fade-leave-active {
 	transition: all 0.5s;
 }
-.message-enter-to,
-.message-leave-from {
+.message-fade-enter-to,
+.message-fade-leave-from {
 	transform: translate3d(-50%, 0, 0);
 	opacity: 1;
 }

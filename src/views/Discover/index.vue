@@ -1,14 +1,11 @@
 <template>
 	<div class="app-discover scroll">
 		<div class="discover-content">
-			<template v-if="isShow">
-				<MusicTitle title="推荐" />
-				<AppBanner />
-				<DiscoverNewPlaylist />
-				<DiscoverNewSong />
-				<DiscoverMV />
-			</template>
-			<AppLoading v-else />
+			<MusicTitle title="推荐" />
+			<AppBanner />
+			<DiscoverNewPlaylist />
+			<DiscoverNewSong />
+			<DiscoverMV />
 		</div>
 	</div>
 </template>
@@ -19,8 +16,6 @@ import AppBanner from '@/components/app-banner';
 import DiscoverNewPlaylist from './components/discover-new-playlist';
 import DiscoverNewSong from './components/discover-new-song';
 import DiscoverMV from './components/discover-mv';
-import AppLoading from '@/components/app-loading';
-import { ref, onMounted } from 'vue';
 export default {
 	name: 'AppDiscover',
 	components: {
@@ -29,16 +24,6 @@ export default {
 		DiscoverNewPlaylist,
 		DiscoverNewSong,
 		DiscoverMV,
-		AppLoading,
-	},
-	setup() {
-		const isShow = ref(false);
-		onMounted(() => {
-			setTimeout(() => {
-				isShow.value = true;
-			}, 1000);
-		});
-		return { isShow };
 	},
 };
 </script>

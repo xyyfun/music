@@ -13,7 +13,7 @@
 					<div class="userInfo">
 						<a href="javascript:;">
 							<div class="image">
-								<img class="avatarUrl" :src="item.user.avatarUrl + '?param=130y130'" alt="" />
+								<img class="avatarUrl" v-lazy="item.user.avatarUrl + '?param=130y130'" alt="" />
 								<img
 									class="pendantData"
 									v-if="item.pendantData"
@@ -59,7 +59,7 @@
 					<div class="userInfo">
 						<a href="javascript:;">
 							<div class="image">
-								<img class="avatarUrl" :src="item.user.avatarUrl + '?param=130y130'" alt="" />
+								<img class="avatarUrl" v-lazy="item.user.avatarUrl + '?param=130y130'" alt="" />
 								<img
 									class="pendantData"
 									v-if="item.pendantData"

@@ -3,7 +3,7 @@
 		<li v-for="item in dataList" :key="item.id">
 			<router-link :to="`${params}/${item.id}`" :title="item.name">
 				<div class="img">
-					<img v-lazy="item.picUrl + '?param=130y130'" alt="" />
+					<img v-lazy="item.picUrl + '?param=200y200'" alt="" />
 					<AppMask />
 					<MusicPlayCount :playCount="item.playCount" />
 				</div>

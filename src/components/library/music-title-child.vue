@@ -4,7 +4,7 @@
 
 <script>
 export default {
-	name: 'MusicTitle',
+	name: 'MusicTitleChild',
 	props: ['title'],
 };
 </script>

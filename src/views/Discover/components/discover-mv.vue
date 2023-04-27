@@ -4,10 +4,10 @@
 			<MusicTitleChild title="推荐MV" />
 			<ul>
 				<li v-for="item in mv" :key="item.id">
-					<a href="javascript:;">
+					<router-link :to="`/player?id=${item.id}&type=mv`">
 						<img v-lazy="item.picUrl" alt="" />
 						<AppMask />
-					</a>
+					</router-link>
 					<div class="information">
 						<span class="songName">{{ item.name }}</span>
 						<span class="artistName">{{ item.artistName }}</span>

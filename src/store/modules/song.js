@@ -8,7 +8,7 @@ export default {
 	state: {
 		url: {}, // 播放路径
 		detail: {}, // 详细
-		picUrl: require('@/assets/images/not-played.png'), // 图片
+		picUrl: require('@/assets/images/vinyl-record.png'), // 图片
 		lyrics: {}, // 歌词
 		playlist: [], // 播放列表
 		playOrder: 1, // 播放顺序 1：列表循环 2.顺序播放 3：单曲循环 4：随机
@@ -29,7 +29,7 @@ export default {
 		},
 		SONGDETAIL(state, val) {
 			state.detail = val;
-			state.picUrl = val.al.picUrl;
+			state.picUrl = val.al.picUrl + '?param=400y400';
 		},
 		SONGLYRIC(state, val) {
 			state.lyrics = val;
@@ -115,7 +115,7 @@ export default {
 		clearData(state) {
 			state.url = {};
 			state.detail = {};
-			state.picUrl = require('@/assets/images/not-played.png');
+			state.picUrl = require('@/assets/images/vinyl-record.png');
 			state.lyrics = {};
 			state.nowProgress = 0;
 			state.playerTime = 0;

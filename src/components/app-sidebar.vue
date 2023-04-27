@@ -134,9 +134,9 @@ export default {
 						height: 100%;
 						border-radius: 0.35rem;
 						padding: 0 1.1rem;
+						transition: all 0.2s;
 						&:hover {
 							background-color: #d8d8d8;
-							transition: all 0.2s;
 						}
 						i {
 							font-size: 1.25rem;

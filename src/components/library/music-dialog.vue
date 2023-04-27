@@ -22,7 +22,9 @@
 								</div>
 								<div class="msg">
 									<div class="singer ellipsis">
-										<span v-for="(val, index) in item.ar" :key="index">{{ val.name }}</span>
+										<router-link :to="`/singer/${val.id}`" v-for="val in item.ar" :key="val.id">
+											{{ val.name }}
+										</router-link>
 									</div>
 									<span class="time">{{ item.dt }}</span>
 									<div class="ico">
@@ -99,10 +101,7 @@ export default {
 		const like = async id => {
 			try {
 				await store.dispatch('playlist/changUserLike', { id, boolean: true });
-				store.commit('song/changPlaylistLike', {
-					id: currentMusicID.value,
-					boolean: true,
-				});
+				store.commit('song/changPlaylistLike', { id, boolean: true });
 				message({ type: 'success', message: '已添加到我喜欢的音乐！' });
 			} catch (error) {
 				message({ type: 'error', message: error.data.message });
@@ -112,10 +111,7 @@ export default {
 		const cancelLike = async id => {
 			try {
 				await store.dispatch('playlist/changUserLike', { id, boolean: false });
-				store.commit('song/changPlaylistLike', {
-					id: currentMusicID.value,
-					boolean: false,
-				});
+				store.commit('song/changPlaylistLike', { id, boolean: false });
 				message({ type: 'success', message: '已取消喜欢！' });
 			} catch (error) {
 				message({ type: 'error', message: error.data.message });
@@ -145,7 +141,7 @@ export default {
 	right: 0;
 	width: 20rem;
 	height: 100vh;
-	background-color: rgba(255, 255, 255, 0.6);
+	background-color: rgba(255, 255, 255, 0.9);
 	z-index: 9999;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 	.dialog-content {
@@ -204,7 +200,7 @@ export default {
 							justify-content: space-between;
 							color: #808080;
 							.singer {
-								span {
+								a {
 									font-size: 0.9rem;
 									&::after {
 										content: ' / ';

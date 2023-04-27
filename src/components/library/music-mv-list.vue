@@ -32,7 +32,6 @@ export default {
 			default: true,
 		},
 	},
-	setup(props) {},
 };
 </script>
 

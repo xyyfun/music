@@ -1,5 +1,5 @@
 <template>
-	<div class="popup" v-if="isShowPopup" ref="popup">
+	<div class="popup">
 		<ul>
 			<li @click="playOrder(4)"><i class="iconfont icon-suiji"></i>随机播放</li>
 			<li @click="playOrder(2)"><i class="iconfont icon-shunxu"></i>顺序播放</li>
@@ -10,24 +10,18 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { onClickOutside } from '@vueuse/core';
 import { useStore } from 'vuex';
 export default {
 	name: 'AppPlayOrder',
-	setup() {
-		const isShowPopup = ref(false);
-		const popup = ref(null);
+	emits: ['popupCbk'],
+	setup(props, { emit }) {
 		const store = useStore();
 		const playOrder = val => {
 			store.commit('song/changPlayOrder', val);
-			isShowPopup.value = false;
+			emit('popupCbk');
 		};
-		onClickOutside(popup, () => (isShowPopup.value = false));
 		return {
-			isShowPopup,
 			playOrder,
-			popup,
 		};
 	},
 };
@@ -42,7 +36,7 @@ export default {
 	background-color: #fff;
 	border-radius: 0.5rem;
 	filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
-	z-index: 2;
+	z-index: 11;
 	&::after {
 		content: '';
 		position: absolute;
@@ -61,6 +55,9 @@ export default {
 			color: #000;
 			&:last-child {
 				border: none;
+			}
+			&:hover {
+				color: #1ecc94;
 			}
 		}
 	}

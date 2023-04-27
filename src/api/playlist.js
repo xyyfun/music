@@ -14,20 +14,6 @@ export const getPlaylistDetail = id => {
 };
 
 /**
- * @Date         : 2023-04-04 22:15:47
- * @description  : 获取歌单评论
- * @param         {*} id:
- * @param         {*} offset:
- * @return        {*}
- */
-export const getPlaylistComment = (id, offset) => {
-	return request({
-		url: `/comment/playlist?id=${id}&offset=${offset}`,
-		method: 'get',
-	});
-};
-
-/**
  * @Date         : 2023-03-26 18:23:31
  * @description  : 分类歌单
  * @param         {*} before:分页参数,取上一页最后一个歌单的 updateTime 获取下一页数据

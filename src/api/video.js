@@ -11,11 +11,12 @@ export const getVideoCategoryList = () => request({ url: `/video/category/list`,
 
 /**
  * @Date         : 2023-04-20 15:53:58
- * @description  : 获取全部适配列表
+ * @description  : 获取全部视频列表
  * @return        {*}
  */
-export const getVideoAll = offset =>
-	request({ url: `/video/timeline/all?offset=${offset}`, method: 'get' });
+export const getVideoAll = offset => {
+	return request({ url: `/video/timeline/all?offset=${(offset - 1) * 20}`, method: 'get' });
+};
 
 /**
  * @Date         : 2023-04-09 19:58:01
@@ -23,7 +24,7 @@ export const getVideoAll = offset =>
  * @return        {*}
  */
 export const getVideo = (id, offset) => {
-	return request({ url: `/video/group?id=${id}&offset=${offset}`, method: 'get' });
+	return request({ url: `/video/group?id=${id}&offset=${(offset - 1) * 20}`, method: 'get' });
 };
 
 /**

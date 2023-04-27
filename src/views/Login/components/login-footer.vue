@@ -123,6 +123,9 @@ export default {
 						font-size: 2rem;
 						text-align: center;
 					}
+					span {
+						font-size: 0.9rem;
+					}
 				}
 			}
 		}
@@ -132,6 +135,7 @@ export default {
 		p {
 			text-align: center;
 			color: #fff;
+			font-size: 0.9rem;
 			a {
 				color: #fff;
 				&::after {
