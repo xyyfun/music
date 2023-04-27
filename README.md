@@ -12,7 +12,7 @@
 
 后端 API[Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
-适配 PC+iPad；移动端未适配
+界面适配 PC+iPad；移动端未适配
 
 喜欢的话欢迎 star
 
@@ -49,8 +49,9 @@ $ npm run build
   - [x] 歌手
   - [x] 分类歌单
   - [x] 数字专辑
+- [x] 视频
+  - [x] 视频/MV播放
 
-- [ ] 视频
 - [ ] 雷达
 - [ ] 我喜欢
 - [ ] 本地下载
@@ -75,15 +76,17 @@ $ npm run build
 - **_axios_** 请求工具
 - **_mitt_** 组件通信
 - **_vue-lazyload_** 图片懒加载
+- **lodash 第三方工具库**
 
 ### 效果图
 
 ![首页](./image/uTools_1681392203600.png)
-![音乐馆-精选](./image/uTools_1681392278499.png)
+![音乐馆-精选](./image/uTools_1682602256954.png)
 ![音乐馆-有声电台](./image/uTools_1681392289524.png)
 ![音乐馆-排行](./image/uTools_1681392302552.png)
 ![播放器](./image/uTools_1681392327499.png)
 ![歌单](./image/uTools_1681392409401.png)
+![视频](./image/uTools_1681392203601.png)
 
 ### 之后的方向
 
