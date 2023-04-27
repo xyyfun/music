@@ -1,6 +1,6 @@
 <template>
 	<div class="play-video">
-		<div class="display-area" @mousemove="enterArea" @mouseleave="leaveArea">
+		<div class="display-area" ref="videoContent" @mousemove="enterArea" @mouseleave="leaveArea">
 			<video :src="url" ref="vid" @click="playVideo"></video>
 			<transition name="progress">
 				<div class="video-progress" v-show="isShowProgress">
@@ -32,19 +32,22 @@
 								<div class="time">{{ nowTime }} / {{ totalTime }}</div>
 							</div>
 							<div class="utils">
-								<div class="vol" @mouseleave="isShowSound = false">
+								<div class="vol" @click="isShowSound = true" @mouseleave="isShowSound = false">
 									<transition name="popup">
 										<AppSound v-if="isShowSound" />
 									</transition>
-									<a href="javascript:;" @click="isShowSound = true">
+									<a href="javascript:;">
 										<i class="iconfont icon-yinliang2"></i>
 									</a>
 								</div>
 								<div class="quality">
 									<a href="javascript:;">标清</a>
 								</div>
-								<div class="enlarge">
-									<a href="javascript:;">
+								<div class="fullscreen" @click="fullscreen">
+									<a href="javascript:;" title="取消全屏" v-if="isFullscreen">
+										<i class="iconfont icon-quxiaoquanping"></i>
+									</a>
+									<a href="javascript:;" title="全屏" v-else>
 										<i class="iconfont icon-quanping"></i>
 									</a>
 								</div>
@@ -59,22 +62,24 @@
 
 <script>
 import AppSound from '@/components/app-sound';
+import throttle from 'lodash/throttle';
 import { useClick } from '@/hooks/useProgress';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 export default {
 	name: 'PlayerPlayVideo',
 	components: { AppSound },
 	setup() {
-		const vid = ref(null);
+		const vid = ref(null); // 视频源
+		const slot = ref(null); // 进度槽
+		const videoContent = ref(null); // 视频内容
 		const route = useRoute();
 		const store = useStore();
 		const isShowSound = ref(false);
 		const isShowProgress = ref(false);
-		const _timerPlay = ref(null);
-		const _timerMove = ref(null);
-		const slot = ref(null);
+		const isFullscreen = ref(false);
+		const timer = ref(null);
 		const isPlay = computed(() => store.state.video.isPlay);
 		const nowProgress = computed(() => store.state.video.nowProgress); // 当前进度
 		const totalDuration = computed(() => store.state.video.totalDuration); // 当前音乐总秒数
@@ -86,31 +91,45 @@ export default {
 		const { x } = useClick(slot, totalDuration);
 		// 监视用户点击进度条 根据点击位置修改音乐进度
 		watch(x, newVal => store.commit('video/DURATION', newVal), { immediate: true });
+		// 获取当前播放器时间
 		const playTime = el => {
+			if (!vid.value) return;
 			const time = el.currentTime;
+			console.log('视频播放中');
 			store.commit('video/NOWTIME', time);
 		};
 		// 鼠标进入可视区
-		const enterArea = () => {
+		const enterArea = throttle(() => {
 			if (!isShowProgress.value) isShowProgress.value = true;
-			clearTimeout(_timerMove.value);
-			_timerMove.value = setTimeout(() => {
+			clearTimeout(timer.value);
+			timer.value = setTimeout(() => {
 				isShowProgress.value = false;
+				clearTimeout(timer.value);
 			}, 3000);
-		};
+		}, 200);
 		// 鼠标离开可视区
 		const leaveArea = () => {
-			isShowProgress.value = false;
-			clearTimeout(_timerMove.value);
+			// isShowProgress.value = false;
+			// clearTimeout(timer.value);
 		};
-		const playVideo = () => {
-			store.commit('video/ISPLAY', !isPlay.value);
+		// 播放暂停视频
+		const playVideo = () => store.commit('video/ISPLAY', !isPlay.value);
+		// 全屏
+		const fullscreen = () => {
+			const full = document.fullscreenElement;
+			// 判断是否有元素进入全屏
+			if (full) {
+				document.exitFullscreen();
+				isFullscreen.value = false;
+			} else {
+				videoContent.value.requestFullscreen();
+				isFullscreen.value = true;
+			}
 		};
 		// 收尾操作
 		const end = () => {
 			store.commit('video/ISPLAY', false);
 			store.commit('video/clearData');
-			clearInterval(_timerPlay.value);
 		};
 		// 监视路由变化获取数据
 		watch(
@@ -128,21 +147,19 @@ export default {
 		onMounted(() => {
 			// 视频加载至可以播放时调用
 			vid.value.oncanplay = () => {
-				console.log('可以播放了');
+				if (!vid.value) return;
 				store.commit('video/initial', { bol: true, time: vid.value.duration });
 			};
+			// 音频时间发生变化时调用
+			vid.value.ontimeupdate = () => playTime(vid.value); // 获取播放器当前时间
 			// 监视是否播放视频
 			watch(
 				() => store.state.video.isPlay,
 				newVal => {
 					if (newVal) {
 						vid.value.play();
-						_timerPlay.value = setInterval(() => {
-							playTime(vid.value);
-						}, 200);
 					} else {
 						vid.value.pause();
-						clearInterval(_timerPlay.value);
 					}
 				}
 			);
@@ -166,18 +183,20 @@ export default {
 				store.commit('video/ISPLAY', false);
 			};
 		});
-		onBeforeUnmount(() => end());
 		return {
 			vid,
 			slot,
+			videoContent,
 			nowProgress,
 			trigger,
 			isShowSound,
 			isShowProgress,
+			isFullscreen,
 			enterArea,
 			leaveArea,
 			playVideo,
 			isPlay,
+			fullscreen,
 			url: computed(() => store.state.video.videoUrl),
 			nowTime: computed(() => store.state.video.nowTime),
 			totalTime: computed(() => store.state.video.totalTime),
@@ -190,21 +209,23 @@ export default {
 .play-video {
 	.display-area {
 		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		width: 100%;
 		min-height: 28rem;
 		background-color: #000;
+		height: 28rem;
 		video {
-			display: flex;
-			justify-content: center;
-			align-items: center;
 			width: 100%;
-			height: 28rem;
+			height: 100%;
 		}
 		.video-progress {
 			position: absolute;
 			bottom: 0;
 			width: 100%;
 			padding: 0 2rem;
+			background: linear-gradient(rgba(0, 0, 0, 0), #000);
 			// 进度条
 			.slider {
 				display: flex;
