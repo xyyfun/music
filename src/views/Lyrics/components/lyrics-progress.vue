@@ -166,7 +166,7 @@ export default {
 				}
 				.complete {
 					height: 2px;
-					background-color: #1ece9b;
+					background-image: linear-gradient(45deg, #1fd4ae, #1ecc95);
 					transition: all 0.2s;
 					transform-origin: left;
 				}

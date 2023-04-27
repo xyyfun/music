@@ -2,7 +2,7 @@
 	<div class="lyrics-header">
 		<div class="header">
 			<i class="iconfont icon-xiangxiajiantou" @click="$store.commit('song/SHOWLYRICS', false)"></i>
-			<i class="iconfont icon-quanping"></i>
+			<i class="iconfont icon-quanping" @click="$emit('enlarge')"></i>
 		</div>
 	</div>
 </template>
@@ -10,7 +10,7 @@
 <script>
 export default {
 	name: 'LyricsHeader',
-	emits: ['changShow'],
+	emits: ['enlarge'],
 };
 </script>
 

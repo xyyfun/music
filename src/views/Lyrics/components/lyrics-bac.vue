@@ -29,6 +29,8 @@ div {
 		background-position: 50%;
 		transform: scale(1.2);
 		filter: blur(65px);
+		background-color: #aaaaaa;
+		transition: background 1s;
 	}
 	.play-mask {
 		background-color: rgba(0, 0, 0, 0.35);

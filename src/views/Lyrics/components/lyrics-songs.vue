@@ -74,7 +74,6 @@ export default {
 				}
 			}
 		);
-		onMounted(() => {});
 		return {
 			lyr,
 			indx,
@@ -94,7 +93,7 @@ export default {
 
 <style lang="less" scoped>
 .lyrics-songs {
-	width: 50rem;
+	width: 30rem;
 	.songs {
 		width: 100%;
 		height: 100%;
@@ -142,14 +141,15 @@ export default {
 			-webkit-mask-image: linear-gradient(
 				180deg,
 				hsla(0, 0%, 100%, 0) 0,
-				hsla(0, 0%, 100%, 0.6) 15%,
-				#fff 25%,
-				#fff 75%,
-				hsla(0, 0%, 100%, 0.6) 85%,
+				hsla(0, 0%, 100%, 0.6) 20%,
+				#fff 30%,
+				#fff 70%,
+				hsla(0, 0%, 100%, 0.6) 80%,
 				hsla(0, 0%, 100%, 0)
 			);
 			ul {
 				transition: transform 0.3s ease-out;
+				padding: 0 4rem;
 				li {
 					text-align: center;
 					padding: 1rem 0;
@@ -158,7 +158,7 @@ export default {
 				}
 				.active {
 					color: #1ecc94;
-					font-size: 1.2rem;
+					transform: scale(1.3);
 				}
 			}
 		}
