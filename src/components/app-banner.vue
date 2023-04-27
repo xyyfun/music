@@ -1,30 +1,124 @@
 <template>
 	<div class="app-swiper">
-		<div class="swiper overflow">
-			<ul class="scroll">
-				<li v-for="item in banners" :key="item.encodeId">
-					<a href="javascript:;" :title="item.typeTitle">
-						<img :src="item.imageUrl" />
-						<div class="mask-white"></div>
-					</a>
-				</li>
-			</ul>
+		<div class="swiper overflow" @mouseenter="enterSwiper" @mouseleave="leaveSwiper">
+			<div
+				class="item"
+				v-for="(item, index) in banners"
+				:key="item.targetId"
+				:style="styleTemplate[index].style">
+				<a href="javascript:;" @click="routeJump(item.targetType, item.targetId, item.url)">
+					<img :src="item.imageUrl + '?param=540y200'" />
+					<span :style="{ background: item.titleColor }">{{ item.typeTitle }}</span>
+				</a>
+			</div>
+			<div class="btn-prev" @click="prev">
+				<a href="javascript:;"><i class="iconfont icon-xiangzuojiantou"></i></a>
+			</div>
+			<div class="btn-next" @click="next">
+				<a href="javascript:;"><i class="iconfont icon-xiangyoujiantou"></i></a>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 import { getBanner } from '@/api/discover';
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 export default {
 	name: 'AppBanner',
 	setup() {
-		let banners = ref([]);
-		getBanner().then(data => {
-			banners.value = data.data.banners;
+		const store = useStore();
+		const router = useRouter();
+		const banners = ref([]);
+		const timer = ref(null);
+		const isShowBtn = ref(false);
+		const styleTemplate = ref([
+			{
+				style: {
+					'z-index': 1,
+					transform: 'translateX(-100%) scale(0.63)',
+				},
+			},
+			{
+				style: {
+					'z-index': 3,
+					transform: 'translateX(-55%) scale(0.8)',
+				},
+			},
+			{
+				style: {
+					'z-index': 4,
+					transform: 'translateX(0) scale(1)',
+				},
+			},
+			{
+				style: {
+					'z-index': 3,
+					transform: 'translateX(55%) scale(0.8)',
+				},
+			},
+			{
+				style: {
+					'z-index': 1,
+					transform: 'translateX(100%) scale(0.63)',
+				},
+			},
+		]);
+		// 下一页
+		const next = () => styleTemplate.value.unshift(styleTemplate.value.pop());
+		// 上一页
+		const prev = () => styleTemplate.value.push(styleTemplate.value.shift());
+		const enterSwiper = () => {
+			isShowBtn.value = true;
+			clearInterval(timer.value);
+			timer.value = null;
+		};
+		const leaveSwiper = () => {
+			isShowBtn.value = false;
+			timer.value = setInterval(() => next(), 2000);
+		};
+		const routeJump = (type, id, url) => {
+			if (type === 1) {
+				// 新歌首发
+				store.commit('song/ISPLAY', false); // 播放前将播放器暂停
+				store.dispatch('song/getMusic', id);
+			} else if (type === 10) {
+				// 新碟首发`
+				router.push(`/album/${id}`);
+			} else if (type === 1000) {
+				// 歌单推荐
+				router.push(`/playlist/${id}`);
+			} else if (type === 3000) {
+				// 独家策划
+				window.open(url);
+			}
+		};
+		onMounted(() => {
+			getBanner().then(data => {
+				const arr = [];
+				for (let i = 0; i < data.data.banners.length - 5; i++) {
+					arr.push({ style: { 'z-index': 1, transform: `translateX(0) scale(0.63)` } });
+				}
+				styleTemplate.value.push(...arr);
+				banners.value = data.data.banners;
+			});
+			timer.value = setInterval(() => next(), 2000); // 开启自动轮播
+		});
+		onUnmounted(() => {
+			clearInterval(timer.value);
+			timer.value = null;
 		});
 		return {
+			isShowBtn,
 			banners,
+			styleTemplate,
+			routeJump,
+			enterSwiper,
+			leaveSwiper,
+			next,
+			prev,
 		};
 	},
 };
@@ -33,71 +127,63 @@ export default {
 <style lang="less" scoped>
 .app-swiper {
 	.swiper {
-		width: 100%;
-		ul {
-			display: flex;
-			overflow-x: auto;
-			scroll-snap-type: x mandatory;
-			li {
-				flex-shrink: 0;
-				padding-right: 1rem;
-				scroll-snap-align: start;
-				padding-bottom: 0.5rem;
-				a {
+		display: flex;
+		justify-content: center;
+		position: relative;
+		height: 12.5rem;
+		margin: 2rem 0;
+		&:hover > div[class^='btn'] {
+			opacity: 1;
+		}
+		.item {
+			position: absolute;
+			height: 100%;
+			transition: all 0.5s;
+			a {
+				display: block;
+				img {
+					border-radius: 0.5rem;
+				}
+				span {
 					display: block;
-					position: relative;
-					img {
-						width: 100%;
-						height: 100%;
-						border-radius: 0.5rem;
-					}
-					.mask-white {
-						position: absolute;
-						top: 0;
-						left: 0;
-						width: 100%;
-						height: 100%;
-						transition: background 0.3s;
-					}
-					&:hover > .mask-white {
-						background-color: rgba(255, 255, 255, 0.3);
-					}
+					position: absolute;
+					right: 0;
+					bottom: 0;
+					padding: 0.3rem;
+					color: #fff;
+					font-size: 0.8rem;
+					border-radius: 0.5rem 0;
 				}
 			}
 		}
-		.scroll {
-			&::-webkit-scrollbar {
-				height: 0.4rem;
+		div[class^='btn'] {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 2.5rem;
+			height: 2.5rem;
+			line-height: 2.5rem;
+			text-align: center;
+			border-radius: 50%;
+			z-index: 6;
+			background-color: rgba(230, 230, 230, 0.8);
+			transition: all 0.2s;
+			opacity: 0;
+			&:hover {
+				background-color: rgba(230, 230, 230);
+			}
+			i {
+				font-size: 0.85rem;
+			}
+			a {
+				display: block;
 			}
 		}
-	}
-	// 屏幕小于1024px
-	@media screen and (max-width: 1024px) {
-		.swiper {
-			li {
-				width: 100%;
-			}
+		.btn-prev {
+			left: 1rem;
 		}
-	}
-	@media screen and (min-width: 1024px) {
-		.swiper {
-			li {
-				width: 50%;
-			}
-		}
-	}
-	@media screen and (min-width: 1280px) {
-		.swiper {
-			li {
-				width: 33.33%;
-			}
-		}
-	}
-	@media screen and (min-width: 1536px) {
-		.swiper {
-			li {
-				width: 25%;
-			}
+		.btn-next {
+			right: 1rem;
 		}
 	}
 }
