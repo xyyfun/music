@@ -5,10 +5,14 @@ import message from '@/utils/message';
 const instance = axios.create({
 	// 基础路径
 	baseURL: '/api',
+	/*
+	  *请求API为本地时将baseURL路径替换为http://localhost:3000/
+		!Vercel/腾讯云部署时请配置代理
+	 */
 	// 超时时间
-	timeout: 500000,
+	timeout: 10000,
 	// 允许携带cookie
-	// withCredentials: true,
+	withCredentials: true,
 });
 // 请求拦截器
 instance.interceptors.request.use(
