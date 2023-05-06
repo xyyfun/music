@@ -46,8 +46,14 @@
 					</div>
 					<div class="more">
 						<div class="praise">
-							<i class="iconfont icon-dianzan"></i><span>{{ item.likedCount }}</span>
-							<a href="javascript:;">回复</a>
+							<a
+								href="javascript:;"
+								@click="like(item)"
+								:style="item.liked ? 'color: #1ecc94' : ''">
+								<i class="iconfont icon-dianzan"></i>
+								<span>{{ item.likedCount }}</span>
+							</a>
+							<a href="javascript:;" @click="replyComment">回复</a>
 						</div>
 					</div>
 				</div>
@@ -81,8 +87,8 @@
 								</div>
 								<div>
 									<p>{{ item.timeStr }}</p>
-									<p v-if="item.ipLocation.ip">IP:来自{{ item.ipLocation.location }}</p>
-									<p v-else>IP:未知</p>
+									<p v-if="item.ipLocation.location">IP：{{ item.ipLocation.location }}</p>
+									<p v-else>IP：未知</p>
 								</div>
 							</div>
 						</a>
@@ -94,8 +100,14 @@
 					</div>
 					<div class="more">
 						<div class="praise">
-							<i class="iconfont icon-dianzan"></i><span>{{ item.likedCount }}</span>
-							<a href="javascript:;">回复</a>
+							<a
+								href="javascript:;"
+								@click="like(item)"
+								:style="item.liked ? 'color: #1ecc94' : ''">
+								<i class="iconfont icon-dianzan"></i>
+								<span>{{ item.likedCount }}</span>
+							</a>
+							<a href="javascript:;" @click="replyComment">回复</a>
 						</div>
 					</div>
 				</div>
@@ -105,6 +117,11 @@
 </template>
 
 <script>
+import message from '@/utils/message';
+import { commentLike } from '@/api/comment';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+import { computed, reactive } from 'vue';
 export default {
 	name: 'MusicComment',
 	props: {
@@ -116,6 +133,63 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+	},
+	setup() {
+		const route = useRoute();
+		const store = useStore();
+		// 默认参数
+		const params = reactive({
+			id: null,
+			cid: null,
+			t: null,
+			type: null,
+		});
+		const currentMusicID = computed(() => store.state.song.currentMusicID);
+		// 请求操作
+		const changCommentLike = liked => {
+			commentLike({ ...params }).then(result => {
+				console.log(result);
+				if (liked) {
+					message({ type: 'success', message: '已取消点赞！' });
+				} else {
+					message({ type: 'success', message: '点赞成功！' });
+				}
+			});
+		};
+		// 点赞/取消点赞
+		const like = item => {
+			const { commentId, liked } = item;
+			const {
+				name,
+				params: { id },
+				query: { vid, type },
+			} = route;
+			liked ? (params.t = 0) : (params.t = 1); // 判断是否已经点赞
+			params.cid = commentId; // 评论id
+			if (name === 'playlist') {
+				params.id = id;
+				params.type = 2;
+			} else if (name === 'album') {
+				params.id = id;
+				params.type = 3;
+			} else if (name === 'comment') {
+				params.id = currentMusicID.value;
+				params.type = 0;
+			} else if (name === 'player') {
+				params.id = vid;
+				if (type === 'video') {
+					params.type = 5;
+				} else {
+					params.type = 1;
+				}
+			}
+			changCommentLike(liked);
+		};
+		// 回复评论
+		const replyComment = () => {
+			message({ type: 'warn', message: '功能开发中，敬请期待！' });
+		};
+		return { like, replyComment };
 	},
 };
 </script>
@@ -211,6 +285,7 @@ export default {
 				margin-left: 4.5rem;
 				p {
 					font-size: 0.9rem;
+					word-wrap: break-word;
 				}
 			}
 			.more {
@@ -220,11 +295,13 @@ export default {
 				}
 				.praise {
 					padding: 0.5rem 0;
-					i {
-						font-size: 0.9rem;
-					}
 					a {
-						margin-left: 1rem;
+						i {
+							font-size: 0.9rem;
+						}
+						&:last-child {
+							margin-left: 1rem;
+						}
 					}
 				}
 			}

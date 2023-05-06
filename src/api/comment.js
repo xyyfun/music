@@ -108,3 +108,16 @@ export const getMvComment = (id, offset) => {
 		url: `/comment/mv?id=${id}&limit=20&offset=${(offset - 1) * 20}`,
 	});
 };
+
+/**
+ * @Date         : 2023-05-06 10:44:20
+ * @description  : 给评论点赞
+ * @param         {*} id:资源id
+ * @param         {*} cid:评论id
+ * @param         {*} t:是否点赞 1 为点赞 ,0 为取消点赞
+ * @param         {*} type:评论类型，0歌曲，1mv，2歌单，3专辑，4电台节目，5视频，6动态，7电台
+ * @return        {*}
+ */
+export const commentLike = ({ id, cid, t, type }) => {
+	return request({ url: `/comment/like?id=${id}&cid=${cid}&t=${t}&type=${type}` });
+};
