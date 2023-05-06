@@ -2,30 +2,30 @@
 	<div class="app-recently scroll">
 		<div class="recently-content">
 			<MusicTitle title="最近播放" />
-			<MusicPlaylistList />
+			<MusicTabs :tabs="tabs" @handlerBac="handlerBac" />
+			<RecentlySong v-if="now === 1" />
+			<RecentlyVideo v-if="now === 2" />
 		</div>
 	</div>
 </template>
 
 <script>
 import MusicTitle from '@/components/library/music-title';
-import MusicPlaylistList from '@/components/library/music-playlist-list';
-import { getUserPlayRecord } from '@/api/user';
-import { computed, onUnmounted } from 'vue';
-import { useStore } from 'vuex';
+import MusicTabs from '@/components/library/music-tabs';
+import RecentlySong from './components/recently-song';
+import RecentlyVideo from './components/recently-video';
+import { ref } from 'vue';
 export default {
 	name: 'AppRecently',
-	components: { MusicTitle, MusicPlaylistList },
+	components: { MusicTitle, MusicTabs, RecentlySong, RecentlyVideo },
 	setup() {
-		const store = useStore();
-		const userId = computed(() => store.getters['user/userId']);
-		getUserPlayRecord(userId.value).then(data => {
-			store.commit(
-				'playlist/lists',
-				data.data.allData.map(e => e.song)
-			);
-		});
-		onUnmounted(() => store.commit('playlist/clearData'));
+		const now = ref(1);
+		const tabs = [
+			{ title: '歌曲', id: 1 },
+			{ title: '视频', id: 2 },
+		];
+		const handlerBac = id => (now.value = id);
+		return { tabs, now, handlerBac };
 	},
 };
 </script>
