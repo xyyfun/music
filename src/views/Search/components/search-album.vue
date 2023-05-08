@@ -16,51 +16,52 @@
 			</router-link>
 		</div>
 	</div>
-	<MusicPagination
-		:pageNo="pageNo"
-		:pageSize="pageSize"
-		:totalPages="totalPages"
-		:continues="5"
-		@changePage="changePage" />
+	<AppMore v-if="lists.length" @loadMore="loadMore" :isMore="isMore" />
 </template>
 
 <script>
-import MusicPagination from '@/components/library/music-pagination';
-import { search } from '@/api/search';
+import AppMore from '@/components/app-more';
 import { useRoute } from 'vue-router';
-import { ref, watch } from 'vue';
-import { useDateFormat } from '@vueuse/core';
+import { onMounted, ref, watch } from 'vue';
+import useSearch from '@/hooks/useSearch';
 export default {
 	name: 'SearchAlbum',
-	components: { MusicPagination },
-	emits: ['viewsTop'],
-	setup(props, { emit }) {
+	components: { AppMore },
+	setup() {
 		const route = useRoute();
-		const pageNo = ref(1);
-		const pageSize = ref(30);
-		const totalPages = ref(null);
 		const lists = ref([]);
-		const changePage = num => (pageNo.value = num);
-		watch(
-			[() => route.params.keyword, pageNo],
-			([keyword, pageNo]) => {
-				search(keyword, pageSize.value, 10, pageNo).then(data => {
-					data.data.result.albums.forEach(e => {
-						e.publishTime = useDateFormat(e.publishTime, 'YYYY-MM-DD');
-					});
-					lists.value = data.data.result.albums;
-					totalPages.value = Math.floor(data.data.result.albumCount / 30);
-					emit('viewsTop');
-				});
-			},
-			{ immediate: true }
-		);
+		const offset = ref(1);
+		const isMore = ref(true);
+		const loadMore = () => {
+			offset.value++;
+			getData();
+		};
+		const clearData = () => {
+			offset.value = 1;
+			isMore.value = true;
+			lists.value = [];
+		};
+		const getData = () => {
+			const keyword = route.params.keyword;
+			useSearch(keyword, 'albums', offset.value, (val, albumCount) => {
+				val.forEach(e => lists.value.push(e));
+				if (!albumCount) isMore.value = false;
+			});
+		};
+		onMounted(() => {
+			watch(
+				() => route.params.keyword,
+				(new_keyword, old_keyword) => {
+					if (old_keyword !== new_keyword) clearData();
+					getData();
+				},
+				{ immediate: true }
+			);
+		});
 		return {
 			lists,
-			pageNo,
-			pageSize,
-			totalPages,
-			changePage,
+			loadMore,
+			isMore,
 		};
 	},
 };

@@ -1,12 +1,15 @@
 <template>
 	<div class="search">
-		<input
-			class="ellipsis"
-			type="text"
-			@click="isShowList = true"
-			@keyup.enter="search"
-			:placeholder="keyword_default"
-			v-model="keywords" />
+		<div class="inp">
+			<i class="iconfont icon-search"></i>
+			<input
+				class="ellipsis"
+				type="text"
+				@click="isShowList = true"
+				@keyup.enter="search"
+				:placeholder="keyword_default"
+				v-model="keywords" />
+		</div>
 		<div class="searchList" v-if="isShowList" ref="target">
 			<div class="songs" v-if="suggest.songs">
 				<span>单曲</span>
@@ -63,7 +66,7 @@
 						@click="changKeywords(item.searchWord)">
 						<router-link :to="`/search/${item.searchWord}`">
 							<span>{{ index + 1 }}</span>
-							{{ item.searchWord }}
+							<span class="ellipsis">{{ item.searchWord }}</span>
 							<span class="score">{{ item.score }}</span>
 						</router-link>
 					</li>
@@ -149,14 +152,23 @@ export default {
 <style lang="less" scope>
 .search {
 	position: relative;
-	> input {
-		outline: none;
-		height: 2rem;
-		width: 20rem;
-		border: none;
-		border-radius: 1rem;
-		background-color: #e3e3e3;
-		text-indent: 0.7rem;
+	.inp {
+		i {
+			position: absolute;
+			top: 0;
+			left: 0.7rem;
+			height: 2rem;
+			line-height: 2rem;
+		}
+		input {
+			outline: none;
+			height: 2rem;
+			width: 16rem;
+			border: none;
+			border-radius: 1rem;
+			background-color: #e3e3e3;
+			text-indent: 2rem;
+		}
 	}
 	.searchList {
 		position: absolute;
@@ -216,17 +228,18 @@ export default {
 			}
 		}
 		.search-hot {
+			display: block;
 			ul {
 				li {
 					a {
-						display: block;
-						width: 100%;
+						display: flex;
+						justify-content: space-between;
 						span {
-							&:first-child {
+							&:nth-child(1) {
 								padding-left: 1rem;
 							}
-							&:last-child {
-								float: right;
+							&:nth-child(2) {
+								flex: 1;
 							}
 						}
 					}

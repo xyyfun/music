@@ -7,46 +7,52 @@
 			</router-link>
 		</div>
 	</div>
-	<MusicPagination
-		:pageNo="pageNo"
-		:pageSize="pageSize"
-		:totalPages="totalPages"
-		:continues="5"
-		@changePage="changePage" />
+	<AppMore v-if="lists.length" @loadMore="loadMore" :isMore="isMore" />
 </template>
 
 <script>
-import MusicPagination from '@/components/library/music-pagination';
-import { search } from '@/api/search';
+import AppMore from '@/components/app-more';
 import { useRoute } from 'vue-router';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import useSearch from '@/hooks/useSearch';
 export default {
 	name: 'SearchSinger',
-	components: { MusicPagination },
-	emits: ['viewsTop'],
-	setup(props, { emit }) {
+	components: { AppMore },
+	setup() {
 		const route = useRoute();
-		const pageNo = ref(1);
-		const pageSize = ref(30);
-		const totalPages = ref(null);
 		const lists = ref([]);
-		const changePage = num => (pageNo.value = num);
-		watch(
-			[() => route.params.keyword, pageNo],
-			([keyword, pageNo]) => {
-				search(keyword, pageSize.value, 100, pageNo).then(data => {
-					lists.value = data.data.result.artists;
-					totalPages.value = Math.floor(data.data.result.artistCount / 30);
-				});
-			},
-			{ immediate: true }
-		);
+		const offset = ref(1);
+		const isMore = ref(false);
+		const loadMore = () => {
+			offset.value++;
+			getData();
+		};
+		const clearData = () => {
+			lists.value = [];
+			offset.value = 1;
+			isMore.value = false;
+		};
+		const getData = () => {
+			const keyword = route.params.keyword;
+			useSearch(keyword, 'artists', offset.value, (val, hasMore) => {
+				val.forEach(e => lists.value.push(e));
+				isMore.value = hasMore;
+			});
+		};
+		onMounted(() => {
+			watch(
+				() => route.params.keyword,
+				(new_keyword, old_keyword) => {
+					if (old_keyword !== new_keyword) clearData();
+					getData();
+				},
+				{ immediate: true }
+			);
+		});
 		return {
 			lists,
-			pageNo,
-			pageSize,
-			totalPages,
-			changePage,
+			loadMore,
+			isMore,
 		};
 	},
 };
