@@ -21,28 +21,19 @@ const defaultType = {
  */
 export default function (keyword, type, offset, callback) {
 	search(keyword, defaultType[type], offset).then(data => {
-		const result = data.data.result[type];
-		const isMore = data.data.result.hasMore;
+		const result = data.data.result[type] || [];
 		if (type === 'songs') {
-			result.forEach(e => {
-				e.al = e.album;
-				e.ar = e.artists;
-				e.dt = e.duration;
-				delete e.album;
-				delete e.artists;
-				delete e.duration;
-			});
-			callback && callback(result, isMore);
+			callback && callback(result, data.data.result.songCount);
 		} else if (type === 'albums') {
 			result.forEach(e => (e.publishTime = useDateFormat(e.publishTime, 'YYYY-MM-DD')));
 			callback && callback(result, data.data.result.albumCount);
 		} else if (type === 'artists') {
-			callback && callback(result, isMore);
+			callback && callback(result, data.data.result.artistCount);
 		} else if (type === 'playlists') {
 			result.forEach(e => (e.playCount = useNumberSwitch(e.playCount)));
-			callback && callback(result, isMore);
+			callback && callback(result, data.data.result.playlistCount);
 		} else if (type === 'videos') {
-			callback && callback(result, isMore);
+			callback && callback(result, data.data.result.videoCount);
 		}
 	});
 }

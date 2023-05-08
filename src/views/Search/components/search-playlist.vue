@@ -31,7 +31,7 @@ export default {
 		const route = useRoute();
 		const offset = ref(1);
 		const lists = ref([]);
-		const isMore = ref(false);
+		const isMore = ref(true);
 		const loadMore = () => {
 			offset.value++;
 			getData();
@@ -39,13 +39,13 @@ export default {
 		const clearData = () => {
 			lists.value = [];
 			offset.value = 1;
-			isMore.value = false;
+			isMore.value = true;
 		};
 		const getData = () => {
 			const keyword = route.params.keyword;
-			useSearch(keyword, 'playlists', offset.value, (val, hasMore) => {
+			useSearch(keyword, 'playlists', offset.value, (val, playCount) => {
+				if (!playCount) isMore.value = false;
 				val.forEach(e => lists.value.push(e));
-				isMore.value = hasMore;
 			});
 		};
 		onMounted(() => {

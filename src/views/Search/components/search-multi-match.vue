@@ -106,7 +106,7 @@ export default {
 		> div {
 			height: 5rem;
 			background-color: #eee;
-			border-radius: 0.5rem;
+			border-radius: 0.3rem;
 			> a {
 				display: flex;
 				align-items: center;
@@ -153,6 +153,11 @@ export default {
 						}
 					}
 				}
+			}
+		}
+		.artist {
+			img {
+				border-radius: 50%;
 			}
 		}
 	}

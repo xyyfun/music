@@ -44,8 +44,8 @@ export default {
 		const getData = () => {
 			const keyword = route.params.keyword;
 			useSearch(keyword, 'albums', offset.value, (val, albumCount) => {
-				val.forEach(e => lists.value.push(e));
 				if (!albumCount) isMore.value = false;
+				val.forEach(e => lists.value.push(e));
 			});
 		};
 		onMounted(() => {

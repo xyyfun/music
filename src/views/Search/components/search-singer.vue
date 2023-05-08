@@ -22,7 +22,7 @@ export default {
 		const route = useRoute();
 		const lists = ref([]);
 		const offset = ref(1);
-		const isMore = ref(false);
+		const isMore = ref(true);
 		const loadMore = () => {
 			offset.value++;
 			getData();
@@ -30,13 +30,13 @@ export default {
 		const clearData = () => {
 			lists.value = [];
 			offset.value = 1;
-			isMore.value = false;
+			isMore.value = true;
 		};
 		const getData = () => {
 			const keyword = route.params.keyword;
-			useSearch(keyword, 'artists', offset.value, (val, hasMore) => {
+			useSearch(keyword, 'artists', offset.value, (val, artistCount) => {
+				if (!artistCount) isMore.value = false;
 				val.forEach(e => lists.value.push(e));
-				isMore.value = hasMore;
 			});
 		};
 		onMounted(() => {

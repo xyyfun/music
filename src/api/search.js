@@ -4,13 +4,12 @@ import request from '@/utils/request';
  * @Date         : 2023-04-04 23:18:12
  * @description  : 搜索
  * @param         {*} keywords:关键字
- * @param         {*} limit:返回数量 , 默认为 30
  * @param         {*} type:搜索类型默认为1 1单曲10专辑100歌手1000歌单1002用户1004MV1006歌词1009电台1014视频1018综合
  * @return        {*}
  */
-export const search = (keywords, limit, type, offset) => {
+export const search = (keywords, type, offset) => {
 	return request({
-		url: `/search?keywords=${keywords}&limit=${limit}&type=${type}&offset=${offset}`,
+		url: `/cloudsearch?keywords=${keywords}&limit=50&type=${type}&offset=${(offset - 1) * 50}`,
 		method: 'get',
 	});
 };
@@ -49,5 +48,17 @@ export const searchSuggest = keyword => {
 	return request({
 		url: `/search/suggest?keywords=${keyword}`,
 		method: 'get',
+	});
+};
+
+/**
+ * @Date         : 2023-05-07 21:50:41
+ * @description  : 搜索多重匹配
+ * @param         {*} keywords:
+ * @return        {*}
+ */
+export const searchMultiMatch = keywords => {
+	return request({
+		url: `/search/multimatch?keywords=${keywords}`,
 	});
 };

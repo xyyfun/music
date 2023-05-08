@@ -17,21 +17,21 @@ export default {
 		const store = useStore();
 		const route = useRoute();
 		const offset = ref(1);
-		const isMore = ref(false);
+		const isMore = ref(true);
 		const loadMore = () => {
 			offset.value++;
 			getData();
 		};
 		const clearData = () => {
 			offset.value = 1;
-			isMore.value = false;
+			isMore.value = true;
 			store.commit('playlist/clearData');
 		};
 		const getData = () => {
 			const keyword = route.params.keyword;
-			useSearch(keyword, 'songs', offset.value, (val, hasMore) => {
+			useSearch(keyword, 'songs', offset.value, (val, songCount) => {
+				if (!songCount) isMore.value = false;
 				store.commit('playlist/lists', val);
-				isMore.value = hasMore;
 			});
 		};
 		onMounted(() => {
