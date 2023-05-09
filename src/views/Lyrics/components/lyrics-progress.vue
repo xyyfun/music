@@ -1,5 +1,6 @@
 <template>
 	<div class="lyrics-progress">
+		<LyricsVideoVisible />
 		<div class="progress">
 			<!-- 滑动 -->
 			<div class="slider" ref="slot">
@@ -42,6 +43,7 @@
 </template>
 
 <script>
+import LyricsVideoVisible from './lyrics-video-visible';
 import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -50,7 +52,7 @@ import AppControl from '@/components/app-control';
 import message from '@/utils/message';
 export default {
 	name: 'LyricsProgress',
-	components: { AppControl },
+	components: { LyricsVideoVisible, AppControl },
 	setup() {
 		const store = useStore();
 		const router = useRouter();
@@ -153,7 +155,7 @@ export default {
 				position: relative;
 				width: 100%;
 				height: 2px;
-				background-color: rgba(0, 0, 0, 0.2);
+				background-color: hsla(0, 0%, 100%, 0.2);
 				.trigger {
 					position: absolute;
 					top: -3px;
