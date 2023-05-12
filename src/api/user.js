@@ -38,21 +38,8 @@ export const getUserLevel = () => {
 };
 
 /**
- * @Date         : 2023-04-12 17:41:37
- * @description  : 获取用户绑定信息
- * @param         {*} uid:
- * @return        {*}
- */
-export const getUserBind = uid => {
-	return request({
-		url: `/user/binding?uid=${uid}`,
-		method: 'get',
-	});
-};
-
-/**
  * @Date         : 2023-04-12 18:57:26
- * @description  : 获取用户喜欢列表
+ * @description  : 获取用户喜欢列表(数组歌曲id)
  * @param         {*} uid:
  * @return        {*}
  */
@@ -79,16 +66,18 @@ export const like = (id, bol) => {
 
 /**
  * @Date         : 2023-04-12 18:31:18
- * @description  : 获取用户播放记录
+ * @description  : 获取用户播放记录-歌曲
  * @param         {*} uid:
  * @return        {*}
  */
-export const getUserPlayRecord = uid => {
-	return request({
-		url: `/user/record?uid=${uid}&type=0`,
-		method: 'get',
-	});
-};
+export const getUserRecordSong = () => request({ url: `/record/recent/song` });
+
+/**
+ * @Date         : 2023-05-05 14:18:41
+ * @description  : 获取用户播放记录-视频
+ * @return        {*}
+ */
+export const getUserRecordVideo = () => request({ url: '/record/recent/video' });
 
 /**
  * @Date         : 2023-04-12 22:10:58
@@ -100,5 +89,17 @@ export const getUserPlaylist = uid => {
 	return request({
 		url: `/user/playlist?uid=${uid}`,
 		method: 'get',
+	});
+};
+
+/**
+ * @Date         : 2023-05-12 14:28:03
+ * @description  : 获取私人信息
+ * @param         {*} offset:
+ * @return        {*}
+ */
+export const getPrivateMessage = offset => {
+	return request({
+		url: `/msg/private?limit=30&offset=${(offset - 1) * 30}`,
 	});
 };
