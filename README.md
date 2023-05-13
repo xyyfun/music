@@ -10,7 +10,7 @@
 
 项目基于 Vue3 全家桶开发的 QQ 音乐播放器，项目界面模仿 QQ 音乐 Windows 客户端
 
-后端API [Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+后端 API [Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
 界面适配 PC+iPad；移动端未适配
 
@@ -113,7 +113,7 @@ $ npm run build
 
 视频
 
-![视频](./image/uTools_1683972074884 .png)
+![视频](./image/uTools_1683972074884.png)
 
 ### 之后的方向
 
