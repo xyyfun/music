@@ -68,7 +68,7 @@ export default {
 	height: 3rem;
 	padding: 0 2rem;
 	border-radius: 0.3rem;
-	background-color: rgba(255, 255, 255, 0.4);
+	background-color: rgba(255, 255, 255);
 	backdrop-filter: blur(5px);
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	z-index: 9999;

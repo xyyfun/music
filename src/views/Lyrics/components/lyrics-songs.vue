@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { computed, onMounted, watch, ref } from 'vue';
+import { computed, watch, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import AppIcon from '@/components/app-icon';
 export default {
@@ -61,19 +61,22 @@ export default {
 			indx.value = lyr.value.length - 1;
 			return lyr.value.length - 1;
 		};
-		watch(
-			() => store.state.song.playerTime,
-			newVal => {
-				let indx = nowIndx(newVal);
-				let dom = lis.value[indx];
-				let father = ul.value.clientHeight / 2;
-				if (indx < 0) {
-					y.value = -father;
-				} else {
-					y.value = dom.offsetTop + dom.clientHeight / 2 - father;
-				}
-			}
-		);
+		onMounted(() => {
+			watch(
+				() => store.state.song.playerTime,
+				newVal => {
+					let indx = nowIndx(newVal);
+					let currentLi = lis.value[indx];
+					let father = ul.value.clientHeight / 2;
+					if (indx < 0) {
+						y.value = -father;
+					} else {
+						y.value = currentLi.offsetTop + currentLi.clientHeight / 2 - father;
+					}
+				},
+				{ immediate: true }
+			);
+		});
 		return {
 			lyr,
 			indx,

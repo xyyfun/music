@@ -10,98 +10,100 @@
 				:placeholder="keyword_default"
 				v-model="keywords" />
 		</div>
-		<div class="searchList" v-if="isShowList" ref="target">
-			<div class="suggest-songs" v-if="suggest.songs">
-				<span>单曲</span>
-				<ul>
-					<li v-for="item in suggest.songs" :key="item.id">
-						<router-link :to="`/search/${item.name}`" @click="changKeywords(item.name)">
-							{{ item.name }} -
-							<router-link
-								class="singer"
-								:to="`/singer/${value.id}`"
-								v-for="value in item.artists"
-								>{{ value.name }}</router-link
-							>
-						</router-link>
-					</li>
-				</ul>
-			</div>
-			<div class="suggest-playlists" v-if="suggest.playlists">
-				<span>歌单</span>
-				<ul>
-					<li v-for="item in suggest.playlists" :key="item.id">
-						<router-link :to="`/playlist/${item.id}`" @click="changKeywords(item.name)">{{
-							item.name
-						}}</router-link>
-					</li>
-				</ul>
-			</div>
-			<div class="suggest-artists" v-if="suggest.artists">
-				<span>歌手</span>
-				<ul>
-					<li v-for="item in suggest.artists" :key="item.id">
-						<router-link :to="`/singer/${item.id}`" @click="changKeywords(item.name)">
-							<img :src="item.picUrl + '?param=130y130'" alt="" />{{ item.name }}
-						</router-link>
-					</li>
-				</ul>
-			</div>
-			<div class="suggest-albums" v-if="suggest.albums">
-				<span>专辑</span>
-				<ul>
-					<li v-for="item in suggest.albums" :key="item.id">
-						<router-link :to="`/album/${item.id}`" @click="changKeywords(item.name)">
-							<img :src="item.artist.picUrl + '?param=130y130'" alt="" />
-							{{ item.name }}
-						</router-link>
-					</li>
-				</ul>
-			</div>
-			<div class="search-prompt scroll" v-if="searchHotList.length">
-				<div class="history">
-					<div class="head-history">
-						<span>搜索历史</span>
-						<a href="javascript:;" @click="removeHistorySearch(true)" title="删除历史记录">
-							<i class="iconfont icon-remove"></i>
-						</a>
-					</div>
+		<transition name="fade-header">
+			<div class="searchList" v-if="isShowList" ref="target">
+				<div class="suggest-songs" v-if="suggest.songs">
+					<span>单曲</span>
 					<ul>
-						<li v-for="item in HistorySearch" :key="item.id">
-							<router-link :to="`/search/${item.keyword}`" @click="changKeywords(item.keyword)">
-								{{ item.keyword }}
+						<li v-for="item in suggest.songs" :key="item.id">
+							<router-link :to="`/search/${item.name}`" @click="changKeywords(item.name)">
+								{{ item.name }} -
+								<router-link
+									class="singer"
+									:to="`/singer/${value.id}`"
+									v-for="value in item.artists"
+									>{{ value.name }}</router-link
+								>
 							</router-link>
-							<a href="javascript:;" @click="removeHistorySearch(false, item.id)">
-								<i class="iconfont icon-cuo"></i>
+						</li>
+					</ul>
+				</div>
+				<div class="suggest-playlists" v-if="suggest.playlists">
+					<span>歌单</span>
+					<ul>
+						<li v-for="item in suggest.playlists" :key="item.id">
+							<router-link :to="`/playlist/${item.id}`" @click="changKeywords(item.name)">{{
+								item.name
+							}}</router-link>
+						</li>
+					</ul>
+				</div>
+				<div class="suggest-artists" v-if="suggest.artists">
+					<span>歌手</span>
+					<ul>
+						<li v-for="item in suggest.artists" :key="item.id">
+							<router-link :to="`/singer/${item.id}`" @click="changKeywords(item.name)">
+								<img :src="item.picUrl + '?param=130y130'" alt="" />{{ item.name }}
+							</router-link>
+						</li>
+					</ul>
+				</div>
+				<div class="suggest-albums" v-if="suggest.albums">
+					<span>专辑</span>
+					<ul>
+						<li v-for="item in suggest.albums" :key="item.id">
+							<router-link :to="`/album/${item.id}`" @click="changKeywords(item.name)">
+								<img :src="item.artist.picUrl + '?param=130y130'" alt="" />
+								{{ item.name }}
+							</router-link>
+						</li>
+					</ul>
+				</div>
+				<div class="search-prompt scroll" v-if="searchHotList.length">
+					<div class="history">
+						<div class="head-history">
+							<p>搜索历史<span>（保存最近十条搜索记录）</span></p>
+							<a href="javascript:;" @click="removeHistorySearch(true)" title="删除历史记录">
+								<i class="iconfont icon-remove"></i>
 							</a>
-						</li>
-					</ul>
-				</div>
-				<div class="hot">
-					<ul>
-						<span>热门搜索</span>
-						<li
-							v-for="(item, index) in searchHotList"
-							:key="index"
-							@click="changKeywords(item.searchWord)">
-							<router-link :to="`/search/${item.searchWord}`">
-								<div class="sort">
-									<span>{{ index + 1 }}</span>
-								</div>
-								<div class="info">
-									<div class="msg ellipsis">
-										<span v-if="item.searchWord" class="searchWord">{{ item.searchWord }}</span>
-										<img v-if="item.iconUrl" :src="item.iconUrl" alt="" />
-										<span>{{ item.score }}</span>
+						</div>
+						<ul>
+							<li v-for="item in HistorySearch" :key="item.id">
+								<router-link :to="`/search/${item.keyword}`" @click="changKeywords(item.keyword)">
+									{{ item.keyword }}
+								</router-link>
+								<a href="javascript:;" @click="removeHistorySearch(false, item.id)">
+									<i class="iconfont icon-cuo"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="hot">
+						<ul>
+							<span>热门搜索</span>
+							<li
+								v-for="(item, index) in searchHotList"
+								:key="index"
+								@click="changKeywords(item.searchWord)">
+								<router-link :to="`/search/${item.searchWord}`">
+									<div class="sort">
+										<span>{{ index + 1 }}</span>
 									</div>
-									<span class="content" v-if="item.content">{{ item.content }}</span>
-								</div>
-							</router-link>
-						</li>
-					</ul>
+									<div class="info">
+										<div class="msg ellipsis">
+											<span v-if="item.searchWord" class="searchWord">{{ item.searchWord }}</span>
+											<img v-if="item.iconUrl" :src="item.iconUrl" alt="" />
+											<span>{{ item.score }}</span>
+										</div>
+										<span class="content" v-if="item.content">{{ item.content }}</span>
+									</div>
+								</router-link>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
+		</transition>
 	</div>
 </template>
 
@@ -110,7 +112,6 @@ import { onClickOutside } from '@vueuse/core';
 import { defaultKeyword, searchSuggest, searchHot } from '@/api/search';
 import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import useNumberSwitch from '@/hooks/useNumberSwitch';
 import debounce from 'lodash/debounce';
 import { getHistorySearch, setHistorySearch } from '@/utils/history';
 export default {
@@ -182,12 +183,7 @@ export default {
 		});
 		// 获取热搜列表
 		const getSearchHot = () => {
-			searchHot().then(data => {
-				data.data.data.forEach(e => {
-					e.score = useNumberSwitch(e.score);
-				});
-				searchHotList.value = data.data.data;
-			});
+			searchHot().then(data => (searchHotList.value = data.data.data));
 		};
 		onClickOutside(target, () => (isShowList.value = false));
 		onMounted(() => {
@@ -234,7 +230,7 @@ export default {
 	}
 	.searchList {
 		position: absolute;
-		top: 3rem;
+		top: 3.5rem;
 		width: 100%;
 		background-color: #fff;
 		border-radius: 0.5rem;
@@ -329,11 +325,11 @@ export default {
 									height: 1.5rem;
 									line-height: 1.5rem;
 									span {
+										vertical-align: middle;
 										font-size: 0.8rem;
 										margin-right: 0.5rem;
 									}
 									img {
-										width: 2rem;
 										height: 1rem;
 										margin-right: 0.5rem;
 									}
@@ -364,8 +360,11 @@ export default {
 				.head-history {
 					display: flex;
 					justify-content: space-between;
-					span {
+					p {
 						font-size: 0.9rem;
+					}
+					span {
+						font-size: 12px;
 					}
 					i {
 						font-size: 0.9rem;

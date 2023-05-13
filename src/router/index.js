@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import { getUserInfo } from '@/utils/user';
 
 const routes = [
 	{
@@ -94,8 +95,24 @@ const routes = [
 				component: () => import('@/views/Radio/RadioPlaylist'),
 			},
 			{
+				name: 'comment',
 				path: '/comment',
 				component: () => import('@/views/Comment'),
+			},
+			{
+				path: '/user',
+				redirect: '/user/home',
+				component: () => import('@/views/User'),
+				children: [
+					{
+						path: 'home',
+						component: () => import('@/views/User/UserHome'),
+					},
+					{
+						path: 'message',
+						component: () => import('@/views/User/UserMessage'),
+					},
+				],
 			},
 		],
 	},
@@ -113,5 +130,7 @@ const router = createRouter({
 		return { top: 0 };
 	},
 });
+
+router.beforeEach((to, from, next) => next());
 
 export default router;

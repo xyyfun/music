@@ -23,21 +23,48 @@ import AppProgress from '@/components/app-progress';
 import AppLyrics from '@/views/Lyrics';
 import MusicDialog from '@/components/library/music-dialog';
 import AppAudio from '@/views/Audio';
+import message from '@/utils/message';
 import { loginTourist } from '@/api/login';
 import { getCookie, setCookie } from '@/utils/cookie';
 import { useStore } from 'vuex';
+import { onMounted } from 'vue';
 export default {
 	name: 'Layout',
-	components: { AppSidebar, AppHeader, AppProgress, AppLyrics, MusicDialog, AppAudio },
+	components: {
+		AppSidebar,
+		AppHeader,
+		AppProgress,
+		AppLyrics,
+		MusicDialog,
+		AppAudio,
+	},
 	setup() {
 		const store = useStore();
-		// 判断当前是否存在cookie
-		if (!getCookie()) {
-			// 不存在直接游客登录
-			loginTourist().then(data => {
-				setCookie(data.data.cookie);
-			});
-		}
+		// 用户状态
+		const getUserStatus = () => {
+			const result = store.dispatch('user/userStatus');
+			result.then(
+				userId => {
+					// 登录获取用户信息
+					store.dispatch('user/userInfo', userId);
+					// 获取用户喜欢歌曲
+					store.dispatch('user/userLike', userId);
+				},
+				() => {
+					message({ type: 'warn', message: '您当前的状态为游客，登录后使用更多功能！' });
+				}
+			);
+		};
+		onMounted(() => {
+			// 判断当前是否存在cookie
+			if (!getCookie()) {
+				// 不存在直接游客登录
+				loginTourist().then(data => {
+					setCookie(data.data.cookie);
+				});
+			}
+			getUserStatus();
+		});
 	},
 };
 </script>

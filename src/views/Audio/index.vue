@@ -1,5 +1,5 @@
 <template>
-	<audio :src="url" ref="aud"></audio>
+	<audio :src="url" ref="aud" crossOrigin="anonymous"></audio>
 </template>
 
 <script>

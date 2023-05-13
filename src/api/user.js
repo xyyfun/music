@@ -1,6 +1,13 @@
 import request from '@/utils/request';
 
 /**
+ * @Date         : 2023-05-12 16:36:55
+ * @description  : 获取登录状态
+ * @return        {*}
+ */
+export const getUserStatus = () => request({ url: `/login/status?timestamp=${Date.now()}` });
+
+/**
  * @Date         : 2023-04-11 21:13:46
  * @description  : 获取用户详情
  * @param         {*} uid:

@@ -28,15 +28,16 @@ export default {
 			{ title: '歌曲', id: 1 },
 			{ title: '评论', id: 2 },
 		];
-		console.log(now.value);
-		onMounted(() => console.log(now.value));
+		onMounted(() =>
+			watch(
+				() => route.params.id,
+				() => store.commit('playlist/clearData'),
+				{ immediate: true }
+			)
+		);
 		const handlerBac = id => (now.value = id);
 		// 监视路由变化
-		watch(
-			() => route.params.id,
-			() => store.commit('playlist/clearData'),
-			{ immediate: true }
-		);
+
 		return {
 			now,
 			tabs,

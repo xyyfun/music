@@ -68,17 +68,21 @@
 
 <script>
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { onClickOutside } from '@vueuse/core';
 import AppIcon from '@/components/app-icon';
 import message from '@/utils/message';
+import messageBox from '@/utils/message-box';
 export default {
 	name: 'MusicDialog',
 	components: { AppIcon },
 	setup() {
 		const dialog = ref(null);
 		const store = useStore();
+		const router = useRouter();
 		const currentMusicID = computed(() => store.state.song.currentMusicID);
+		const status = computed(() => store.state.user.status);
 		const play = id => {
 			// 播放前判断当前是否有音乐暂停且暂停音乐是播放的音乐
 			if (currentMusicID.value === id) return store.commit('song/ISPLAY', true);
@@ -99,12 +103,25 @@ export default {
 		};
 		// 喜欢音乐
 		const like = async id => {
-			try {
-				await store.dispatch('playlist/changUserLike', { id, boolean: true });
-				store.commit('song/changPlaylistLike', { id, boolean: true });
-				message({ type: 'success', message: '已添加到我喜欢的音乐！' });
-			} catch (error) {
-				message({ type: 'error', message: error.data.message });
+			if (status.value === 2) {
+				try {
+					await store.dispatch('playlist/changUserLike', { id, boolean: true });
+					store.commit('song/changPlaylistLike', { id, boolean: true });
+					message({ type: 'success', message: '已添加到我喜欢的音乐！' });
+				} catch (error) {
+					message({ type: 'error', message: error.data.message });
+				}
+			} else {
+				messageBox({
+					title: '提示',
+					message: '喜欢音乐需要先登录，是否现在登录？',
+					isShowCancel: true,
+				}).then(
+					() => {
+						router.push('/login');
+					},
+					() => {}
+				);
 			}
 		};
 		// 取消喜欢

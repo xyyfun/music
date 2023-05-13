@@ -81,6 +81,7 @@ export default {
 				} else {
 					id = musicPositionLoop(playlist, currentMusicID, bol);
 				}
+				store.commit('song/clearData');
 				store.dispatch('song/getMusic', id);
 			}
 		};

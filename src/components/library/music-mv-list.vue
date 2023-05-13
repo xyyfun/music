@@ -2,7 +2,7 @@
 	<div class="music-mv-list">
 		<div class="mv-list">
 			<div class="item" v-for="item in lists" :key="item.id">
-				<router-link :to="`/player?id=${item.id}&type=mv`">
+				<router-link :to="`/player?vid=${item.id}&type=mv`">
 					<img v-lazy="item.cover + '?param=268y146'" alt="" />
 					<AppMask />
 				</router-link>
@@ -43,10 +43,11 @@ export default {
 		.item {
 			display: flex;
 			flex-direction: column;
-			a {
+			> a {
 				overflow: hidden;
 				position: relative;
 				border-radius: 0.5rem;
+				background-color: #eee;
 				img {
 					width: 100%;
 					height: 100%;

@@ -6,10 +6,10 @@
 				<div class="info">
 					<p class="name ellipsis">{{ detail.name }}</p>
 					<div class="creator" v-if="detail.avatarUrl">
-						<a href="javascript:;">
+						<router-link :to="`/user?id=${detail.userId}`">
 							<img v-lazy="detail.avatarUrl + '?param=130y130'" alt="" />
 							<p>{{ detail.nickname }}</p>
-						</a>
+						</router-link>
 					</div>
 					<div class="creator" v-else>
 						<router-link :to="`/singer/${item.id}`" v-for="item in detail.artists" :key="item.id">
@@ -33,7 +33,12 @@
 							</a>
 						</li>
 						<li>
-							<a href="javascript:;"><i class="iconfont icon-xihuan21"></i>收藏</a>
+							<a href="javascript:;" v-if="subscribed" @click="subscribe(2)">
+								<i class="iconfont icon-xihuan2"></i>已收藏
+							</a>
+							<a href="javascript:;" v-else @click="subscribe(1)"
+								><i class="iconfont icon-xihuan21"></i>收藏</a
+							>
 						</li>
 					</ul>
 				</div>
@@ -43,13 +48,21 @@
 </template>
 
 <script>
+import { playlistSubscribe } from '@/api/playlist';
+import { albumSubscribe } from '@/api/album';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
 import { useDateFormat } from '@vueuse/core';
+import message from '@/utils/message';
+import messageBox from '@/utils/message-box';
 export default {
 	name: 'MusicPlaylistDescription',
 	setup() {
 		const store = useStore();
+		const route = useRoute();
+		const router = useRouter();
+		const status = computed(() => store.state.user.status);
 		const detail = computed(() => store.state.playlist.playlistDetail);
 		const updateTime = computed(() => {
 			const str = useDateFormat(detail.value.updateTime, 'YYYY-MM-DD HH:mm:ss');
@@ -66,7 +79,63 @@ export default {
 			store.commit('song/addList', lists.value);
 			store.dispatch('song/getMusic', lists.value[0].id);
 		};
-		return { detail, updateTime, publishTime, playAll };
+		// 收藏/取消收藏歌单|专辑
+		const subscribe = t => {
+			if (status.value === 2) {
+				const {
+					name,
+					params: { id },
+				} = route;
+				const result = new Promise((resolv, reject) => {
+					if (name === 'playlist') {
+						playlistSubscribe(id, t).then(() => {
+							if (t === 1) {
+								resolv();
+							} else {
+								reject();
+							}
+						});
+					} else if (name === 'album') {
+						albumSubscribe(id, t).then(() => {
+							if (t === 1) {
+								resolv();
+							} else {
+								reject();
+							}
+						});
+					}
+				});
+				result.then(
+					() => {
+						message({ type: 'success', message: '收藏成功！' });
+						store.commit('playlist/changCollect', true);
+					},
+					() => {
+						message({ type: 'success', message: '已取消收藏！' });
+						store.commit('playlist/changCollect', false);
+					}
+				);
+			} else {
+				messageBox({
+					title: '提示',
+					message: '收藏歌单或专辑需要先登录，是否现在登录？',
+					isShowCancel: true,
+				}).then(
+					() => {
+						router.push('/login');
+					},
+					() => {}
+				);
+			}
+		};
+		return {
+			detail,
+			updateTime,
+			publishTime,
+			playAll,
+			subscribe,
+			subscribed: computed(() => store.state.playlist.subscribed),
+		};
 	},
 };
 </script>
@@ -150,6 +219,9 @@ export default {
 							color: #000;
 							border-radius: 5rem;
 							font-size: 0.9rem;
+							.icon-xihuan2 {
+								color: #ff6664;
+							}
 						}
 						i {
 							padding: 0 5px;

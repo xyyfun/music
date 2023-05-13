@@ -11,7 +11,7 @@
 				<div class="title"><span>热门评论</span></div>
 				<div class="item" v-for="item in hotComments" :key="item.commentId">
 					<div class="userInfo">
-						<a href="javascript:;">
+						<router-link :to="`/user?id=${item.user.userId}`">
 							<div class="image">
 								<img class="avatarUrl" v-lazy="item.user.avatarUrl + '?param=130y130'" alt="" />
 								<img
@@ -39,7 +39,7 @@
 									<p v-else>IP:未知</p>
 								</div>
 							</div>
-						</a>
+						</router-link>
 					</div>
 					<div class="content">
 						<p>{{ item.content }}</p>
@@ -63,7 +63,7 @@
 				<div class="title"><span>全部评论</span></div>
 				<div class="item" v-for="item in comments" :key="item.commentId">
 					<div class="userInfo">
-						<a href="javascript:;">
+						<router-link :to="`/user?id=${item.user.userId}`">
 							<div class="image">
 								<img class="avatarUrl" v-lazy="item.user.avatarUrl + '?param=130y130'" alt="" />
 								<img
@@ -91,7 +91,7 @@
 									<p v-else>IP：未知</p>
 								</div>
 							</div>
-						</a>
+						</router-link>
 					</div>
 					<div class="content">
 						<p>
@@ -119,9 +119,10 @@
 <script>
 import message from '@/utils/message';
 import { commentLike } from '@/api/comment';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { computed, reactive } from 'vue';
+import messageBox from '@/utils/message-box';
 export default {
 	name: 'MusicComment',
 	props: {
@@ -135,8 +136,10 @@ export default {
 		},
 	},
 	setup() {
+		const router = useRouter();
 		const route = useRoute();
 		const store = useStore();
+		const status = computed(() => store.state.user.status);
 		// 默认参数
 		const params = reactive({
 			id: null,
@@ -145,16 +148,28 @@ export default {
 			type: null,
 		});
 		const currentMusicID = computed(() => store.state.song.currentMusicID);
-		// 请求操作
+		// 请求操作(核心请求)
 		const changCommentLike = liked => {
-			commentLike({ ...params }).then(result => {
-				console.log(result);
-				if (liked) {
-					message({ type: 'success', message: '已取消点赞！' });
-				} else {
-					message({ type: 'success', message: '点赞成功！' });
-				}
-			});
+			if (status.value === 2) {
+				commentLike({ ...params }).then(() => {
+					if (liked) {
+						message({ type: 'success', message: '已取消点赞！' });
+					} else {
+						message({ type: 'success', message: '点赞成功！' });
+					}
+				});
+			} else {
+				messageBox({
+					title: '提示',
+					message: '评论点赞需要先登录，是否现在登录？',
+					isShowCancel: true,
+				}).then(
+					() => {
+						router.push('/login');
+					},
+					() => {}
+				);
+			}
 		};
 		// 点赞/取消点赞
 		const like = item => {

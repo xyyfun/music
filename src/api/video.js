@@ -100,3 +100,28 @@ export const getMvDetail = id => request({ url: `/mv/detail?mvid=${id}` });
  * @return        {*}
  */
 export const getRelatedMv = mvid => request({ url: `/simi/mv?mvid=${mvid}` });
+
+/**
+ * @Date         : 2023-05-05 16:10:59
+ * @description  : 收藏/取消收藏视频
+ * @param         {*} id:
+ * @param         {*} t:1 为收藏,其他为取消收藏
+ * @return        {*}
+ */
+export const videoCollect = (id, t) => request({ url: `/video/sub?id=${id}&t=${t}` });
+
+/**
+ * @Date         : 2023-05-05 17:57:05
+ * @description  : 收藏/取消收藏mv
+ * @param         {*} id:
+ * @param         {*} t:
+ * @return        {*}
+ */
+export const mvCollect = (id, t) => request({ url: `/mv/sub?mvid=${id}&t=${t}` });
+
+/**
+ * @Date         : 2023-05-05 20:26:33
+ * @description  : 获取用户收藏的视频
+ * @return        {*}
+ */
+export const getUserCollectMv = () => request({ url: '/mv/sublist' });

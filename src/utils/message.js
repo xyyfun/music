@@ -3,19 +3,19 @@ import MusicMessage from '@/components/library/music-message';
 
 let timer = null;
 let mountNode = null;
+const messageDefaults = {
+	duration: 3000,
+	id: '',
+	message: '',
+	onClose: undefined,
+	showClose: false,
+	type: 'warn',
+	offset: 16,
+	zIndex: 0,
+	repeatNum: 1,
+};
 
-export default function (options) {
-	const messageDefaults = {
-		duration: 3000,
-		id: '',
-		message: '',
-		onClose: undefined,
-		showClose: false,
-		type: 'warn',
-		offset: 16,
-		zIndex: 0,
-		repeatNum: 1,
-	};
+export default options => {
 	const messageProps = {
 		type: options.type || messageDefaults.type,
 		message: options.message || messageDefaults.message,
@@ -37,4 +37,4 @@ export default function (options) {
 		mountNode = null;
 		clearTimeout(timer);
 	}, messageProps.duration + 500);
-}
+};

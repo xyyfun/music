@@ -9,16 +9,17 @@ export default {
 	state: {
 		songLists: [], // 歌单/专辑列表
 		playlistDetail: {}, // 歌单/专辑详情
+		subscribed: false, // 是否收藏该歌单/专辑
 	},
 	mutations: {
 		// 歌曲列表
 		lists(state, lists) {
-			const userLikeSongs = getUserLike();
-			lists.forEach(e => {
+			const userLikeSongs = new Set(getUserLike());
+			lists.forEach((e, i) => {
 				const str = useDateFormat(e.dt, 'mm:ss');
 				e.dt = str.value.replace(/\"/g, '');
-				const result = userLikeSongs.some(item => item === e.id);
-				if (result) {
+				// 判断该音乐是否为用户喜欢
+				if (userLikeSongs.has(e.id)) {
 					e.isLike = true;
 				} else {
 					e.isLike = false;
@@ -30,7 +31,7 @@ export default {
 		playlistDetail(state, val) {
 			const {
 				description,
-				creator: { nickname, avatarUrl },
+				creator: { nickname, avatarUrl, userId },
 				name,
 				coverImgUrl: picUrl,
 				updateTime,
@@ -41,17 +42,24 @@ export default {
 				description,
 				nickname,
 				avatarUrl,
+				userId,
 				name,
 				picUrl,
 				updateTime,
 				subscribedCount,
 				shareCount,
 			};
+			state.subscribed = val.subscribed;
 		},
 		// 专辑详情处理
 		albumDetail(state, val) {
 			const { description, artists, name, picUrl, publishTime } = val;
 			state.playlistDetail = { description, artists, name, picUrl, publishTime };
+			state.subscribed = val.info.liked;
+		},
+		// 修改是否收藏歌单/专辑
+		changCollect(state, val) {
+			state.subscribed = val;
 		},
 		// 添加喜欢的歌曲id
 		addUserLikeID(state, id) {
@@ -121,5 +129,4 @@ export default {
 			});
 		},
 	},
-	getters: {},
 };

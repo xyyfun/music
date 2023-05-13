@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import { computed } from 'vue';
 import useNumberSwitch from '@/hooks/useNumberSwitch';
 export default {
 	name: 'MusicPlayCount',
@@ -17,7 +16,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const playsNumber = computed(() => useNumberSwitch(props.playCount));
+		const playsNumber = useNumberSwitch(props.playCount);
 		return { playsNumber };
 	},
 };
@@ -30,13 +29,20 @@ export default {
 	overflow: hidden;
 	bottom: 5%;
 	right: 5%;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: rgba(0, 0, 0, 0.3);
+	backdrop-filter: blur(5px);
 	color: #fff;
 	border-radius: 0.9rem;
-	padding: 0.1rem 0.5rem;
+	padding: 0 0.5rem;
 	max-width: 100%;
+	height: 1.3rem;
+	line-height: 1.3rem;
 	i {
 		font-size: 0.4rem;
+		margin-right: 0.2rem;
+		&::before {
+			vertical-align: top;
+		}
 	}
 	span {
 		display: block;

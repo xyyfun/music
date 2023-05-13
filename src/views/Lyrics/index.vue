@@ -45,7 +45,7 @@ export default {
 	left: 0;
 	width: 100vw;
 	height: 100vh;
-	z-index: 999;
+	z-index: 888;
 	background-color: #f6f6f6;
 	.lyrics-content {
 		display: flex;

@@ -1,13 +1,6 @@
 import request from '@/utils/request';
 
 /**
- * @Date         : 2023-04-11 19:47:30
- * @description  : 查询登录状态
- * @return        {*}
- */
-export const loginStatus = () => request({ url: '/login/status', method: 'get' });
-
-/**
  * @Date         : 2023-04-11 19:52:47
  * @description  : 刷新登录
  * @return        {*}

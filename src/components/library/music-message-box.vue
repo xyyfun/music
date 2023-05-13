@@ -17,8 +17,12 @@
 					</div>
 				</div>
 				<div class="message-box-btns">
-					<a href="javascript:;" v-if="messageBoxProps.isShowCancel" @click="cancel">取消</a>
-					<a href="javascript:;" class="active" @click="confirm">确定</a>
+					<a href="javascript:;" v-if="messageBoxProps.isShowCancel" @click="cancel">
+						{{ messageBoxProps.cancelButtonText }}
+					</a>
+					<a href="javascript:;" class="active" @click="confirm">
+						{{ messageBoxProps.confirmButtonText }}
+					</a>
 				</div>
 			</div>
 		</div>
@@ -57,20 +61,21 @@ export default {
 
 <style lang="less" scoped>
 .music-box-wrapper {
+	overflow: hidden;
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100vw;
-	height: 100vh;
+	width: 100%;
+	height: 100%;
 	background-color: rgba(0, 0, 0, 0.3);
-	z-index: 10;
+	z-index: 999;
 	.music-box {
 		position: absolute;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
 		overflow: hidden;
-		min-width: 420px;
+		min-width: 26rem;
 		max-width: 600px;
 		padding: 1rem;
 		background-color: #fff;

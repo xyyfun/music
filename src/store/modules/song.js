@@ -1,7 +1,8 @@
-import { getSongUrl, getSongDetail, getSongLyric } from '@/api/songs';
+import { getSongUrl, getSongDetail, getSongLyric, checkMusci } from '@/api/songs';
 import { getUserLike } from '@/utils/user';
 import tidy from '@/utils/tidy';
 import { useDateFormat } from '@vueuse/core';
+import messageBox from '@/utils/message-box';
 export default {
 	// 开启命名空间
 	namespaced: true,
@@ -22,6 +23,7 @@ export default {
 		isShowDialog: false, // 是否显示对话框
 		isShowLyrics: false, //是否展开歌曲详情页
 		isPlay: false, // 是否播放
+		isInit: false, // 是否初始化（音频可视化）
 	},
 	mutations: {
 		SONGURL(state, val) {
@@ -36,11 +38,13 @@ export default {
 		},
 		// 主要的 频繁调用
 		NOWTIME(state, val) {
-			state.playerTime = val;
-			// 进度位置=当前播放事件秒/总时间秒*100
-			state.nowProgress = val / state.totalDuration;
-			const time = useDateFormat(val * 1000, 'mm:ss');
-			state.nowTime = time.value;
+			if (val) {
+				state.playerTime = val;
+				// 进度位置=当前播放事件秒/总时间秒*100
+				state.nowProgress = val / state.totalDuration;
+				const time = useDateFormat(val * 1000, 'mm:ss');
+				state.nowTime = time.value;
+			}
 		},
 		// 控制音乐是否播放
 		ISPLAY(state, val) {
@@ -111,6 +115,10 @@ export default {
 		changVolume(store, val) {
 			store.volume = val;
 		},
+		// 修改可视化初始化状态
+		changISINIT(state, val) {
+			state.isInit = val;
+		},
 		// 清空数据
 		clearData(state) {
 			state.url = {};
@@ -152,9 +160,21 @@ export default {
 		},
 		// 获取三件套
 		getMusic({ dispatch }, id) {
-			dispatch('songUrl', id);
-			dispatch('songDetail', id);
-			dispatch('songLyrics', id);
+			checkMusci(id).then(result => {
+				if (result.data.success) {
+					dispatch('songUrl', id);
+					dispatch('songDetail', id);
+					dispatch('songLyrics', id);
+				} else {
+					messageBox({
+						title: '提示',
+						message: '因合作方要求，该资源暂时无法收听，我们正在努力争取该歌曲回归',
+						isShowCancel: false,
+						isShowClose: false,
+						confirmButtonText: '好的',
+					});
+				}
+			});
 		},
 	},
 	getters: {
@@ -174,7 +194,7 @@ export default {
 		},
 		// 歌词
 		lyr(state) {
-			return tidy(state.lyrics.lyric) || [{ lyrics: 'QQ音乐 听我想听', time: 0 }];
+			return tidy(state.lyrics.lyric) || [{ lyrics: 'QQ音乐 听我想听', time: 999 }];
 		},
 		// 播放地址
 		playUrl(state) {

@@ -23,3 +23,11 @@ export const getSongDetail = id => request({ url: `/song/detail?ids=${id}`, meth
  * @return        {*}
  */
 export const getSongLyric = id => request({ url: `/lyric?id=${id}`, method: 'get' });
+
+/**
+ * @Date         : 2023-05-12 14:42:54
+ * @description  : 检测音乐是否可用
+ * @param         {*} id:
+ * @return        {*}
+ */
+export const checkMusci = id => request({ url: `/check/music?id=${id}` });

@@ -27,3 +27,19 @@ export const getAlbumData = id => {
 		url: `/album?id=${id}`,
 	});
 };
+
+/**
+ * @Date         : 2023-05-05 17:13:47
+ * @description  : 收藏/取消收藏专辑
+ * @param         {*} id:
+ * @param         {*} t:
+ * @return        {*}
+ */
+export const albumSubscribe = (id, t) => request({ url: `/album/sub?t=${t}&id=${id}` });
+
+/**
+ * @Date         : 2023-05-05 17:30:43
+ * @description  : 获取用户收藏的专辑列表
+ * @return        {*}
+ */
+export const getUserCollectAlbum = () => request({ url: '/album/sublist' });

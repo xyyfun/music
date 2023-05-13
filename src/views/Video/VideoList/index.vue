@@ -29,12 +29,12 @@ export default {
 			const id = route.query.id;
 			if (id) {
 				getVideo(id, offset.value).then(data => {
-					data.data.datas.forEach(e => lists.value.push(e));
+					data.data.datas.forEach(e => lists.value.push(e.data));
 					isMore.value = data.data.hasmore;
 				});
 			} else {
 				getVideoAll(offset.value).then(data => {
-					data.data.datas.forEach(e => lists.value.push(e));
+					data.data.datas.forEach(e => lists.value.push(e.data));
 					isMore.value = data.data.hasmore;
 				});
 			}
@@ -46,12 +46,12 @@ export default {
 					offset.value = 1;
 					if (newVal) {
 						getVideo(newVal, offset.value).then(data => {
-							lists.value = data.data.datas;
+							lists.value = data.data.datas.map(e => e.data);
 							isMore.value = data.data.hasmore;
 						});
 					} else {
 						getVideoAll(offset.value).then(data => {
-							lists.value = data.data.datas;
+							lists.value = data.data.datas.map(e => e.data);
 							isMore.value = data.data.hasmore;
 						});
 					}

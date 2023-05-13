@@ -5,8 +5,8 @@ const defaults = {
 	title: '标题',
 	message: '这是一段有关内容',
 	type: null, // 图标
-	isShowClose: false, // 是否显示右上角关闭按钮
-	isShowCancel: true, // 是否显示取消按钮
+	isShowClose: true, // 是否显示右上角关闭按钮
+	isShowCancel: false, // 是否显示取消按钮
 	cancelButtonText: '取消', // 取消按钮的文本内容
 	confirmButtonText: '确定', // 确定按钮的文本内容
 };
@@ -21,15 +21,23 @@ const destroy = () => {
 };
 
 export default options => {
+	const { title, message, type, isShowClose, isShowCancel, cancelButtonText, confirmButtonText } =
+		options;
 	const messageBoxProps = {
-		title: options.title || defaults.title,
-		message: options.message || defaults.message,
-		type: options.type || defaults.type,
-		isShowClose: options.isShowClose || defaults.isShowClose,
-		isShowCancel: options.isShowCancel || defaults.isShowCancel,
-		cancelButtonText: options.cancelButtonText || defaults.cancelButtonText,
-		confirmButtonText: options.confirmButtonText || defaults.confirmButtonText,
+		title: title || defaults.title,
+		message: message || defaults.message,
+		type: type || defaults.type,
+		isShowClose: defaults.isShowClose,
+		isShowCancel: defaults.isShowCancel,
+		cancelButtonText: cancelButtonText || defaults.cancelButtonText,
+		confirmButtonText: confirmButtonText || defaults.confirmButtonText,
 	};
+	if (typeof isShowClose === 'boolean') {
+		messageBoxProps.isShowClose = isShowClose;
+	}
+	if (typeof isShowCancel === 'boolean') {
+		messageBoxProps.isShowCancel = isShowCancel;
+	}
 	return new Promise((resolve, reject) => {
 		// 确定
 		const submitCallback = () => {

@@ -1,10 +1,16 @@
 <template>
 	<div class="detail">
-		<div class="user" v-if="creator.length">
-			<a href="javascript:;" v-for="item in creator" :key="item.id">
-				<img v-lazy="item.img1v1Url + '?param=130y130'" alt="" />
-				<span>{{ item.name }}</span>
-			</a>
+		<div class="user">
+			<router-link :to="`/user?id=${creator.userId}`" v-if="creator.userId">
+				<img v-lazy="creator.avatarUrl + '?param=130y130'" alt="" />
+				<span>{{ creator.nickname }}</span>
+			</router-link>
+			<template v-else>
+				<router-link :to="`/singer/${item.id}`" v-for="item in artists" :key="item.id">
+					<img v-lazy="item.img1v1Url + '?param=130y130'" alt="" />
+					<span>{{ item.name }}</span>
+				</router-link>
+			</template>
 		</div>
 		<div class="info">
 			<div class="description">
@@ -20,10 +26,14 @@
 			</div>
 			<div class="count">
 				<div class="praise">
-					<a href="javascript:;">
+					<a href="javascript:;" @click="subscribe(1)">
 						<i class="iconfont icon-xihuan21"></i>
 						<span>收藏</span>
 					</a>
+					<!-- <a href="javascript:;" @click="subscribe(2)">
+						<i class="iconfont icon-xihuan2"></i>
+						<span>已收藏</span>
+					</a> -->
 				</div>
 				<div class="collect">
 					<a href="javascript:;">
@@ -45,30 +55,84 @@
 <script>
 import { computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { videoCollect, mvCollect } from '@/api/video';
+import message from '@/utils/message';
+import messageBox from '@/utils/message-box';
 export default {
 	name: 'PlayerDetail',
 	setup() {
 		const store = useStore();
 		const route = useRoute();
+		const router = useRouter();
+		const status = computed(() => store.state.user.status);
+		// 收藏/取消收藏视频
+		const subscribe = t => {
+			// 判断是否登录
+			if (status.value === 2) {
+				const {
+					query: { vid, type },
+				} = route;
+				const result = new Promise((resolv, reject) => {
+					if (type === 'video') {
+						videoCollect(vid, t).then(() => {
+							if (t === 1) {
+								resolv();
+							} else {
+								reject();
+							}
+						});
+					} else {
+						mvCollect(vid, t).then(() => {
+							if (t === 1) {
+								resolv();
+							} else {
+								reject();
+							}
+						});
+					}
+				});
+				result.then(
+					() => {
+						message({ type: 'success', message: '收藏成功！' });
+					},
+					() => {
+						message({ type: 'success', message: '已取消收藏！' });
+					}
+				);
+			} else {
+				messageBox({
+					title: '提示',
+					message: '收藏视频需要先登录，是否现在登录？',
+					isShowCancel: true,
+				}).then(
+					() => {
+						router.push('/login');
+					},
+					() => {}
+				);
+			}
+		};
 		// 监视路由变化获取数据
 		watch(
-			() => route.query.id,
+			() => route.query.vid,
 			newVal => {
 				if (newVal && route.name === 'player') {
 					if (route.query.type === 'video') {
-						store.dispatch('video/videoDetail', route.query.id);
+						store.dispatch('video/videoDetail', route.query.vid);
 					} else {
-						store.dispatch('video/mvDetail', route.query.id);
+						store.dispatch('video/mvDetail', route.query.vid);
 					}
 				}
 			},
 			{ immediate: true }
 		);
 		return {
+			subscribe,
 			videoGroup: computed(() => store.getters['video/videoGroup']),
 			publishTime: computed(() => store.state.video.detail.publishTime),
 			creator: computed(() => store.state.video.creator),
+			artists: computed(() => store.state.video.artists),
 			description: computed(
 				() => store.state.video.detail.description || store.state.video.detail.name
 			),
@@ -147,6 +211,9 @@ export default {
 				}
 				span {
 					padding-left: 0.3rem;
+				}
+				.icon-xihuan2 {
+					color: #ff6664;
 				}
 			}
 		}

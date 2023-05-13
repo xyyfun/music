@@ -133,13 +133,13 @@ export default {
 		};
 		// 监视路由变化获取数据
 		watch(
-			() => route.query.id,
+			() => route.query.vid,
 			() => {
 				end();
 				if (route.query.type === 'video') {
-					store.dispatch('video/videoUrl', route.query.id);
+					store.dispatch('video/videoUrl', route.query.vid);
 				} else {
-					store.dispatch('video/mvUrl', { id: route.query.id });
+					store.dispatch('video/mvUrl', { id: route.query.vid });
 				}
 			},
 			{ immediate: true }

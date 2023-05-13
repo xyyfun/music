@@ -1,13 +1,13 @@
 <template>
 	<div class="music-video-list">
 		<div class="video-list">
-			<div class="item" v-for="item in videoList" :key="item.data.vid">
-				<router-link :to="`/player?id=${item.data.vid}&type=video`">
-					<img v-lazy="item.data.coverUrl + '?param=268y146'" alt="" />
+			<div class="item" v-for="item in videoList" :key="item.vid">
+				<router-link :to="`/player?vid=${item.vid}&type=video`">
+					<img v-lazy="item.coverUrl + '?param=268y146'" alt="" />
 					<AppMask />
 				</router-link>
-				<span>{{ item.data.title }}</span>
-				<span>{{ item.data.creator.nickname }}</span>
+				<span>{{ item.title }}</span>
+				<span v-if="item.creator">{{ item.creator.nickname }}</span>
 			</div>
 		</div>
 	</div>
@@ -35,10 +35,11 @@ export default {
 		.item {
 			display: flex;
 			flex-direction: column;
-			a {
+			> a {
 				overflow: hidden;
 				position: relative;
 				border-radius: 0.5rem;
+				background-color: #eee;
 				img {
 					width: 100%;
 					height: 100%;

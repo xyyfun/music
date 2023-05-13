@@ -32,7 +32,7 @@ export default {
 		};
 		// 视频评论
 		const getVideoAllComment = () => {
-			getVideoComment(route.query.id, offset.value).then(data => {
+			getVideoComment(route.query.vid, offset.value).then(data => {
 				data.data.comments.forEach(e => {
 					comments.value.push(e);
 				});
@@ -41,7 +41,7 @@ export default {
 		};
 		// mv评论
 		const getMvAllComment = () => {
-			getMvComment(route.query.id, offset.value).then(data => {
+			getMvComment(route.query.vid, offset.value).then(data => {
 				data.data.comments.forEach(e => {
 					comments.value.push(e);
 				});
@@ -49,13 +49,13 @@ export default {
 			});
 		};
 		const HotComment = type => {
-			getHotComment(route.query.id, type, 1).then(
+			getHotComment(route.query.vid, type, 1).then(
 				data => (hotComments.value = data.data.hotComments)
 			);
 		};
 		// 监视路由变化获取数据
 		watch(
-			() => route.query.id,
+			() => route.query.vid,
 			newVal => {
 				if (newVal) {
 					if (route.query.type === 'video') {

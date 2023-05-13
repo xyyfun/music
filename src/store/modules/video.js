@@ -6,13 +6,15 @@ export default {
 	state: {
 		videoUrl: '', // 视频url
 		detail: {}, // 详情
-		creator: [], // 创作者
+		creator: {}, // 创作者
+		artists: [], // 艺人
 		isPlay: false, // 视频是否可以播放
 		totalDuration: 0, // 视频总秒数
 		totalTime: '00:00', // 视频播放时间（分+秒）
 		nowTime: '00:00', // 当前视频播放时间（分+秒）
 		nowProgress: 0, // 当前进度条进度
 		duration: 0, // 指定播放器到哪秒
+		isCollect: false, // 是否收藏
 	},
 	mutations: {
 		// 视频播放地址
@@ -25,12 +27,11 @@ export default {
 		},
 		// 视频创作者
 		videoCreator(state, val) {
-			const { avatarUrl: img1v1Url, nickname: name, userId: id } = val;
-			state.creator = [{ img1v1Url, name, id }];
+			state.creator = val;
 		},
 		// mv创作者
 		mvCreator(state, val) {
-			state.creator = val;
+			state.artists = val;
 		},
 		ISPLAY(state, val) {
 			state.isPlay = val;
@@ -57,7 +58,7 @@ export default {
 		clearData(state) {
 			state.videoUrl = '';
 			state.detail = {};
-			state.creator = [];
+			state.creator = {};
 			state.nowProgress = 0;
 			state.totalDuration = 0;
 			state.duration = 0;

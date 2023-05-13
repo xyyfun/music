@@ -1,22 +1,72 @@
-import { setUserInfo, getUserInfo } from '@/utils/user';
+import { setUserLike, setUserInfo, getUserInfo } from '@/utils/user';
+import { getUserStatus, getUserLike, getUserDetail } from '@/api/user';
 export default {
 	// 开启命名空间
 	namespaced: true,
 	state: {
 		// 用户信息
 		userInfo: getUserInfo() || {},
+		// 用户歌曲喜欢列表（歌单）
+		usersongLike: null,
+		// 0：等待状态返回 1：未登录 2：登录成功
+		status: 0,
 	},
 	mutations: {
+		// 修改用户状态
+		changUserStatus(state, val) {
+			state.status = val;
+		},
 		// 存储用户信息
 		setInfo(state, val) {
 			state.userInfo = val;
+		},
+		// 存储用户喜欢列表
+		changUsreSongLike(state, val) {
+			state.usersongLike = val;
 		},
 		// 删除用户信息
 		removeInfo(state) {
 			state.userInfo = {};
 		},
 	},
-	actions: {},
+	actions: {
+		// 用户登录状态
+		userStatus({ commit }) {
+			return new Promise((resolv, reject) => {
+				getUserStatus().then(result => {
+					if (result.data.data.profile) {
+						const userId = result.data.data.profile.userId;
+						commit('changUserStatus', 2);
+						resolv(userId);
+					} else {
+						commit('changUserStatus', 1);
+						reject('tourist');
+					}
+				});
+			});
+		},
+		// 获取用户信息
+		userInfo({ commit }, id) {
+			return new Promise((resolv, reject) => {
+				getUserDetail(id).then(
+					data => {
+						setUserInfo(data.data.profile); // 持久化存储
+						commit('setInfo', data.data.profile); // 存储至vuex
+						resolv();
+					},
+					() => {
+						reject();
+					}
+				);
+			});
+		},
+		// 获取用户喜欢（歌曲id数组集合）
+		userLike({ commit }, id) {
+			getUserLike(id).then(data => {
+				setUserLike(data.data.ids);
+			});
+		},
+	},
 	getters: {
 		// 用户id
 		userId(state) {
@@ -24,7 +74,7 @@ export default {
 		},
 		// 用户头像
 		userAvatarUrl(state) {
-			return state.userInfo.avatarUrl || undefined;
+			return state.userInfo.avatarUrl || require('@/assets/images/singer_300.png');
 		},
 		// 用户名字
 		userName(state) {

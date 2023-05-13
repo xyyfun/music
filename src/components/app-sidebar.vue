@@ -60,7 +60,7 @@
 					</li>
 				</ul>
 			</div>
-			<div class="menu">
+			<div class="menu" v-if="playlist.length">
 				<span>创建的歌单</span>
 				<ul>
 					<li v-for="item in playlist" :key="item.id">
@@ -76,18 +76,31 @@
 
 <script>
 import { getUserPlaylist } from '@/api/user';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 export default {
 	name: 'AppSidebar',
 	setup() {
 		const store = useStore();
 		const playlist = ref([]);
+		const userLike = ref(null);
 		const userId = computed(() => store.getters['user/userId']);
-		getUserPlaylist(userId.value).then(data => {
-			playlist.value = data.data.playlist;
+		const status = computed(() => store.state.user.status);
+		onMounted(() => {
+			watch(
+				status,
+				newVal => {
+					if (newVal === 2) {
+						getUserPlaylist(userId.value).then(data => {
+							playlist.value = data.data.playlist.splice(1);
+							store.commit('user/changUsreSongLike', data.data.playlist[0].id);
+						});
+					}
+				},
+				{ immediate: true }
+			);
 		});
-		return { playlist };
+		return { userLike, playlist };
 	},
 };
 </script>
@@ -97,8 +110,11 @@ export default {
 	width: 14rem;
 	min-width: 14rem;
 	background-color: #f0f0f0;
-	overflow-y: auto;
+	overflow-y: hidden;
 	overflow-x: hidden;
+	&:hover {
+		overflow-y: auto;
+	}
 	.sidebar-content {
 		.logo {
 			width: 14rem;

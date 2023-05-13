@@ -24,17 +24,12 @@ export default {
 		onMounted(() => {
 			if (route.query.type === 'video') {
 				title.value = '相关视频';
-				getRelatedVideo(route.query.id).then(data => {
-					videoList.value = data.data.data.map(e => {
-						const obj = {};
-						e.creator = e.creator[0];
-						obj.data = e;
-						return obj;
-					});
+				getRelatedVideo(route.query.vid).then(data => {
+					videoList.value = data.data.data;
 				});
 			} else {
 				title.value = '相似MV';
-				getRelatedMv(route.query.id).then(data => {
+				getRelatedMv(route.query.vid).then(data => {
 					mvList.value = data.data.mvs;
 				});
 			}

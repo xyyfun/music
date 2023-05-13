@@ -21,9 +21,9 @@
 					</div>
 					<div class="right-info">
 						<div class="basic-info overflow">
-							<a href="javascript:;" class="ellipsis" @click="showLyrics">
+							<a href="javascript:;" class="" @click="showLyrics">
 								<span class="song-name">{{ songName }}</span>
-								<span class="singer">
+								<span class="singer" v-if="singer">
 									- <span v-for="item in singer" :key="item.id">{{ item.name }}</span>
 								</span>
 							</a>
@@ -63,6 +63,7 @@ import { useRouter } from 'vue-router';
 import { useClick } from '@/hooks/useProgress';
 import AppControl from '@/components/app-control';
 import message from '@/utils/message';
+import messageBox from '@/utils/message-box';
 export default {
 	name: 'AppProgress',
 	components: { AppControl },
@@ -74,6 +75,7 @@ export default {
 		const totalDuration = computed(() => store.state.song.totalDuration); // 当前音乐总秒数
 		const currentMusicID = computed(() => store.state.song.currentMusicID); // 当前音乐ID
 		const nowProgress = computed(() => store.state.song.nowProgress); // 当前进度
+		const status = computed(() => store.state.user.status);
 		// 滑块位置
 		const trigger = computed(() => {
 			if (slot.value) return nowProgress.value * slot.value.offsetWidth;
@@ -99,20 +101,33 @@ export default {
 		};
 		// 喜欢音乐
 		const like = async () => {
-			if (currentMusicID.value) {
-				try {
-					await store.dispatch('playlist/changUserLike', {
-						id: currentMusicID.value,
-						boolean: true,
-					});
-					store.commit('song/changPlaylistLike', {
-						id: currentMusicID.value,
-						boolean: true,
-					});
-					message({ type: 'success', message: '已添加到我喜欢的音乐！' });
-				} catch (error) {
-					message({ type: 'error', message: error.data.message });
+			if (status.value === 2) {
+				if (currentMusicID.value) {
+					try {
+						await store.dispatch('playlist/changUserLike', {
+							id: currentMusicID.value,
+							boolean: true,
+						});
+						store.commit('song/changPlaylistLike', {
+							id: currentMusicID.value,
+							boolean: true,
+						});
+						message({ type: 'success', message: '已添加到我喜欢的音乐！' });
+					} catch (error) {
+						message({ type: 'error', message: error.data.message });
+					}
 				}
+			} else {
+				messageBox({
+					title: '提示',
+					message: '喜欢音乐需要先登录，是否现在登录？',
+					isShowCancel: true,
+				}).then(
+					() => {
+						router.push('/login');
+					},
+					() => {}
+				);
 			}
 		};
 		// 取消喜欢
@@ -241,12 +256,17 @@ export default {
 				}
 				.right-info {
 					padding: 0 0.7rem;
-					width: 14rem;
+					width: 10rem;
 					height: 3.1rem;
 					.basic-info {
+						&:hover > a {
+							animation-play-state: paused;
+						}
 						a {
-							display: block;
+							display: inline-block;
+							white-space: nowrap;
 							font-size: 0.9rem;
+							animation: roll 5s linear infinite;
 							.singer {
 								color: #7b7b7b;
 								span {
@@ -259,12 +279,6 @@ export default {
 										}
 									}
 								}
-							}
-							&:hover {
-								text-overflow: unset;
-								overflow: visible;
-								transform: translateX(-100%);
-								transition: all 3s linear;
 							}
 						}
 					}
@@ -300,6 +314,14 @@ export default {
 				}
 			}
 		}
+	}
+}
+@keyframes roll {
+	from {
+		transform: translateX(100%);
+	}
+	to {
+		transform: translateX(-100%);
 	}
 }
 </style>

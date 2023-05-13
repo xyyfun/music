@@ -63,3 +63,17 @@ ul {
 		font-size: 16px;
 	}
 }
+.fade-header-enter-from,
+.fade-header-leave-to {
+	transform: translateY(-10px);
+	opacity: 0;
+}
+.fade-header-enter-active,
+.fade-header-leave-active {
+	transition: all 0.3s;
+}
+.fade-header-enter-to,
+.fade-header-leave-from {
+	transform: none;
+	opacity: 1;
+}

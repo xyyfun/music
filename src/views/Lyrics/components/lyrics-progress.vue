@@ -50,6 +50,7 @@ import { useRouter } from 'vue-router';
 import { useClick } from '@/hooks/useProgress';
 import AppControl from '@/components/app-control';
 import message from '@/utils/message';
+import messageBox from '@/utils/message-box';
 export default {
 	name: 'LyricsProgress',
 	components: { LyricsVideoVisible, AppControl },
@@ -60,6 +61,7 @@ export default {
 		const totalTimeS = computed(() => store.state.song.totalDuration);
 		const currentMusicID = computed(() => store.state.song.currentMusicID);
 		const nowProgress = computed(() => store.state.song.nowProgress);
+		const status = computed(() => store.state.user.status);
 		// 滑块位置
 		const trigger = computed(() => {
 			if (slot.value) return nowProgress.value * slot.value.offsetWidth;
@@ -90,20 +92,34 @@ export default {
 		});
 		// 喜欢音乐
 		const like = async () => {
-			if (currentMusicID.value) {
-				try {
-					await store.dispatch('playlist/changUserLike', {
-						id: currentMusicID.value,
-						boolean: true,
-					});
-					store.commit('song/changPlaylistLike', {
-						id: currentMusicID.value,
-						boolean: true,
-					});
-					message({ type: 'success', message: '已添加到我喜欢的音乐！' });
-				} catch (error) {
-					message({ type: 'error', message: error.data.message });
+			if (status.value === 2) {
+				if (currentMusicID.value) {
+					try {
+						await store.dispatch('playlist/changUserLike', {
+							id: currentMusicID.value,
+							boolean: true,
+						});
+						store.commit('song/changPlaylistLike', {
+							id: currentMusicID.value,
+							boolean: true,
+						});
+						message({ type: 'success', message: '已添加到我喜欢的音乐！' });
+					} catch (error) {
+						message({ type: 'error', message: error.data.message });
+					}
 				}
+			} else {
+				messageBox({
+					title: '提示',
+					message: '喜欢音乐需要先登录，是否现在登录？',
+					isShowCancel: true,
+				}).then(
+					() => {
+						store.commit('song/SHOWLYRICS', false);
+						router.push('/login');
+					},
+					() => {}
+				);
 			}
 		};
 		// 取消喜欢

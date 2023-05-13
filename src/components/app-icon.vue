@@ -6,7 +6,9 @@
 		<a href="javascript:;" v-if="fee === 1">
 			<i class="iconfont icon-VIP"></i>
 		</a>
-		<a href="javascript:;" v-if="mv"><i class="iconfont icon-MV"></i></a>
+		<router-link :to="`/player?vid=${mv}&type=mv`" v-if="mv">
+			<i class="iconfont icon-MV"></i>
+		</router-link>
 		<a href="javascript:;" v-if="originCoverType === 1">
 			<i class="iconfont icon-originality"></i>
 		</a>

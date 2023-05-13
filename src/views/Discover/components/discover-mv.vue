@@ -4,7 +4,7 @@
 			<MusicTitleChild title="推荐MV" />
 			<ul>
 				<li v-for="item in mv" :key="item.id">
-					<router-link :to="`/player?id=${item.id}&type=mv`">
+					<router-link :to="`/player?vid=${item.id}&type=mv`">
 						<img v-lazy="item.picUrl" alt="" />
 						<AppMask />
 					</router-link>

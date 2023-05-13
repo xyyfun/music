@@ -77,7 +77,7 @@ export default {
 		};
 		const leaveSwiper = () => {
 			isShowBtn.value = false;
-			timer.value = setInterval(() => next(), 2000);
+			timer.value = setInterval(() => next(), 3000);
 		};
 		const routeJump = (type, id, url) => {
 			if (type === 1) {
@@ -90,6 +90,9 @@ export default {
 			} else if (type === 1000) {
 				// 歌单推荐
 				router.push(`/playlist/${id}`);
+			} else if (type === 1004) {
+				// MV推荐
+				router.push(`/player?id=${id}&type=mv`);
 			} else if (type === 3000) {
 				// 独家策划
 				window.open(url);
@@ -104,7 +107,7 @@ export default {
 				styleTemplate.value.push(...arr);
 				banners.value = data.data.banners;
 			});
-			timer.value = setInterval(() => next(), 2000); // 开启自动轮播
+			timer.value = setInterval(() => next(), 3000); // 开启自动轮播
 		});
 		onUnmounted(() => {
 			clearInterval(timer.value);
@@ -138,7 +141,9 @@ export default {
 		.item {
 			position: absolute;
 			height: 100%;
-			transition: all 0.5s;
+			background-color: #333;
+			border-radius: 0.5rem;
+			transition: all 0.7s;
 			a {
 				display: block;
 				img {
@@ -167,7 +172,7 @@ export default {
 			border-radius: 50%;
 			z-index: 6;
 			background-color: rgba(230, 230, 230, 0.8);
-			transition: all 0.2s;
+			transition: all 0.5s;
 			opacity: 0;
 			&:hover {
 				background-color: rgba(230, 230, 230);
