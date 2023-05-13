@@ -8,13 +8,13 @@
 
 ## Vue3 Music
 
-项目基于 Vue3 全家桶开发的 QQ 音乐播放器，项目界面模仿 QQ 音乐客户端
+项目基于 Vue3 全家桶开发的 QQ 音乐播放器，项目界面模仿 QQ 音乐 Windows 客户端
 
-后端 API[Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+后端API [Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
 界面适配 PC+iPad；移动端未适配
 
-喜欢的话欢迎 star
+如果觉得项目不错的话欢迎 star
 
 **注**：部分音乐由于版权问题无法播放
 
@@ -49,9 +49,9 @@ $ npm run build
   - [x] 歌手
   - [x] 分类歌单
   - [x] 数字专辑
-- [x] 视频
-  - [x] 视频/MV播放
 
+- [x] 视频
+  - [x] 视频/MV 播放
 - [ ] 雷达
 - [x] 我喜欢
 - [ ] 本地下载
@@ -59,7 +59,11 @@ $ npm run build
 - [ ] 试听列表
 - [x] 用户歌单
 - [x] 登录
-- [ ] 用户详情
+- [x] 用户
+
+  - [x] 用户喜欢
+  - [x] 用户歌单
+
 - [x] 歌词播放器
 - [x] 歌单详情
 - [x] 歌单/专辑/电台评论
@@ -67,54 +71,58 @@ $ npm run build
 - [x] 歌手详情
 - [ ] 深色模式
 - [x] 搜索
-- [ ] 用户收藏
 
 ### 技术栈
 
 - **_Vue3 全家桶_**
-- **_vueuse_** 第三方工具
+- **_vueuse_** 第三方工具库
 - **_axios_** 请求工具
 - **_mitt_** 组件通信
 - **_vue-lazyload_** 图片懒加载
-- **lodash 第三方工具库**
+- **_lodash_** 第三方工具库
 
-### 效果图
+### 项目预览
 
 首页-推荐
 
-![首页](./image/uTools_1681392203600.png)
+![首页](./image/uTools_1683971342962.png)
 
 音乐馆-精选
 
-![音乐馆-精选](./image/uTools_1682602256954.png)
+![音乐馆-精选](./image/uTools_1683971511192.png)
 
 音乐馆-电台
 
-![音乐馆-有声电台](./image/uTools_1681392289524.png)
+![音乐馆-有声电台](./image/uTools_1683971528015.png)
 
 音乐馆-排行
 
-![音乐馆-排行](./image/uTools_1681392302552.png)
+![音乐馆-排行](./image/uTools_1683971548011.png)
 
 搜索
 
-![搜索](./image/uTools_1683556955017.png)
+![搜索](./image/uTools_1683971032585.png)
 
 播放器
 
-![播放器](./image/uTools_1683557013915.png)
+![播放器](./image/uTools_1683970988963.png)
 
 歌单
 
-![歌单](./image/uTools_1681392409401.png)
+![歌单](./image/uTools_1683971623161.png)
 
 视频
 
-![视频](./image/uTools_1681392203601.png)
+![视频](./image/uTools_1683972074884 .png)
 
 ### 之后的方向
 
-项目由组合式 API 编写，没有用到 TS，目前项目仍存在大量细小的 bug，后期可能会用 TS 进行二次维护
+- 适配深色模式
+- 根据当前用户网络状况加载对应大小预览图
+- 视频小窗
+- 回复评论&楼层评论
+- 电台播放
+- ...
 
 ### 鸣谢
 
