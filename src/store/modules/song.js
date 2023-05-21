@@ -18,7 +18,7 @@ export default {
 		playerTime: 0, // 当前播放器时间（秒）
 		totalDuration: 0, // 当前歌曲总时长（秒）
 		duration: 0, // 指定播放器到哪秒
-		nowProgress: 0, // 当前进度条进度
+		nowProgress: 0, // 当前进度条进度 0~1
 		currentMusicID: 0, // 当前播放音乐id
 		isShowDialog: false, // 是否显示对话框
 		isShowLyrics: false, //是否展开歌曲详情页
@@ -56,7 +56,7 @@ export default {
 			state.isPlay = bol;
 			state.totalDuration = time;
 		},
-		// 修改进度
+		// 修改音乐播放位置（修改秒）
 		DURATION(state, val) {
 			state.duration = val;
 		},

@@ -10,7 +10,10 @@
 							<!-- 槽 -->
 							<div class="slot">
 								<!-- 滑块 -->
-								<div class="trigger" :style="{ transform: `translateX(${trigger}px)` }"></div>
+								<div
+									class="trigger"
+									ref="trigger"
+									:style="{ transform: `translateX(${triggerPosition}px)` }"></div>
 								<!-- 播放进度 -->
 								<div class="complete" :style="{ transform: `scaleX(${nowProgress})` }"></div>
 							</div>
@@ -63,7 +66,7 @@
 <script>
 import AppSound from '@/components/app-sound';
 import throttle from 'lodash/throttle';
-import { useClick } from '@/hooks/useProgress';
+import useProgress from '@/hooks/useProgress';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { computed, onMounted, ref, watch } from 'vue';
@@ -73,6 +76,7 @@ export default {
 	setup() {
 		const vid = ref(null); // 视频源
 		const slot = ref(null); // 进度槽
+		const trigger = ref(null);
 		const videoContent = ref(null); // 视频内容
 		const route = useRoute();
 		const store = useStore();
@@ -84,13 +88,13 @@ export default {
 		const nowProgress = computed(() => store.state.video.nowProgress); // 当前进度
 		const totalDuration = computed(() => store.state.video.totalDuration); // 当前音乐总秒数
 		// 滑块位置
-		const trigger = computed(() => {
+		const triggerPosition = computed(() => {
 			if (slot.value) return nowProgress.value * slot.value.offsetWidth;
 		});
 		// 绑定点击事件 返回点击位置的音乐秒数
-		const { x } = useClick(slot, totalDuration);
+		const { currentTime } = useProgress(trigger, slot, totalDuration);
 		// 监视用户点击进度条 根据点击位置修改音乐进度
-		watch(x, newVal => store.commit('video/DURATION', newVal), { immediate: true });
+		watch(currentTime, newVal => store.commit('video/DURATION', newVal), { immediate: true });
 		// 获取当前播放器时间
 		const playTime = el => {
 			if (!vid.value) return;
@@ -190,6 +194,7 @@ export default {
 			nowProgress,
 			trigger,
 			isShowSound,
+			triggerPosition,
 			isShowProgress,
 			isFullscreen,
 			enterArea,

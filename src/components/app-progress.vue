@@ -6,7 +6,10 @@
 				<!-- 槽 -->
 				<div class="slot">
 					<!-- 滑块 -->
-					<div class="trigger" :style="{ transform: `translateX(${trigger}px)` }"></div>
+					<div
+						class="trigger"
+						ref="trigger"
+						:style="{ transform: `translateX(${triggerPosition}px)` }"></div>
 					<!-- 已完成的进度 -->
 					<div class="complete" :style="{ transform: `scaleX(${nowProgress})` }"></div>
 				</div>
@@ -60,7 +63,7 @@
 import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { useClick } from '@/hooks/useProgress';
+import useProgress from '@/hooks/useProgress';
 import AppControl from '@/components/app-control';
 import message from '@/utils/message';
 import messageBox from '@/utils/message-box';
@@ -70,6 +73,7 @@ export default {
 	setup() {
 		const router = useRouter();
 		const store = useStore();
+		const trigger = ref(null);
 		const slot = ref(null);
 		const isShowLyrics = computed(() => store.state.song.isShowLyrics);
 		const totalDuration = computed(() => store.state.song.totalDuration); // 当前音乐总秒数
@@ -77,7 +81,7 @@ export default {
 		const nowProgress = computed(() => store.state.song.nowProgress); // 当前进度
 		const status = computed(() => store.state.user.status);
 		// 滑块位置
-		const trigger = computed(() => {
+		const triggerPosition = computed(() => {
 			if (slot.value) return nowProgress.value * slot.value.offsetWidth;
 		});
 		// 当前歌曲是否为我喜欢的歌曲
@@ -92,9 +96,9 @@ export default {
 		// 点击显示或隐藏歌曲详情页
 		const showLyrics = () => store.commit('song/SHOWLYRICS', true);
 		// 绑定点击事件 返回点击位置的音乐秒数
-		const { x } = useClick(slot, totalDuration);
+		const { currentTime } = useProgress(trigger, slot, totalDuration);
 		// 监视用户点击进度条 根据点击位置修改音乐进度
-		watch(x, newVal => store.commit('song/DURATION', newVal), { immediate: true });
+		watch(currentTime, newVal => store.commit('song/DURATION', newVal), { immediate: true });
 		// 查看评论
 		const comment = () => {
 			if (currentMusicID.value) router.push(`/comment`);
@@ -158,6 +162,7 @@ export default {
 			cancelLike,
 			nowProgress,
 			trigger,
+			triggerPosition,
 			totalTimeMin: computed(() => store.state.song.url.time),
 			songName: computed(() => store.getters['song/songName']),
 			singer: computed(() => store.getters['song/singer']),

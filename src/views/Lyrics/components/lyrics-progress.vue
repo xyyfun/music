@@ -7,7 +7,10 @@
 				<!-- 槽 -->
 				<div class="slot">
 					<!-- 滑块 -->
-					<div class="trigger" :style="{ transform: `translateX(${trigger}px)` }"></div>
+					<div
+						class="trigger"
+						ref="trigger"
+						:style="{ transform: `translateX(${triggerPosition}px)` }"></div>
 					<!-- 播放进度 -->
 					<div class="complete" :style="{ transform: `scaleX(${nowProgress})` }"></div>
 				</div>
@@ -47,7 +50,7 @@ import LyricsVideoVisible from './lyrics-video-visible';
 import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { useClick } from '@/hooks/useProgress';
+import useProgress from '@/hooks/useProgress';
 import AppControl from '@/components/app-control';
 import message from '@/utils/message';
 import messageBox from '@/utils/message-box';
@@ -58,17 +61,18 @@ export default {
 		const store = useStore();
 		const router = useRouter();
 		const slot = ref(null);
+		const trigger = ref(null);
 		const totalTimeS = computed(() => store.state.song.totalDuration);
 		const currentMusicID = computed(() => store.state.song.currentMusicID);
 		const nowProgress = computed(() => store.state.song.nowProgress);
 		const status = computed(() => store.state.user.status);
 		// 滑块位置
-		const trigger = computed(() => {
+		const triggerPosition = computed(() => {
 			if (slot.value) return nowProgress.value * slot.value.offsetWidth;
 		});
-		const { x } = useClick(slot, totalTimeS);
+		const { currentTime } = useProgress(trigger, slot, totalTimeS);
 		watch(
-			x,
+			currentTime,
 			newVal => {
 				if (newVal) store.commit('song/DURATION', newVal);
 			},
@@ -144,6 +148,7 @@ export default {
 			slot,
 			comment,
 			trigger,
+			triggerPosition,
 			nowProgress,
 			cancelLike,
 			like,

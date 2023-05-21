@@ -3,7 +3,10 @@
 		<div class="volume">
 			<div class="slot" ref="slot">
 				<div class="complete" :style="{ transform: `scaleY(${volume / 100})` }"></div>
-				<div class="trigger" :style="{ transform: `translateY(${-volumePosition}px)` }"></div>
+				<div
+					class="trigger"
+					ref="trigger"
+					:style="{ transform: `translateY(${-volumePosition}px)` }"></div>
 			</div>
 			<div class="number">{{ volume }}%</div>
 		</div>
@@ -12,7 +15,7 @@
 </template>
 
 <script>
-import { useClick } from '@/hooks/useProgress';
+import useProgress from '@/hooks/useProgress';
 import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 export default {
@@ -20,12 +23,13 @@ export default {
 	setup() {
 		const store = useStore();
 		const slot = ref(null); // 父元素
+		const trigger = ref(null);
 		const volume = computed(() => store.state.song.volume); // 音量
 		const volumePosition = computed(() => {
 			if (slot.value) return (volume.value / 100) * slot.value.offsetHeight;
 		});
-		const { y } = useClick(slot, volume);
-		watch(y, newVal => store.commit('song/changVolume', newVal));
+		const { sound } = useProgress(trigger, slot, volume);
+		watch(sound, newVal => store.commit('song/changVolume', newVal));
 		// 字体图标
 		const icon = computed(() => {
 			if (volume.value === 0) {
@@ -38,6 +42,7 @@ export default {
 		});
 		return {
 			slot,
+			trigger,
 			icon,
 			volume,
 			volumePosition,
