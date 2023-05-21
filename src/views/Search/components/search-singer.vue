@@ -34,6 +34,7 @@ export default {
 		};
 		const getData = () => {
 			const keyword = route.params.keyword;
+			if (!keyword) return;
 			useSearch(keyword, 'artists', offset.value, (val, artistCount) => {
 				if (!artistCount) isMore.value = false;
 				val.forEach(e => lists.value.push(e));

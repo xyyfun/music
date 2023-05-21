@@ -29,6 +29,7 @@ export default {
 		};
 		const getData = () => {
 			const keyword = route.params.keyword;
+			if (!keyword) return;
 			useSearch(keyword, 'songs', offset.value, (val, songCount) => {
 				if (!songCount) isMore.value = false;
 				store.commit('playlist/lists', val);

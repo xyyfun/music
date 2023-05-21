@@ -72,6 +72,7 @@ export default {
 			watch(
 				() => route.params.keyword,
 				newVal => {
+					if (!newVal) return;
 					clearData(); // 清空数据
 					searchMultiMatch(newVal).then(data => {
 						const { playlist, album, artist } = data.data.result;
