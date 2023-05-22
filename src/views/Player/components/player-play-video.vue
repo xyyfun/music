@@ -1,7 +1,9 @@
 <template>
 	<div class="play-video">
 		<div class="display-area" ref="videoContent" @mousemove="enterArea" @mouseleave="leaveArea">
-			<video :src="url" ref="vid" @click="playVideo"></video>
+			<div :class="isVisible ? 'default' : 'isLeave'" :style="isVisible ? '' : style" ref="target">
+				<video :src="url" ref="vid" @click="playVideo"></video>
+			</div>
 			<transition name="progress">
 				<div class="video-progress" v-show="isShowProgress">
 					<div class="progress">
@@ -67,16 +69,24 @@
 import AppSound from '@/components/app-sound';
 import throttle from 'lodash/throttle';
 import useProgress from '@/hooks/useProgress';
+import useDraggable from '@/hooks/useDraggable';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { computed, onMounted, ref, watch } from 'vue';
 export default {
 	name: 'PlayerPlayVideo',
 	components: { AppSound },
+	props: {
+		isVisible: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	setup() {
 		const vid = ref(null); // 视频源
 		const slot = ref(null); // 进度槽
-		const trigger = ref(null);
+		const target = ref(null);
+		const trigger = ref(null); // 滑块
 		const videoContent = ref(null); // 视频内容
 		const route = useRoute();
 		const store = useStore();
@@ -130,6 +140,8 @@ export default {
 				isFullscreen.value = true;
 			}
 		};
+		// 视频拖动
+		const { style } = useDraggable(target);
 		// 收尾操作
 		const end = () => {
 			store.commit('video/ISPLAY', false);
@@ -190,6 +202,7 @@ export default {
 		return {
 			vid,
 			slot,
+			target,
 			videoContent,
 			nowProgress,
 			trigger,
@@ -202,6 +215,7 @@ export default {
 			playVideo,
 			isPlay,
 			fullscreen,
+			style,
 			url: computed(() => store.state.video.videoUrl),
 			nowTime: computed(() => store.state.video.nowTime),
 			totalTime: computed(() => store.state.video.totalTime),
@@ -219,11 +233,31 @@ export default {
 		align-items: center;
 		width: 100%;
 		min-height: 28rem;
-		background-color: #000;
 		height: 28rem;
+		background-color: #000;
 		video {
 			width: 100%;
 			height: 100%;
+		}
+		.default {
+			width: 100%;
+			height: 100%;
+		}
+		.isLeave {
+			overflow: hidden;
+			position: fixed;
+			right: 84px;
+			bottom: 100px;
+			width: 360px;
+			height: 203px;
+			border-radius: 0.5rem;
+			cursor: move;
+			background-color: #000;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+			z-index: 500;
+			> video {
+				pointer-events: none;
+			}
 		}
 		.video-progress {
 			position: absolute;
