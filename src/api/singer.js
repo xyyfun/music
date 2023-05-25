@@ -91,3 +91,16 @@ export const getSinger = ({ type, area, initial, offset }) => {
  * @return        {*}
  */
 export const getArtist = () => request({ url: '/toplist/artist', method: 'get' });
+
+/**
+ * @Date         : 2023-05-25 23:06:07
+ * @description  : 关注歌手
+ * @param         {*} id:
+ * @param         {*} t:1 为收藏,其他为取消收藏
+ * @return        {*}
+ */
+export const followSinger = (id, t) => {
+	return request({
+		url: `/artist/sub?id=${id}&t=${t}`,
+	});
+};

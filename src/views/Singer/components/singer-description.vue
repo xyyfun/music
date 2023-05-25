@@ -14,10 +14,17 @@
 				<div class="utils">
 					<ul>
 						<li>
-							<a href="javascript:;" class="active"><i class="iconfont icon-xinjian"></i> 关注</a>
+							<a href="javascript:;" v-if="user.followed" @click="follow(artist.id, 0)">
+								<i class="iconfont icon-xihuan2"></i>已关注
+							</a>
+							<a href="javascript:;" v-else class="active" @click="follow(artist.id, 1)">
+								<i class="iconfont icon-xinjian"></i> 关注
+							</a>
 						</li>
-						<li>
-							<a href="javascript:;"><i class="iconfont icon-diantai"></i>歌手电台</a>
+						<li v-if="user.userId">
+							<router-link :to="`/user?id=${user.userId}`">
+								<i class="iconfont icon-user"></i>个人主页
+							</router-link>
 						</li>
 					</ul>
 				</div>
@@ -27,32 +34,51 @@
 </template>
 
 <script>
-import { getSingerDetail } from '@/api/singer';
+import { getSingerDetail, followSinger } from '@/api/singer';
 import { useRoute } from 'vue-router';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import message from '@/utils/message';
 export default {
 	name: 'SingerDescription',
 	setup() {
 		const route = useRoute();
 		const artist = ref({});
 		const identify = ref({});
-		watch(
-			() => route.params.id,
-			newVal => {
-				if (newVal && route.name === 'singer') {
-					artist.value = {};
-					identify.value = {};
-					if (newVal) {
-						getSingerDetail(newVal).then(data => {
-							artist.value = data.data.data.artist;
-							identify.value = data.data.data.identify;
-						});
-					}
+		const user = ref({});
+		// 关注/取消关注
+		const follow = (id, t) => {
+			followSinger(id, t).then(() => {
+				if (t) {
+					message({ type: 'success', message: '关注成功！' });
+					user.value.followed = true;
+				} else {
+					message({ type: 'success', message: '取消关注成功！' });
+					user.value.followed = false;
 				}
-			},
-			{ immediate: true }
-		);
-		return { artist, identify };
+			});
+		};
+		onMounted(() => {
+			watch(
+				() => route.params.id,
+				newVal => {
+					if (newVal && route.name === 'singer') {
+						artist.value = {};
+						identify.value = {};
+						user.value = {};
+						if (newVal) {
+							getSingerDetail(newVal).then(data => {
+								const { artist: art, identify: ide, user: use } = data.data.data;
+								artist.value = art;
+								identify.value = ide;
+								user.value = use || {};
+							});
+						}
+					}
+				},
+				{ immediate: true }
+			);
+		});
+		return { user, artist, identify, follow };
 	},
 };
 </script>
@@ -129,6 +155,9 @@ export default {
 						}
 						i {
 							padding: 0 5px;
+						}
+						.icon-xihuan2 {
+							color: #ff6664;
 						}
 						.active {
 							background-color: #1ecf9e;
