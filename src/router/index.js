@@ -108,9 +108,29 @@ const routes = [
 						path: 'home',
 						component: () => import('@/views/User/UserHome'),
 					},
+				],
+			},
+			{
+				path: '/message',
+				component: () => import('@/views/Message'),
+				redirect: '/message/private',
+				children: [
 					{
-						path: 'message',
-						component: () => import('@/views/User/UserMessage'),
+						name: 'private',
+						path: 'private',
+						component: () => import('@/views/Message/MessagePrivate'),
+					},
+					{
+						path: 'comment',
+						component: () => import('@/views/Message/MessageComment'),
+					},
+					{
+						path: 'at',
+						component: () => import('@/views/Message/MessageAt'),
+					},
+					{
+						path: 'system',
+						component: () => import('@/views/Message/MessageSystem'),
 					},
 				],
 			},
