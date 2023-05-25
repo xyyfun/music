@@ -18,7 +18,6 @@ export default {
 	setup() {
 		const lists = ref([]);
 		getRadioPersonality().then(data => {
-			console.log(data);
 			lists.value = data.data.data;
 		});
 		return { lists };

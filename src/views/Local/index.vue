@@ -8,9 +8,16 @@
 
 <script>
 import MusicTitle from '@/components/library/music-title';
+import { onMounted } from 'vue';
+import message from '@/utils/message';
 export default {
 	name: 'AppLocal',
 	components: { MusicTitle },
+	setup() {
+		onMounted(() => {
+			message({ type: 'warn', message: '功能开发中，敬请期待！' });
+		});
+	},
 };
 </script>
 

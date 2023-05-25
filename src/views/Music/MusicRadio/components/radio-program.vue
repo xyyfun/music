@@ -3,8 +3,8 @@
 		<div class="program">
 			<MusicTitleChild title="24小时节目榜" />
 			<ul>
-				<li v-for="item in list">
-					<a href="">
+				<li v-for="item in list" :key="item.program.id">
+					<a href="javascript:;" @click="playDJ(item.program.id)">
 						<img v-lazy="item.program.coverUrl + '?param=130y130'" alt="" />
 						<div class="description">
 							<span class="name ellipsis">{{ item.program.radio.name }}</span>
@@ -20,16 +20,24 @@
 <script>
 import MusicTitleChild from '@/components/library/music-title-child';
 import { getRadioProgram } from '@/api/music';
-import { shallowRef } from 'vue';
+import { onMounted, shallowRef } from 'vue';
+import { useStore } from 'vuex';
 export default {
 	name: 'RadioProgram',
 	components: { MusicTitleChild },
 	setup() {
+		const store = useStore();
 		const list = shallowRef([]);
-		getRadioProgram().then(data => {
-			list.value = data.data.data.list;
+		const playDJ = id => {
+			store.commit('song/ISPLAY', false);
+			store.dispatch('song/getMusic', id);
+		};
+		onMounted(() => {
+			getRadioProgram().then(data => {
+				list.value = data.data.data.list;
+			});
 		});
-		return { list };
+		return { list, playDJ };
 	},
 };
 </script>

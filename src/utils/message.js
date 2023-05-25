@@ -3,6 +3,7 @@ import MusicMessage from '@/components/library/music-message';
 
 let timer = null;
 let mountNode = null;
+
 const messageDefaults = {
 	duration: 3000,
 	id: '',
@@ -17,11 +18,10 @@ const messageDefaults = {
 
 export default options => {
 	const messageProps = {
-		type: options.type || messageDefaults.type,
-		message: options.message || messageDefaults.message,
-		duration: options.duration || messageDefaults.duration,
+		...messageDefaults,
+		...options,
 	};
-	//确保只存在一个弹框，如果前一个弹窗还在，就移除
+	//确保只存在一个弹框，如果前一个弹窗还在则移除
 	if (mountNode) {
 		document.body.removeChild(mountNode);
 		mountNode = null;

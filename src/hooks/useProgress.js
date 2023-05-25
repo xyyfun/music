@@ -52,7 +52,7 @@ export default (target, slot, params) => {
 	onUnmounted(() => {
 		// 销毁
 		document.removeEventListener('click', _click);
-		document.removeEventListener('click', _mousedown);
+		document.removeEventListener('mousedown', _mousedown);
 	});
 	return { currentTime, sound };
 };

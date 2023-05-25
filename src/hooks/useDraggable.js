@@ -1,5 +1,11 @@
 import { onMounted, onUnmounted, reactive } from 'vue';
 
+/**
+ * @Date         : 2023-05-24 17:00:08
+ * @description  : 使用拖动
+ * @param     		{*} el : 绑定元素
+ * @return        {*}
+ */
 export default el => {
 	const style = reactive({
 		right: '84px',

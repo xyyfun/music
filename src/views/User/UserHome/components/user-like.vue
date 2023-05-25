@@ -20,6 +20,7 @@ export default {
 				newVal => {
 					if (!newVal) return;
 					getUserPlaylist(newVal).then(result => {
+						if (!result.data.playlist.length) return;
 						store.dispatch('playlist/getPlaylistDetail', result.data.playlist[0].id);
 					});
 				},

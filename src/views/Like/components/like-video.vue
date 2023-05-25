@@ -9,7 +9,7 @@
 				<span>{{ item.title }}</span>
 				<span>
 					<router-link
-						:to="`${item.type ? '' : '/singer'}/${val.userId}`"
+						:to="`${item.type ? `/user?id=${val.userId}` : `/singer/${val.userId}`}`"
 						v-for="val in item.creator"
 						:key="val.userId">
 						{{ val.userName }}
@@ -33,7 +33,6 @@ export default {
 		onMounted(() => {
 			getUserCollectMv().then(data => {
 				videoList.value = data.data.data;
-				console.log(data);
 			});
 		});
 		return { videoList, mvList };

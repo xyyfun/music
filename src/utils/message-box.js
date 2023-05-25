@@ -20,24 +20,11 @@ const destroy = () => {
 	mountNode = null;
 };
 
-export default options => {
-	const { title, message, type, isShowClose, isShowCancel, cancelButtonText, confirmButtonText } =
-		options;
+export default (options = {}) => {
 	const messageBoxProps = {
-		title: title || defaults.title,
-		message: message || defaults.message,
-		type: type || defaults.type,
-		isShowClose: defaults.isShowClose,
-		isShowCancel: defaults.isShowCancel,
-		cancelButtonText: cancelButtonText || defaults.cancelButtonText,
-		confirmButtonText: confirmButtonText || defaults.confirmButtonText,
+		...defaults,
+		...options,
 	};
-	if (typeof isShowClose === 'boolean') {
-		messageBoxProps.isShowClose = isShowClose;
-	}
-	if (typeof isShowCancel === 'boolean') {
-		messageBoxProps.isShowCancel = isShowCancel;
-	}
 	return new Promise((resolve, reject) => {
 		// 确定
 		const submitCallback = () => {

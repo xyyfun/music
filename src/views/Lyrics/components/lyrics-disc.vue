@@ -61,11 +61,11 @@ export default {
 			width: 20rem;
 			height: 20rem;
 			background-repeat: no-repeat;
-			background-size: 90% 90%;
+			background-size: 97% 97%;
 			background-position: center center;
 			background-image: url('../../../assets/images/vinyl-record.png');
-			-webkit-clip-path: ellipse(44% 44% at 49.5% 50%);
-			clip-path: ellipse(44% 44% at 49.5% 50%);
+			-webkit-clip-path: ellipse(46% 46% at 50% 50%);
+			clip-path: ellipse(46% 46% at 50% 50%);
 			animation: disc-rotation 10s linear 0s infinite;
 			img {
 				width: 60%;

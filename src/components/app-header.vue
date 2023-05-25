@@ -33,7 +33,7 @@
 									</router-link>
 								</li>
 								<li>
-									<router-link :to="`/user/message`">
+									<router-link :to="`/message`" @click="isShowMore = false">
 										<i class="iconfont icon-message"></i>
 										<span>我的信息</span>
 									</router-link>
