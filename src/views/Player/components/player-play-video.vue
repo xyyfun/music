@@ -160,10 +160,16 @@ export default {
 			},
 			{ immediate: true }
 		);
+		// 判断是否有音乐正在播放
+		const isPlaying = () => {
+			const isPlaySong = store.state.song.isPlay;
+			if (isPlaySong) store.commit('song/ISPLAY', false);
+		};
 		onMounted(() => {
 			// 视频加载至可以播放时调用
 			vid.value.oncanplay = () => {
 				if (!vid.value) return;
+				isPlaying();
 				store.commit('video/initial', { bol: true, time: vid.value.duration });
 			};
 			// 音频时间发生变化时调用
@@ -173,6 +179,7 @@ export default {
 				() => store.state.video.isPlay,
 				newVal => {
 					if (newVal) {
+						isPlaying();
 						vid.value.play();
 					} else {
 						vid.value.pause();

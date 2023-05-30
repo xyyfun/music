@@ -57,10 +57,16 @@ export default {
 			}
 			nextID = null;
 		};
+		// 判断是否有视频正在播放
+		const isPlaying = () => {
+			const isPlayVideo = store.state.video.isPlay;
+			if (isPlayVideo) store.commit('video/ISPLAY', false);
+		};
 		onMounted(() => {
 			// 音频加载可以播放时调用
 			aud.value.oncanplay = function () {
 				if (!aud.value) return;
+				isPlaying();
 				store.commit('song/initial', {
 					bol: true,
 					time: aud.value.duration,
@@ -76,6 +82,7 @@ export default {
 				() => store.state.song.isPlay,
 				newVal => {
 					if (newVal) {
+						isPlaying();
 						aud.value.play(); // 播放
 					} else {
 						aud.value.pause(); // 暂停
