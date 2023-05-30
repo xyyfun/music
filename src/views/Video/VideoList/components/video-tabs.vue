@@ -95,7 +95,7 @@ export default {
 			width: 7rem;
 			height: 2rem;
 			line-height: 2rem;
-			border: 1px solid #ccc;
+			border: 1px solid var(--global-border3);
 			border-radius: 1rem;
 			a {
 				span,
@@ -111,19 +111,19 @@ export default {
 			width: 43rem;
 			border-radius: 0.5rem;
 			padding: 0 1rem;
-			background-color: #fff;
+			background-color: var(--global-bg2);
 			overflow-y: auto;
 			max-height: 25rem;
-			filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
+			filter: drop-shadow(0 0 10px var(--shadow-black));
 			z-index: 1;
 			.head {
 				padding: 1rem;
-				border-bottom: 2px solid #ccc;
+				border-bottom: 2px solid var(--global-border3);
 				a {
 					transition: color 0.2s;
 					font-size: 0.8rem;
 					&:hover {
-						color: #1ecf9d;
+						color: var(--theme-color);
 					}
 				}
 			}
@@ -139,21 +139,21 @@ export default {
 						text-align: center;
 						border-radius: 1rem;
 						transition: all 0.2s;
-						border: 1px solid #fff;
+						border: 1px solid var(--global-border3);
 						a {
 							display: block;
 							width: 100%;
 							font-size: 0.8rem;
 						}
 						&:hover {
-							border-color: #1ecf9d;
+							border-color: var(--theme-color);
 						}
 					}
 					.active {
-						background-color: #1ecf9d;
-						border-color: #1ecf9d;
+						background-color: var(--theme-color);
+						border-color: var(--theme-color);
 						a {
-							color: #fff;
+							color: var(--text-default4-color);
 						}
 					}
 				}
@@ -175,13 +175,13 @@ export default {
 					font-size: 0.8rem;
 				}
 				&:hover {
-					border-color: #1ecf9d;
+					border-color: var(--theme-color);
 				}
 			}
 			.active {
-				background-color: #1ecf9d;
+				background-color: var(--theme-color);
 				a {
-					color: #fff;
+					color: var(--text-default4-color);
 				}
 			}
 		}

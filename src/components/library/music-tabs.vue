@@ -51,7 +51,7 @@ export default {
 	height: 3rem;
 	line-height: 3rem;
 	margin-bottom: 1rem;
-	background-color: #f6f6f6;
+	background-color: var(--global-bg);
 	z-index: 10;
 	ul {
 		display: flex;
@@ -65,8 +65,8 @@ export default {
 				padding: 0.5rem 0;
 			}
 			.active {
-				color: #1ecc94;
-				border-bottom: 2px solid #1ecc94;
+				color: var(--theme-color);
+				border-bottom: 2px solid var(--theme-color);
 			}
 		}
 	}

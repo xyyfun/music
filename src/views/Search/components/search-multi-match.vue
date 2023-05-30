@@ -106,7 +106,7 @@ export default {
 		grid-template-columns: repeat(3, 28%);
 		> div {
 			height: 5rem;
-			background-color: #eee;
+			background-color: var(--global-bg7);
 			border-radius: 0.3rem;
 			> a {
 				display: flex;
@@ -140,9 +140,9 @@ export default {
 					.msg {
 						display: flex;
 						font-size: 0.8rem;
-						color: #939393;
+						color: var(--text-default3-color);
 						a {
-							color: #939393;
+							color: var(--text-default3-color);
 							&::after {
 								content: ' / ';
 							}

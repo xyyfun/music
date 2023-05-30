@@ -110,27 +110,26 @@ export default {
 			margin-top: 1rem;
 			span {
 				padding-right: 1rem;
-				color: #94a3b8;
+				color: var(--text-desc-color);
 			}
 			> ul {
 				display: flex;
 				align-items: center;
 				flex-wrap: wrap;
 				li {
-					color: #334155;
 					a {
 						padding: 0.2rem 1rem;
 						&:hover {
-							color: #1ecc94;
+							color: var(--theme-color);
 						}
 					}
 				}
 				.active {
-					background-color: #1ecc94;
+					background-color: var(--theme-color);
 					border-radius: 0.2rem;
-					color: #fff;
+					color: var(--text-default4-color);
 					&:hover {
-						color: #fff;
+						color: var(--text-default4-color);
 					}
 				}
 			}

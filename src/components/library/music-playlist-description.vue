@@ -176,7 +176,7 @@ export default {
 						}
 						p {
 							font-size: 0.8rem;
-							color: #94a3b8;
+							color: var(--text-desc-color);
 							padding-left: 0.5rem;
 						}
 					}
@@ -203,7 +203,7 @@ export default {
 					-webkit-line-clamp: 2;
 					-webkit-box-orient: vertical;
 					font-size: 0.7rem;
-					color: #334155;
+					color: var(--text-desc-color);
 				}
 			}
 			.utils {
@@ -215,20 +215,20 @@ export default {
 						a {
 							display: block;
 							padding: 0.5rem 2rem;
-							background-color: #e3e3e3;
-							color: #000;
+							background-color: var(--global-bg3);
+							color: var(--text-default-color);
 							border-radius: 5rem;
 							font-size: 0.9rem;
 							.icon-xihuan2 {
-								color: #ff6664;
+								color: var(--theme-color-like);
 							}
 						}
 						i {
 							padding: 0 5px;
 						}
 						.active {
-							background-color: #1ecf9e;
-							color: #fff;
+							background-color: var(--theme-color);
+							color: var(--text-default4-color);
 						}
 					}
 				}

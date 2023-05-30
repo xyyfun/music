@@ -141,7 +141,7 @@ export default {
 		.item {
 			position: absolute;
 			height: 100%;
-			background-color: #333;
+			background-color: var(--global-bg3);
 			border-radius: 0.5rem;
 			transition: all 0.7s;
 			a {
@@ -171,11 +171,11 @@ export default {
 			text-align: center;
 			border-radius: 50%;
 			z-index: 6;
-			background-color: rgba(230, 230, 230, 0.8);
+			background-color: var(--transparent-white);
 			transition: all 0.5s;
 			opacity: 0;
 			&:hover {
-				background-color: rgba(230, 230, 230);
+				background-color: var(--global-hover2-bg);
 			}
 			i {
 				font-size: 0.85rem;

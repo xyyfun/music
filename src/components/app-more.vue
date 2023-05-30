@@ -43,7 +43,7 @@ export default {
 	justify-content: center;
 	padding: 2rem 0;
 	.yes {
-		color: #1ecc94;
+		color: var(--theme-color);
 	}
 	.not {
 		color: #aaa;

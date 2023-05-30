@@ -100,7 +100,7 @@ export default {
 	.songs {
 		width: 100%;
 		height: 100%;
-		color: #fff;
+		color: var(--text-default4-color);
 		.info {
 			display: flex;
 			flex-wrap: wrap;
@@ -121,7 +121,7 @@ export default {
 			}
 			span,
 			a {
-				color: #fff;
+				color: var(--text-default4-color);
 				width: 100%;
 				text-align: center;
 				font-size: 0.9rem;
@@ -136,7 +136,7 @@ export default {
 			}
 		}
 		.lyr {
-			height: 28rem;
+			height: 35vh;
 			// overflow: auto;
 			// &::-webkit-scrollbar {
 			// 	display: none;
@@ -160,7 +160,7 @@ export default {
 					transition: all 0.3s ease-out;
 				}
 				.active {
-					color: #1ecc94;
+					color: var(--theme-color);
 					transform: scale(1.3);
 				}
 			}

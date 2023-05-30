@@ -24,7 +24,9 @@
 								<div>
 									<p
 										:style="
-											item.user.vipRights && item.user.vipRights.associator ? 'color:#ff6664' : ''
+											item.user.vipRights && item.user.vipRights.associator
+												? 'color:var(--theme-color-like)'
+												: ''
 										">
 										{{ item.user.nickname }}
 									</p>
@@ -49,7 +51,7 @@
 							<a
 								href="javascript:;"
 								@click="like(item)"
-								:style="item.liked ? 'color: #1ecc94' : ''">
+								:style="item.liked ? 'color: var(--theme-color)' : ''">
 								<i class="iconfont icon-dianzan"></i>
 								<span>{{ item.likedCount }}</span>
 							</a>
@@ -76,7 +78,9 @@
 								<div>
 									<p
 										:style="
-											item.user.vipRights && item.user.vipRights.associator ? 'color:#ff6664' : ''
+											item.user.vipRights && item.user.vipRights.associator
+												? 'color:var(--theme-color-like)'
+												: ''
 										">
 										{{ item.user.nickname }}
 									</p>
@@ -103,7 +107,7 @@
 							<a
 								href="javascript:;"
 								@click="like(item)"
-								:style="item.liked ? 'color: #1ecc94' : ''">
+								:style="item.liked ? 'color: var(--theme-color)' : ''">
 								<i class="iconfont icon-dianzan"></i>
 								<span>{{ item.likedCount }}</span>
 							</a>
@@ -228,7 +232,7 @@ export default {
 				outline: none;
 				border: none;
 				resize: none;
-				background-color: #efefef;
+				background-color: var(--textarea-bg);
 				padding: 1rem;
 			}
 			a {
@@ -239,15 +243,15 @@ export default {
 				line-height: 2.5rem;
 				text-align: center;
 				font-size: 0.9rem;
-				background-color: #1fd2aa;
+				background-color: var(--theme-color);
 				border-radius: 0.5rem;
-				color: #fff;
+				color: var(--text-default4-color);
 				margin-top: 1rem;
 			}
 		}
 		.item {
 			padding: 2rem 0;
-			border-bottom: 1px solid #ddd;
+			border-bottom: 1px solid var(--global-border2);
 			.userInfo {
 				a {
 					display: flex;

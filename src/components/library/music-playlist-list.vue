@@ -166,7 +166,7 @@ export default {
 			.item {
 				padding: 0.5rem 0;
 				&:hover {
-					background-color: #efefef;
+					background-color: var(--global-hover2-bg);
 				}
 				&:hover .ico {
 					opacity: 1;
@@ -195,12 +195,12 @@ export default {
 							margin-left: 1rem;
 						}
 						.icon-xihuan2 {
-							color: #ff6664;
+							color: var(--theme-color-like);
 						}
 						> i {
 							padding-right: 0.5rem;
 							&:hover {
-								color: #ff6664;
+								color: var(--theme-color-like);
 								cursor: pointer;
 							}
 						}
@@ -211,7 +211,7 @@ export default {
 						i {
 							margin: 0 0.3rem;
 							&:hover {
-								color: #1fd3ac;
+								color: var(--theme-color);
 								cursor: pointer;
 							}
 						}
@@ -231,8 +231,8 @@ export default {
 				}
 			}
 			.active {
-				background-color: #efefef;
-				border-left: 2px solid #1fd3ac;
+				background-color: var(--global-hover2-bg);
+				border-left: 2px solid var(--theme-color);
 			}
 		}
 	}

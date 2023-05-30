@@ -31,7 +31,7 @@ export default {
 	right: 5%;
 	background-color: rgba(0, 0, 0, 0.3);
 	backdrop-filter: blur(5px);
-	color: #fff;
+	color: var(--text-default2-color);
 	border-radius: 0.9rem;
 	padding: 0 0.5rem;
 	max-width: 100%;

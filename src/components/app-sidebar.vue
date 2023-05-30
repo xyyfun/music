@@ -109,7 +109,7 @@ export default {
 .app-sidebar {
 	width: 14rem;
 	min-width: 14rem;
-	background-color: #f0f0f0;
+	background-color: var(--global-sidebar);
 	overflow-y: hidden;
 	overflow-x: hidden;
 	&:hover {
@@ -119,6 +119,7 @@ export default {
 		.logo {
 			width: 14rem;
 			a {
+				// filter: invert(100%);
 				display: block;
 				height: 5rem;
 				width: 100%;
@@ -131,6 +132,7 @@ export default {
 			padding: 1.7rem;
 			> span {
 				font-size: 1rem;
+				color: var(--text-default-color);
 			}
 			ul {
 				li {
@@ -151,8 +153,9 @@ export default {
 						border-radius: 0.35rem;
 						padding: 0 1.1rem;
 						transition: all 0.2s;
+						color: var(--text-default-color);
 						&:hover {
-							background-color: #d8d8d8;
+							background-color: var(--global-hover-bg);
 						}
 						i {
 							font-size: 1.25rem;
@@ -164,7 +167,7 @@ export default {
 					}
 					.active {
 						color: #fff;
-						background-image: linear-gradient(45deg, #1fd4ae, #1ecc95);
+						background-image: linear-gradient(45deg, var(--linear-gradient));
 					}
 				}
 			}

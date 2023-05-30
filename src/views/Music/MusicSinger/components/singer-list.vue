@@ -48,7 +48,7 @@ export default {
 				span {
 					text-align: center;
 					font-size: 0.9rem;
-					color: #334155;
+					color: var(--text-default-color);
 				}
 			}
 		}

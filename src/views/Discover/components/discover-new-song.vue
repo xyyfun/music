@@ -50,6 +50,7 @@ export default {
 		li {
 			border-radius: 0.3rem;
 			transition: box-shadow 0.2s;
+			background-color: var(--global-bg4);
 			a {
 				display: flex;
 				width: 100%;
@@ -70,15 +71,15 @@ export default {
 						font-size: 0.8rem;
 					}
 					.songName {
-						color: #334155;
+						color: var(--text-default-color);
 					}
 					.artistName {
-						color: #94a3b8;
+						color: var(--text-default3-a-color);
 					}
 				}
 			}
 			&:hover {
-				box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+				box-shadow: 0 0 10px var(--shadow-black);
 			}
 		}
 	}

@@ -33,7 +33,7 @@ div {
 		transition: background 1s;
 	}
 	.play-mask {
-		background-color: rgba(0, 0, 0, 0.35);
+		background-color: var(--play-mask);
 		z-index: -1;
 	}
 }

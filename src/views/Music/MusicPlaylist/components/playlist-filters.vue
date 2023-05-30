@@ -79,20 +79,20 @@ export default {
 			height: 2rem;
 			justify-content: center;
 			align-items: center;
-			background-color: #e3e3e3;
+			background-color: var(--global-bg3);
 			border-radius: 0.3rem;
 			font-size: 0.9rem;
 			cursor: pointer;
 			transition: all 0.3s;
 			&:hover {
-				color: #1ecc94;
+				color: var(--theme-color);
 			}
 		}
 		.active {
-			background-color: #1ecc94;
-			color: #fff;
+			background-color: var(--theme-color);
+			color: var(--text-default4-color);
 			&:hover {
-				color: #fff;
+				color: var(--text-default4-color);
 			}
 		}
 	}

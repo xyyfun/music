@@ -20,7 +20,9 @@
 				<div class="picture"><img :src="userAvatarUrl" alt="" /></div>
 				<a href="javascript:;" v-if="userId">{{ userName }}</a>
 				<router-link to="/login" class="info" v-else>请登录</router-link>
-				<a href="javascript:;" class="skin"><i class="iconfont icon-pifu"></i></a>
+				<a href="javascript:;" class="skin" @click="toggleDark()">
+					<i class="iconfont icon-pifu"></i>
+				</a>
 				<a href="javascript:;" class="more">
 					<i class="iconfont icon-caidan" @click="showMore"></i>
 					<transition name="fade-header">
@@ -78,7 +80,7 @@ import { removeUserInfo } from '@/utils/user';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { logout } from '@/api/login';
-import { onClickOutside } from '@vueuse/core';
+import { onClickOutside, useDark, useToggle } from '@vueuse/core';
 import { ref, computed } from 'vue';
 import messageBox from '@/utils/message-box';
 import message from '@/utils/message';
@@ -91,6 +93,7 @@ export default {
 		const moreBox = ref(null);
 		const isShowMore = ref(false);
 		const status = computed(() => store.state.user.status);
+		const isDark = useDark();
 		// 登出
 		const loginOut = () => {
 			messageBox({
@@ -109,6 +112,9 @@ export default {
 				})
 				.catch(() => message({ message: '已取消！' }));
 		};
+		// 深色/浅色
+		const toggleDark = useToggle(isDark);
+		// 显示更多
 		const showMore = () => {
 			if (status.value === 2) {
 				isShowMore.value = true;
@@ -123,6 +129,7 @@ export default {
 			status,
 			loginOut,
 			showMore,
+			toggleDark,
 			userId: computed(() => store.getters['user/userId']),
 			userAvatarUrl: computed(() => store.getters['user/userAvatarUrl']),
 			userName: computed(() => store.getters['user/userName']),
@@ -160,7 +167,6 @@ export default {
 				overflow: hidden;
 				width: 2rem;
 				height: 2rem;
-				// background-color: #c0c4cc;
 				border-radius: 50%;
 				img {
 					width: 100%;
@@ -175,11 +181,11 @@ export default {
 					top: 3rem;
 					right: -1rem;
 					width: 8rem;
-					background-color: #fff;
+					background-color: var(--global-bg2);
 					border-radius: 0.3rem;
 					padding: 0.5rem;
 					z-index: 12;
-					filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
+					filter: drop-shadow(0 0 10px var(--shadow-black));
 					&::before {
 						position: absolute;
 						top: -0.3rem;
@@ -188,7 +194,7 @@ export default {
 						content: '';
 						width: 1rem;
 						height: 1rem;
-						background-color: #fff;
+						background-color: var(--global-bg2);
 						z-index: -1;
 					}
 					ul {
@@ -200,7 +206,7 @@ export default {
 							padding: 0 0.5rem;
 							transition: all 0.2s;
 							&:hover {
-								background-color: #eee;
+								background-color: var(--global-hover-bg);
 							}
 							a {
 								font-size: 0.9rem;

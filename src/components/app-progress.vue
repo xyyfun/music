@@ -199,13 +199,13 @@ export default {
 					left: -4px;
 					width: 8px;
 					height: 8px;
-					background-color: #1ecc94;
+					background-color: var(--theme-color);
 					border-radius: 50%;
 					transition: all 0.2s;
 				}
 				.complete {
 					height: 2px;
-					background-image: linear-gradient(45deg, #1fd4ae, #1ecc95);
+					background-color: var(--theme-color);
 					transition: all 0.2s;
 					transform-origin: left;
 				}
@@ -237,11 +237,11 @@ export default {
 					height: 3.1rem;
 					border-radius: 0.35rem;
 					cursor: pointer;
-					background-color: rgba(0, 0, 0, 0.5);
+					background-color: var(--shadow-black);
 					transition: opacity 0.2s;
 					opacity: 0;
 					i {
-						color: #fff;
+						color: var(--text-default4-color);
 						position: absolute;
 						font-size: 1rem;
 						&:first-child {
@@ -292,11 +292,11 @@ export default {
 							font-size: 1rem;
 							margin: 0 0.35rem;
 							&:hover {
-								color: #1ecc94;
+								color: var(--theme-color);
 							}
 						}
 						.icon-xihuan2 {
-							color: #ff6664 !important;
+							color: var(--theme-color-like) !important;
 						}
 					}
 				}
@@ -314,7 +314,7 @@ export default {
 						font-size: 1.3rem;
 					}
 					&:hover {
-						color: #1ecc94;
+						color: var(--theme-color);
 					}
 				}
 			}

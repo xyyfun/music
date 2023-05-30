@@ -39,17 +39,21 @@ export default {
 <style lang="less" scoped>
 .mv {
 	ul {
-		display: flex;
+		display: grid;
+		gap: 1.25rem;
+		grid-template-columns: repeat(4, 1fr);
 		li {
-			flex-shrink: 0;
-			width: 25%;
-			padding-right: 1rem;
 			a {
 				display: block;
 				position: relative;
 				transition: transform 0.3s;
+				background-color: var(--global-bg3);
 				img {
+					width: 100%;
+					max-height: 191px;
 					border-radius: 0.5rem;
+					object-fit: contain;
+					object-position: center center;
 				}
 				&:hover {
 					transform: translateY(-0.3rem);
@@ -60,10 +64,10 @@ export default {
 				flex-direction: column;
 				font-size: 0.9rem;
 				.songName {
-					color: #334155;
+					color: var(--text-default-color);
 				}
 				.artistName {
-					color: #94a3b8;
+					color: var(--text-desc-color);
 				}
 			}
 		}

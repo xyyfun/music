@@ -45,7 +45,7 @@ export default {
 		.module {
 			position: relative;
 			border-radius: 0.5rem;
-			background-color: #efefef;
+			background-color: var(--global-bg7);
 			transition: box-shadow 0.2s;
 			a {
 				display: block;

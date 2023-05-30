@@ -190,8 +190,8 @@ export default {
 					justify-content: center;
 					span {
 						font-size: 0.8rem;
-						color: #949494;
-						background-color: #ebebeb;
+						color: var(--text-default3-color);
+						background-color: var(--global-bg5);
 						padding: 0.3rem 0.5rem;
 						border-radius: 1rem;
 					}
@@ -203,14 +203,14 @@ export default {
 						img {
 							width: 3.5rem;
 							height: 3.5rem;
-							border: 1px solid #ccc;
+							border: 1px solid var(--global-border3);
 							border-radius: 50%;
 							margin-right: 1rem;
 						}
 					}
 					.msg {
 						max-width: 70%;
-						background-color: #ebebeb;
+						background-color: var(--global-bg6);
 						padding: 0.5rem;
 						border-radius: 0 0.5rem 0.5rem 0.5rem;
 						p {
@@ -226,7 +226,7 @@ export default {
 								display: flex;
 								max-width: 13rem;
 								padding: 0.5rem;
-								background-color: #fff;
+								background-color: var(--global-bg7);
 								border-radius: 0.5rem;
 								img {
 									width: 3rem;
@@ -279,10 +279,10 @@ export default {
 								p {
 									position: absolute;
 									font-size: 0.8rem;
-									color: #fff;
+									color: var(--text-default2-color);
 									span {
 										a {
-											color: #fff;
+											color: var(--text-default2-color);
 											&::after {
 												content: ' / ';
 											}
@@ -311,7 +311,7 @@ export default {
 									top: 50%;
 									left: 50%;
 									transform: translate(-50%, -50%);
-									color: #fff;
+									color: var(--text-default2-color);
 									font-size: 2.5rem;
 								}
 							}
@@ -322,8 +322,8 @@ export default {
 					justify-content: flex-end;
 					.msg {
 						border-radius: 0.5rem 0.5rem 0 0.5rem;
-						background-color: #1ecc94;
-						color: #fff;
+						background-color: var(--theme-color);
+						color: var(--text-default4-color);
 					}
 				}
 			}
@@ -341,7 +341,7 @@ export default {
 		outline: none;
 		border: none;
 		resize: none;
-		background-color: #efefef;
+		background-color: var(--textarea-bg);
 		padding: 0.5rem;
 		border-radius: 0.5rem;
 	}
@@ -353,9 +353,9 @@ export default {
 		line-height: 2.5rem;
 		text-align: center;
 		font-size: 0.9rem;
-		background-color: #1ecc94;
+		background-color: var(--theme-color);
 		border-radius: 0.5rem;
-		color: #fff;
+		color: var(--text-default4-color);
 		margin-left: 1rem;
 	}
 }

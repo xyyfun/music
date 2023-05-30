@@ -107,10 +107,10 @@ export default {
 		margin: 0 0.35rem;
 		font-size: 1rem;
 		cursor: pointer;
-		color: #000;
+		color: var(--text-default-color);
 	}
 	.active i {
-		color: #fff;
+		color: var(--text-default4-color);
 	}
 	.switching-mode {
 		position: relative;
@@ -122,7 +122,7 @@ export default {
 		i {
 			font-size: 2rem;
 			&:nth-child(2) {
-				color: #1ecc94;
+				color: var(--theme-color);
 				font-size: 2.2rem;
 			}
 		}

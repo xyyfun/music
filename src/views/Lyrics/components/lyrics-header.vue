@@ -26,7 +26,7 @@ export default {
 		height: 100%;
 		padding: 0 2rem;
 		i {
-			filter: invert(100%);
+			color: var(--text-default2-color);
 			font-size: 2rem;
 			cursor: pointer;
 		}

@@ -16,7 +16,7 @@
 					<!-- 歌单 -->
 					<div class="playlist" v-if="item.resourceType === 0">
 						<router-link :to="`/playlist/${item.resource.id}`">
-							<img v-lazy="item.resource.coverImgUrl" alt="" />
+							<img v-lazy="item.resource.coverImgUrl + '?param=220y220'" alt="" />
 							<div class="info">
 								<span>{{ item.resource.name }}</span>
 								<span>{{ item.resource.creator.nickname }}</span>
@@ -26,7 +26,7 @@
 					<!-- 专辑 -->
 					<div class="album" v-if="item.resourceType === 3">
 						<router-link :to="`/album/${item.resource.id}`">
-							<img v-lazy="item.resource.picUrl" alt="" />
+							<img v-lazy="item.resource.picUrl + '?param=220y220'" alt="" />
 							<div class="info">
 								<span>{{ item.resource.name }}</span>
 								<span>{{ item.resource.artist.name }}</span>
@@ -36,7 +36,7 @@
 					<!-- 歌曲 -->
 					<div class="song" v-if="item.resourceType === 4">
 						<a href="javascript:;" @click="playSong(item.resource.id)">
-							<img v-lazy="item.resource.album.picUrl" />
+							<img v-lazy="item.resource.album.picUrl + '?param=220y220'" />
 							<div class="info">
 								<span>{{ item.resource.name }}</span>
 								<span>
@@ -159,7 +159,7 @@ export default {
 		> .info {
 			flex: 1;
 			margin-left: 1rem;
-			border-bottom: 1px solid #ddd;
+			border-bottom: 1px solid var(--global-border2);
 			> div {
 				margin-bottom: 0.5rem;
 			}
@@ -171,7 +171,7 @@ export default {
 					font-size: 0.8rem;
 				}
 				a {
-					color: #1ed0a1;
+					color: var(--theme-color);
 				}
 			}
 			.content {
@@ -180,7 +180,7 @@ export default {
 				}
 			}
 			.myComment {
-				background-color: #eee;
+				background-color: var(--global-bg6);
 				padding: 0 0.5rem;
 				border-radius: 0.5rem;
 				span {
@@ -196,8 +196,8 @@ export default {
 					height: 2.2rem;
 					line-height: 2.2rem;
 					text-align: center;
-					background-color: #e3e3e3;
-					color: #000;
+					background-color: var(--global-bg3);
+					color: var(--text-default-color);
 					border-radius: 5rem;
 					font-size: 0.9rem;
 					i {
@@ -224,10 +224,10 @@ export default {
 					p {
 						position: absolute;
 						font-size: 0.8rem;
-						color: #fff;
+						color: var(--text-default2-color);
 						span {
 							a {
-								color: #fff;
+								color: var(--text-default2-color);
 								&::after {
 									content: ' / ';
 								}
@@ -256,7 +256,7 @@ export default {
 						top: 50%;
 						left: 50%;
 						transform: translate(-50%, -50%);
-						color: #fff;
+						color: var(--text-default2-color);
 						font-size: 2.5rem;
 					}
 				}
@@ -271,7 +271,7 @@ export default {
 					display: flex;
 					max-width: 13rem;
 					padding: 0.5rem;
-					background-color: #eee;
+					background-color: var(--global-bg6);
 					border-radius: 0.5rem;
 					img {
 						width: 3rem;

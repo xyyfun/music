@@ -224,18 +224,19 @@ export default {
 			width: 18rem;
 			border: none;
 			border-radius: 1rem;
-			background-color: #e3e3e3;
+			background-color: var(--search-bg);
 			text-indent: 2rem;
+			color: var(--text-default-color);
 		}
 	}
 	.searchList {
 		position: absolute;
 		top: 3.5rem;
 		width: 100%;
-		background-color: #fff;
+		background-color: var(--global-bg2);
 		border-radius: 0.5rem;
 		z-index: 999;
-		filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
+		filter: drop-shadow(0 0 10px var(--shadow-black));
 		&::before {
 			position: absolute;
 			top: -0.5rem;
@@ -244,7 +245,7 @@ export default {
 			content: '';
 			width: 1.5rem;
 			height: 1.5rem;
-			background-color: #fff;
+			background-color: var(--global-bg2);
 			z-index: -1;
 		}
 		> div[class^='suggest'] {
@@ -273,7 +274,7 @@ export default {
 						margin-top: 0;
 					}
 					&:hover {
-						background-color: #f6f6f6;
+						background-color: var(--global-hover-bg);
 					}
 					.singer {
 						&::after {

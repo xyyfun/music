@@ -286,13 +286,13 @@ export default {
 						left: -4px;
 						width: 8px;
 						height: 8px;
-						background-color: #1ecc94;
+						background-color: var(--theme-color);
 						border-radius: 50%;
 						transition: all 0.2s;
 					}
 					.complete {
 						height: 2px;
-						background-color: #1ecc94;
+						background-color: var(--theme-color);
 						transition: all 0.2s;
 						transform-origin: left;
 					}
@@ -307,10 +307,10 @@ export default {
 					display: flex;
 					align-items: center;
 					height: 100%;
-					color: #fff;
+					color: var(--text-default2-color);
 					.control {
 						a {
-							color: #fff;
+							color: var(--text-default2-color);
 							margin-right: 0.5rem;
 							i {
 								font-size: 1.5rem;
@@ -334,7 +334,7 @@ export default {
 					}
 					a,
 					i {
-						color: #fff;
+						color: var(--text-default2-color);
 						font-size: 0.9rem;
 					}
 					> div {

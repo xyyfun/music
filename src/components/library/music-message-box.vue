@@ -78,9 +78,9 @@ export default {
 		min-width: 26rem;
 		max-width: 600px;
 		padding: 1rem;
-		background-color: #fff;
+		background-color: var(--global-bg2);
 		border-radius: 0.2rem;
-		border: 1px solid #ebeef5;
+		border: 1px solid var(--global-border);
 		font-size: 1rem;
 		.message-box-header {
 			display: flex;
@@ -113,11 +113,11 @@ export default {
 				font-size: 0.8rem;
 				border-radius: 0.2rem;
 				margin-left: 1rem;
-				border: 1px solid #ebeef5;
+				border: 1px solid var(--global-border);
 			}
 			.active {
-				background-color: #1fd2a9;
-				color: #fff;
+				background-color: var(--theme-color);
+				color: var(--text-default4-color);
 			}
 		}
 	}

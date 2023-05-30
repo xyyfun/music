@@ -54,10 +54,10 @@ export default {
 <style lang="less" scoped>
 .private-list {
 	width: 20rem;
-	background-color: #f6f6f6;
+	background-color: var(--global-bg);
 	overflow-y: hidden;
 	overflow-x: hidden;
-	border-right: 1px solid #ccc;
+	border-right: 1px solid var(--global-border3);
 	padding-right: 1rem;
 	&:hover {
 		overflow-y: auto;
@@ -81,7 +81,7 @@ export default {
 					display: flex;
 					flex-direction: column;
 					justify-content: space-around;
-					border-bottom: 1px solid #ebebeb;
+					border-bottom: 1px solid var(--global-bg6);
 					span {
 						text-overflow: -o-ellipsis-lastline;
 						overflow: hidden;
@@ -106,14 +106,14 @@ export default {
 						display: inline-block;
 						width: 0.5rem;
 						height: 0.5rem;
-						background-color: #ff6664;
+						background-color: var(--theme-color-like);
 						border-radius: 50%;
 					}
 				}
 			}
 		}
 		.active {
-			background-color: #ebebeb;
+			background-color: var(--global-bg6);
 		}
 	}
 }

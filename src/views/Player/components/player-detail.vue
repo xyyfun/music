@@ -149,7 +149,7 @@ export default {
 		a {
 			display: block;
 			padding: 0 1rem;
-			border-right: 1px solid #666;
+			border-right: 1px solid var(--global-border2);
 			&:last-child {
 				border: none;
 			}
@@ -187,7 +187,7 @@ export default {
 				height: 1.5rem;
 				line-height: 1.5rem;
 				border-radius: 0.75rem;
-				background-color: #eee;
+				background-color: var(--global-bg6);
 				padding: 0 0.5rem;
 				margin-right: 0.5rem;
 				font-size: 0.8rem;
@@ -203,7 +203,7 @@ export default {
 				height: 2rem;
 				line-height: 2rem;
 				border-radius: 1rem;
-				border: 1px solid #666;
+				border: 1px solid var(--global-border4);
 				padding: 0 1rem;
 				span,
 				i {
@@ -213,7 +213,7 @@ export default {
 					padding-left: 0.3rem;
 				}
 				.icon-xihuan2 {
-					color: #ff6664;
+					color: var(--theme-color-like);
 				}
 			}
 		}

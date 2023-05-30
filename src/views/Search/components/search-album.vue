@@ -105,7 +105,7 @@ export default {
 			}
 		}
 		&:hover {
-			background-color: #efefef;
+			background-color: var(--global-hover2-bg);
 		}
 	}
 }

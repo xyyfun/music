@@ -51,7 +51,7 @@ export default {
 				overflow: hidden;
 				position: relative;
 				border-radius: 0.5rem;
-				background-color: #eee;
+				background-color: var(--global-bg3);
 				img {
 					width: 100%;
 					height: 100%;
@@ -73,8 +73,8 @@ export default {
 				display: -webkit-box;
 				-webkit-line-clamp: 1;
 				-webkit-box-orient: vertical;
-				&:last-child {
-					color: #ccc;
+				&:last-child > a {
+					color: var(--text-default3-a-color);
 				}
 				a {
 					&::after {

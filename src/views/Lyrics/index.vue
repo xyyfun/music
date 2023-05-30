@@ -46,7 +46,7 @@ export default {
 	width: 100vw;
 	height: 100vh;
 	z-index: 888;
-	background-color: #f6f6f6;
+	background-color: var(--global-bg4);
 	.lyrics-content {
 		display: flex;
 		flex-wrap: wrap;

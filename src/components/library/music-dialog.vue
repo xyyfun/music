@@ -158,9 +158,9 @@ export default {
 	right: 0;
 	width: 20rem;
 	height: 100vh;
-	background-color: rgba(255, 255, 255, 0.9);
+	background-color: var(--transparent-white);
 	z-index: 9999;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 10px var(--shadow-black);
 	.dialog-content {
 		display: flex;
 		flex-direction: column;
@@ -240,15 +240,15 @@ export default {
 						a {
 							padding: 0 0.5rem;
 							.icon-xihuan2 {
-								color: #ff6664;
+								color: var(--theme-color-like);
 							}
 							&:hover {
-								color: #1ece9c;
+								color: var(--theme-color);
 							}
 						}
 					}
 					&:hover {
-						background-color: rgba(255, 255, 255, 0.6);
+						background-color: var(--global-hover3-bg);
 						.time {
 							display: none;
 						}
@@ -258,9 +258,9 @@ export default {
 					}
 				}
 				.active {
-					background-color: rgba(255, 255, 255, 0.6);
-					color: #1ece9c;
-					border-left: 2px solid #1ece9c;
+					background-color: var(--global-hover3-bg);
+					color: var(--theme-color);
+					border-left: 2px solidvar(--theme-color);
 				}
 			}
 		}
@@ -269,7 +269,7 @@ export default {
 			align-items: center;
 			justify-content: right;
 			height: 5.4rem;
-			border-top: 2px solid rgba(230, 230, 230, 0.5);
+			border-top: 2px solid var(--global-border);
 			padding: 0 1.5rem;
 			cursor: pointer;
 		}

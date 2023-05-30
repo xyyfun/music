@@ -87,13 +87,13 @@ export default {
 					font-size: 0.8rem;
 				}
 				&:hover {
-					border-color: #1ecf9d;
+					border-color: var(--theme-color);
 				}
 			}
 			.active {
-				background-color: #1ecf9d;
+				background-color: var(--theme-color);
 				a {
-					color: #fff;
+					color: var(--text-default4-color);
 				}
 			}
 		}
@@ -105,9 +105,9 @@ export default {
 			display: flex;
 			align-items: center;
 			padding: 1rem;
-			border-bottom: 1px solid #ccc;
+			border-bottom: 1px solid var(--global-border3);
 			&:nth-of-type(2n + 1) {
-				border-right: 1px solid #ccc;
+				border-right: 1px solid var(--global-border3);
 			}
 			&:nth-last-of-type(-n + 2) {
 				border-bottom: none;

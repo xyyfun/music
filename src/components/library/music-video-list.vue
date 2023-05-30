@@ -39,7 +39,7 @@ export default {
 				overflow: hidden;
 				position: relative;
 				border-radius: 0.5rem;
-				background-color: #eee;
+				background-color: var(--global-bg6);
 				img {
 					width: 100%;
 					height: 100%;
@@ -62,7 +62,7 @@ export default {
 				-webkit-line-clamp: 1;
 				-webkit-box-orient: vertical;
 				&:last-child {
-					color: #ccc;
+					color: var(--text-default2-a-color);
 				}
 			}
 		}

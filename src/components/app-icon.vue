@@ -43,10 +43,10 @@ export default {
 			font-size: 1.3rem;
 		}
 		.icon-shiting {
-			color: #ff6664;
+			color: var(--theme-color-like);
 		}
 		.icon-VIP {
-			color: #1fd3ac;
+			color: var(--theme-color);
 		}
 		.icon-MV {
 			color: #e5b046;

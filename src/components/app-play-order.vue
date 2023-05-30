@@ -33,9 +33,9 @@ export default {
 	bottom: 160%;
 	left: -160%;
 	width: 7rem;
-	background-color: #fff;
+	background-color: var(--global-bg2);
 	border-radius: 0.5rem;
-	filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
+	filter: drop-shadow(0 0 10px var(--shadow-black));
 	z-index: 11;
 	&::after {
 		content: '';
@@ -43,7 +43,7 @@ export default {
 		left: 50%;
 		transform: translateX(-50%);
 		border: 0.7rem solid transparent;
-		border-top-color: #fff;
+		border-top-color: var(--global-bg2);
 	}
 	ul {
 		li {
@@ -51,13 +51,13 @@ export default {
 			text-align: center;
 			font-size: 0.85rem;
 			cursor: pointer;
-			border-bottom: 1px solid #eee;
-			color: #000;
+			border-bottom: 1px solid var(--global-border2);
+			color: var(--text-default-color);
 			&:last-child {
 				border: none;
 			}
 			&:hover {
-				color: #1ecc94;
+				color: var(--theme-color);
 			}
 		}
 	}

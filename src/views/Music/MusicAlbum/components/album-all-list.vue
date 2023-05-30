@@ -92,13 +92,13 @@ export default {
 					font-size: 0.8rem;
 				}
 				&:hover {
-					border-color: #1ecf9d;
+					border-color: var(--theme-color);
 				}
 			}
 			.active {
-				background-color: #1ecf9d;
+				background-color: var(--theme-color);
 				a {
-					color: #fff;
+					color: var(--text-default4-color);
 				}
 			}
 		}

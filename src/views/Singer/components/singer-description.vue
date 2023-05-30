@@ -10,7 +10,9 @@
 						<span>{{ identify.imageDesc }}</span>
 					</div>
 				</div>
-				<div class="fansNum">{{ artist.briefDesc }}</div>
+				<div class="desc">
+					<span>{{ artist.briefDesc }}</span>
+				</div>
 				<div class="utils">
 					<ul>
 						<li>
@@ -107,7 +109,7 @@ export default {
 			.singerName {
 				display: flex;
 				align-items: flex-end;
-				color: #fff;
+				color: var(--text-default4-color);
 				.name {
 					font-size: 3rem;
 				}
@@ -128,17 +130,19 @@ export default {
 					}
 				}
 			}
-			.fansNum {
-				text-indent: 2rem;
-				color: 0.8rem;
-				color: #eee;
-				margin-bottom: 1rem;
-				text-overflow: -o-ellipsis-lastline;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				display: -webkit-box;
-				-webkit-line-clamp: 3;
-				-webkit-box-orient: vertical;
+			.desc {
+				span {
+					text-indent: 2rem;
+					color: 0.8rem;
+					color: var(--text-default2-color);
+					margin-bottom: 1rem;
+					text-overflow: -o-ellipsis-lastline;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 3;
+					-webkit-box-orient: vertical;
+				}
 			}
 			.utils {
 				ul {
@@ -147,9 +151,9 @@ export default {
 						margin-right: 1rem;
 						a {
 							padding: 0.5rem 2rem;
-							background-color: rgba(255, 255, 255, 0.4);
+							background-color: var(--global-bg3);
 							backdrop-filter: blur(5px);
-							color: #000;
+							color: var(--text-default-color);
 							border-radius: 5rem;
 							font-size: 0.9rem;
 						}
@@ -157,11 +161,11 @@ export default {
 							padding: 0 5px;
 						}
 						.icon-xihuan2 {
-							color: #ff6664;
+							color: var(--theme-color-like);
 						}
 						.active {
-							background-color: #1ecf9e;
-							color: #fff;
+							background-color: var(--theme-color);
+							color: var(--text-default4-color);
 						}
 					}
 				}

@@ -128,15 +128,15 @@ export default {
 						font-size: 1.5rem;
 					}
 					.icon-boy {
-						color: #26a6e4;
+						color: var(--gender-boy);
 					}
 					.icon-girl {
-						color: #ffb8d5;
+						color: var(--gender-girl);
 					}
 				}
 				> i {
 					display: block;
-					background-color: #fff;
+					background-color: var(--global-bg2);
 					font-size: 0.9rem;
 					text-align: center;
 					border-radius: 0.75rem;
@@ -166,7 +166,7 @@ export default {
 					}
 					span {
 						padding-left: 0.5rem;
-						color: #fff;
+						color: var(--text-default4-color);
 					}
 				}
 			}
@@ -194,20 +194,20 @@ export default {
 						a {
 							display: block;
 							padding: 0.5rem 2rem;
-							background-color: #e3e3e3;
-							color: #000;
+							background-color: var(--global-bg3);
+							color: var(--text-default-color);
 							border-radius: 5rem;
 							font-size: 0.9rem;
 							.icon-xihuan2 {
-								color: #ff6664;
+								color: var(--theme-color-like);
 							}
 						}
 						i {
 							padding: 0 5px;
 						}
 						.active {
-							background-color: #1ecf9e;
-							color: #fff;
+							background-color: var(--theme-color);
+							color: var(--text-default4-color);
 						}
 					}
 				}

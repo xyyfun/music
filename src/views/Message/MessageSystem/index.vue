@@ -62,13 +62,13 @@ export default {
 			display: flex;
 			flex-direction: column;
 			justify-content: space-evenly;
-			border-bottom: 1px solid #ddd;
+			border-bottom: 1px solid var(--global-border2);
 			margin-left: 1rem;
 			.userName {
 				a {
 					font-size: 0.9rem;
 					font-weight: bold;
-					color: #1ecc94;
+					color: var(--theme-color);
 				}
 			}
 			.content {

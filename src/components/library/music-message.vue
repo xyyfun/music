@@ -68,9 +68,9 @@ export default {
 	height: 3rem;
 	padding: 0 2rem;
 	border-radius: 0.3rem;
-	background-color: rgba(255, 255, 255);
+	background-color: var(--global-bg2);
 	backdrop-filter: blur(5px);
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 5px var(--shadow-black);
 	z-index: 9999;
 	i {
 		font-size: 0.9rem;

@@ -68,11 +68,11 @@ export default {
 					padding: 0 1rem;
 					max-width: calc(100% - 5rem);
 					.name {
-						color: #334155;
+						color: var(--text-default-color);
 						font-size: 1rem;
 					}
 					.category {
-						color: #94a3b8;
+						color: var(--text-default3-a-color);
 						font-size: 0.9rem;
 					}
 				}
