@@ -23,13 +23,14 @@ export default {
 		};
 		// 单曲循环
 		const singleCycle = () => {
-			setTimeout(() => {
-				store.commit('song/ISPLAY', true);
-			}, 1000);
+			aud.value.load(); // 重新加载音频
 		};
 		// 列表循环
 		const listLoop = () => {
 			const id = musicPositionLoop(playlist, currentMusicID, true);
+			if (id === currentMusicID.value) {
+				return singleCycle();
+			}
 			store.dispatch('song/getMusic', id);
 		};
 		// 随机播放
@@ -113,7 +114,7 @@ export default {
 					sequentialPlay();
 				} else if (playOrder.value === 3) {
 					// 单曲循环
-					aud.value.load(); // 重新加载音频
+					singleCycle();
 				} else if (playOrder.value === 4) {
 					randomPlay();
 				}
