@@ -2,11 +2,11 @@
 	<div class="control">
 		<div
 			class="switching-mode"
+			ref="popupElement"
 			@click="isShowPopup = true"
-			@mouseleave="isShowPopup = false"
 			:class="{ active: isShowLyrics }">
 			<transition name="popup">
-				<AppPlayOrder v-if="isShowPopup" @popupCbk="isShowPopup = false" />
+				<AppPlayOrder v-if="isShowPopup" />
 			</transition>
 			<i class="iconfont" :class="order" title="播放顺序"></i>
 		</div>
@@ -18,9 +18,9 @@
 		</div>
 		<div
 			class="vol"
+			ref="soundElement"
 			:class="{ active: isShowLyrics }"
-			@click="isShowSound = true"
-			@mouseleave="isShowSound = false">
+			@click="isShowSound = true">
 			<transition name="popup">
 				<AppSound v-if="isShowSound" />
 			</transition>
@@ -35,11 +35,14 @@ import { useStore } from 'vuex';
 import { musicPositionLoop, musicPositionRandom } from '@/utils/usePosition';
 import AppPlayOrder from '@/components/app-play-order';
 import AppSound from '@/components/app-sound';
+import { onClickOutside } from '@vueuse/core';
 export default {
 	name: 'AppControl',
 	components: { AppPlayOrder, AppSound },
 	setup() {
 		const store = useStore();
+		const soundElement = ref(null);
+		const popupElement = ref(null);
 		const isShowSound = ref(false);
 		const isShowPopup = ref(false);
 		const playlist = computed(() => store.state.song.playlist);
@@ -85,9 +88,13 @@ export default {
 				store.dispatch('song/getMusic', id);
 			}
 		};
+		onClickOutside(soundElement, () => (isShowSound.value = false));
+		onClickOutside(popupElement, () => (isShowPopup.value = false));
 		return {
 			order,
 			icon,
+			soundElement,
+			popupElement,
 			changPlay,
 			switchSong,
 			isShowSound,
