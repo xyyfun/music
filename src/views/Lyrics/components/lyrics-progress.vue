@@ -185,12 +185,10 @@ export default {
 					height: 8px;
 					background-color: var(--theme-color);
 					border-radius: 50%;
-					transition: all 0.2s;
 				}
 				.complete {
 					height: 2px;
 					background-color: var(--theme-color);
-					transition: all 0.2s;
 					transform-origin: left;
 				}
 			}
