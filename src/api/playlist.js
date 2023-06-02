@@ -39,3 +39,17 @@ export const getPlaylist = ({ before, cat }) => {
 		method: 'get',
 	});
 };
+
+/**
+ * @Date         : 2023-06-02 20:15:52
+ * @description  : 对歌单添加或删除歌曲
+ * @param         {*} op:从歌单增加单曲为 add, 删除为 del
+ * @param         {*} pid:歌单 id
+ * @param         {*} tracks:歌曲 id,可多个,用逗号隔开
+ * @return        {*}
+ */
+export const changPlaylist = (op, pid, tracks) => {
+	return request({
+		url: `/playlist/tracks?op=${op}&pid=${pid}&tracks=${tracks}`,
+	});
+};

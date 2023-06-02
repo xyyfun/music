@@ -39,7 +39,15 @@
 								<i class="iconfont icon-xihuan21" title="喜欢"></i>
 							</a>
 							<a href="javascript:;"><i class="iconfont icon-xiazai" title="下载该歌曲"></i></a>
-							<a href="javascript:;"><i class="iconfont icon-gengduo" title="更多"></i></a>
+							<a class="moreActions" href="javascript:;" @click="showMore" ref="moreActions">
+								<i class="iconfont icon-gengduo" title="更多"></i>
+								<transition name="more-actions">
+									<AppMoreActions
+										v-if="isShowList"
+										@closePanel="isShowList = false"
+										:song="detail" />
+								</transition>
+							</a>
 							<a href="javascript:;" @click="comment">
 								<i class="iconfont icon-pinglun1" title="评论"></i>
 							</a>
@@ -65,16 +73,20 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import useProgress from '@/hooks/useProgress';
 import AppControl from '@/components/app-control';
+import AppMoreActions from '@/components/app-more-actions';
 import message from '@/utils/message';
 import messageBox from '@/utils/message-box';
+import { onClickOutside } from '@vueuse/core';
 export default {
 	name: 'AppProgress',
-	components: { AppControl },
+	components: { AppControl, AppMoreActions },
 	setup() {
 		const router = useRouter();
 		const store = useStore();
 		const trigger = ref(null);
 		const slot = ref(null);
+		const moreActions = ref(null);
+		const isShowList = ref(false);
 		const isShowLyrics = computed(() => store.state.song.isShowLyrics);
 		const totalDuration = computed(() => store.state.song.totalDuration); // 当前音乐总秒数
 		const currentMusicID = computed(() => store.state.song.currentMusicID); // 当前音乐ID
@@ -101,7 +113,7 @@ export default {
 		watch(currentTime, newVal => store.commit('song/DURATION', newVal), { immediate: true });
 		// 查看评论
 		const comment = () => {
-			if (currentMusicID.value) router.push(`/comment`);
+			if (currentMusicID.value) router.push(`/comment/${currentMusicID.value}`);
 		};
 		// 喜欢音乐
 		const like = async () => {
@@ -152,7 +164,13 @@ export default {
 				}
 			}
 		};
+		const showMore = () => {
+			if (!currentMusicID.value) return;
+			isShowList.value = true;
+		};
+		onClickOutside(moreActions, () => (isShowList.value = false));
 		return {
+			moreActions,
 			isShowLyrics,
 			showLyrics,
 			slot,
@@ -163,12 +181,15 @@ export default {
 			nowProgress,
 			trigger,
 			triggerPosition,
+			isShowList,
+			showMore,
 			totalTimeMin: computed(() => store.state.song.url.time),
 			songName: computed(() => store.getters['song/songName']),
 			singer: computed(() => store.getters['song/singer']),
 			pirUrl: computed(() => store.state.song.picUrl),
 			nowTime: computed(() => store.state.song.nowTime),
 			playlistNumber: computed(() => store.state.song.playlist.length),
+			detail: computed(() => store.state.song.detail),
 		};
 	},
 };
@@ -286,6 +307,12 @@ export default {
 						}
 					}
 					.operation {
+						.moreActions {
+							position: relative;
+							.app-more-actions {
+								bottom: 100%;
+							}
+						}
 						i {
 							font-size: 1rem;
 							margin: 0 0.35rem;
@@ -326,5 +353,20 @@ export default {
 	to {
 		transform: translateX(-100%);
 	}
+}
+.more-actions-enter-from,
+.more-actions-leave-to {
+	transform: scale(0);
+	opacity: 0;
+}
+.more-actions-enter-active,
+.more-actions-leave-active {
+	transition: all 0.2s;
+	transform-origin: bottom left;
+}
+.more-actions-enter-to,
+.more-actions-leave-from {
+	transform: scale(1);
+	opacity: 1;
 }
 </style>

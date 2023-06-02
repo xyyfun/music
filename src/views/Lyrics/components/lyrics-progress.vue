@@ -24,7 +24,12 @@
 						<i class="iconfont icon-xihuan21" title="喜欢"></i>
 					</a>
 					<a href="javascript:;" title="下载该歌曲"><i class="iconfont icon-xiazai"></i></a>
-					<a href="javascript:;" title="更多"><i class="iconfont icon-gengduo"></i></a>
+					<a href="javascript:;" class="moreActions" @click="showMore" ref="moreActions">
+						<i class="iconfont icon-gengduo" title="更多"></i>
+						<transition name="more-actions">
+							<AppMoreActions v-if="isShowList" @closePanel="isShowList = false" :song="detail" />
+						</transition>
+					</a>
 					<a href="javascript:;" @click="comment" title="评论">
 						<i class="iconfont icon-pinglun1"></i>
 					</a>
@@ -52,16 +57,20 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import useProgress from '@/hooks/useProgress';
 import AppControl from '@/components/app-control';
+import AppMoreActions from '@/components/app-more-actions';
 import message from '@/utils/message';
 import messageBox from '@/utils/message-box';
+import { onClickOutside } from '@vueuse/core';
 export default {
 	name: 'LyricsProgress',
-	components: { LyricsVideoVisible, AppControl },
+	components: { LyricsVideoVisible, AppControl, AppMoreActions },
 	setup() {
 		const store = useStore();
 		const router = useRouter();
 		const slot = ref(null);
 		const trigger = ref(null);
+		const moreActions = ref(null);
+		const isShowList = ref(false);
 		const totalTimeS = computed(() => store.state.song.totalDuration);
 		const currentMusicID = computed(() => store.state.song.currentMusicID);
 		const nowProgress = computed(() => store.state.song.nowProgress);
@@ -81,7 +90,7 @@ export default {
 		// 查看评论
 		const comment = () => {
 			if (currentMusicID.value) {
-				router.push(`/comment`);
+				router.push(`/comment/${currentMusicID.value}`);
 				store.commit('song/SHOWLYRICS', false);
 			}
 		};
@@ -144,7 +153,14 @@ export default {
 				}
 			}
 		};
+		const showMore = () => {
+			// if (!currentMusicID.value) return;
+			isShowList.value = true;
+		};
+		onClickOutside(moreActions, () => (isShowList.value = false));
 		return {
+			moreActions,
+			isShowList,
 			slot,
 			comment,
 			trigger,
@@ -153,9 +169,11 @@ export default {
 			cancelLike,
 			like,
 			isLike,
+			showMore,
 			totalTimeMin: computed(() => store.state.song.url.time),
 			nowTime: computed(() => store.state.song.nowTime),
 			playlistNumber: computed(() => store.state.song.playlist.length),
+			detail: computed(() => store.state.song.detail),
 		};
 	},
 };
@@ -202,6 +220,12 @@ export default {
 				align-items: center;
 			}
 			.operation {
+				.moreActions {
+					position: relative;
+					.app-more-actions {
+						bottom: 100%;
+					}
+				}
 				a {
 					color: hsla(0, 0%, 88.2%, 0.8);
 					i {
@@ -228,5 +252,20 @@ export default {
 			}
 		}
 	}
+}
+.more-actions-enter-from,
+.more-actions-leave-to {
+	transform: scale(0);
+	opacity: 0;
+}
+.more-actions-enter-active,
+.more-actions-leave-active {
+	transition: all 0.2s;
+	transform-origin: bottom left;
+}
+.more-actions-enter-to,
+.more-actions-leave-from {
+	transform: scale(1);
+	opacity: 1;
 }
 </style>

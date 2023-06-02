@@ -150,3 +150,17 @@ ul {
 	transform: none;
 	opacity: 1;
 }
+
+.more-actions-enter-from,
+.more-actions-leave-to {
+	opacity: 0;
+}
+.more-actions-enter-active,
+.more-actions-leave-active {
+	transition: all 0.3s;
+	transform-origin: top left;
+}
+.more-actions-enter-to,
+.more-actions-leave-from {
+	opacity: 1;
+}
