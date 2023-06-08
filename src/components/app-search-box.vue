@@ -5,13 +5,14 @@
 			<input
 				class="ellipsis"
 				type="text"
-				@click="isShowList = true"
+				@focus="isShowList = true"
+				@blur="isShowList = false"
 				@keyup.enter="search"
 				:placeholder="keyword_default"
 				v-model="keywords" />
 		</div>
 		<transition name="fade-header">
-			<div class="searchList" v-if="isShowList" ref="target">
+			<div class="searchList" v-if="isShowList">
 				<div class="suggest-songs" v-if="suggest.songs">
 					<span>单曲</span>
 					<ul>
@@ -22,8 +23,9 @@
 									class="singer"
 									:to="`/singer/${value.id}`"
 									v-for="value in item.artists"
-									>{{ value.name }}</router-link
-								>
+									:key="value.id">
+									{{ value.name }}
+								</router-link>
 							</router-link>
 						</li>
 					</ul>
@@ -108,7 +110,6 @@
 </template>
 
 <script>
-import { onClickOutside } from '@vueuse/core';
 import { defaultKeyword, searchSuggest, searchHot } from '@/api/search';
 import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
@@ -123,7 +124,6 @@ export default {
 		const isShowList = ref(false);
 		const suggest = ref({});
 		const searchHotList = ref([]);
-		const target = ref(null);
 		const HistorySearch = ref([]);
 		// 添加历史搜索
 		const addNewHistorySearch = keyword => {
@@ -158,7 +158,6 @@ export default {
 		// 用户点击关键字路由跳转搜索
 		const changKeywords = val => {
 			keywords.value = val;
-			isShowList.value = false;
 			addNewHistorySearch(keywords.value);
 		};
 		// 监视搜索框发生变化 预测用户搜索
@@ -185,13 +184,11 @@ export default {
 		const getSearchHot = () => {
 			searchHot().then(data => (searchHotList.value = data.data.data));
 		};
-		onClickOutside(target, () => (isShowList.value = false));
 		onMounted(() => {
 			HistorySearch.value = getHistorySearch(); // 获取历史搜索
 			getSearchHot(); // 获取热搜列表
 		});
 		return {
-			target,
 			keyword_default,
 			keywords,
 			suggest,
@@ -231,23 +228,12 @@ export default {
 	}
 	.searchList {
 		position: absolute;
-		top: 3.5rem;
+		top: 3rem;
 		width: 100%;
 		background-color: var(--global-bg2);
 		border-radius: 0.5rem;
 		z-index: 999;
-		filter: drop-shadow(0 0 10px var(--shadow-black));
-		&::before {
-			position: absolute;
-			top: -0.5rem;
-			left: 50%;
-			transform: translateX(-50%) rotate(45deg);
-			content: '';
-			width: 1.5rem;
-			height: 1.5rem;
-			background-color: var(--global-bg2);
-			z-index: -1;
-		}
+		box-shadow: 0 0 10px var(--shadow-black);
 		> div[class^='suggest'] {
 			display: flex;
 			padding: 0.5rem 1rem;
@@ -302,7 +288,16 @@ export default {
 		.search-prompt {
 			padding: 0.5rem 1rem;
 			max-height: 37rem;
-			overflow-y: auto;
+			overflow-y: hidden;
+			&:hover {
+				overflow-y: auto;
+			}
+			li {
+				border-radius: 0.2rem;
+				&:hover {
+					background-color: var(--global-bg7);
+				}
+			}
 			.hot {
 				ul {
 					span {
@@ -375,10 +370,15 @@ export default {
 					li {
 						display: flex;
 						justify-content: space-between;
-						padding-left: 1rem;
+						padding: 0 1rem;
 						a,
 						i {
 							font-size: 0.8rem;
+						}
+						a {
+							&:first-child {
+								flex: 1;
+							}
 						}
 					}
 				}
