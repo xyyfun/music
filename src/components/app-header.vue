@@ -20,8 +20,12 @@
 				<div class="picture"><img :src="userAvatarUrl" alt="" /></div>
 				<a href="javascript:;" v-if="userId">{{ userName }}</a>
 				<router-link to="/login" class="info" v-else>请登录</router-link>
-				<a href="javascript:;" class="skin" @click="toggleDark()">
-					<i class="iconfont icon-pifu"></i>
+				<a href="javascript:;" @click="toggleDark()">
+					<div class="switch">
+						<div class="block" :class="isDark ? 'dark' : 'light'">
+							<i class="iconfont" :class="isDark ? 'icon-moon' : 'icon-sun'"></i>
+						</div>
+					</div>
 				</a>
 				<a href="javascript:;" class="more">
 					<i class="iconfont icon-caidan" @click="showMore"></i>
@@ -127,6 +131,7 @@ export default {
 			moreBox,
 			isShowMore,
 			status,
+			isDark,
 			loginOut,
 			showMore,
 			toggleDark,
@@ -163,6 +168,7 @@ export default {
 		}
 		.menu {
 			display: flex;
+			align-items: center;
 			.picture {
 				overflow: hidden;
 				width: 2rem;
@@ -172,6 +178,36 @@ export default {
 					width: 100%;
 					height: 100%;
 					object-fit: cover;
+				}
+			}
+			.switch {
+				display: flex;
+				align-items: center;
+				width: 2.5rem;
+				height: 1.4rem;
+				border-radius: 0.7rem;
+				background-color: var(--global-bg7);
+				border: 1px solid var(--global-border3);
+				.block {
+					position: relative;
+					width: 1.1rem;
+					height: 1.1rem;
+					border-radius: 50%;
+					background-color: var(--global-bg);
+					transition: transform 0.3s;
+					i {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+						color: var(--text-default-color);
+					}
+				}
+				.light {
+					transform: translateX(5%);
+				}
+				.dark {
+					transform: translateX(110%);
 				}
 			}
 			.more {
