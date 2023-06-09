@@ -81,11 +81,9 @@ export default {
 		const dialog = ref(null);
 		const store = useStore();
 		const router = useRouter();
-		const currentMusicID = computed(() => store.state.song.currentMusicID);
 		const status = computed(() => store.state.user.status);
 		const play = id => {
 			// 播放前判断当前是否有音乐暂停且暂停音乐是播放的音乐
-			if (currentMusicID.value === id) return store.commit('song/ISPLAY', true);
 			store.commit('song/ISPLAY', false);
 			store.dispatch('song/getMusic', id);
 		};
@@ -138,11 +136,11 @@ export default {
 		return {
 			dialog,
 			play,
-			currentMusicID,
 			showlyrics,
 			remove,
 			like,
 			cancelLike,
+			currentMusicID: computed(() => store.state.song.currentMusicID),
 			isShowDialog: computed(() => store.state.song.isShowDialog),
 			playlist: computed(() => store.state.song.playlist),
 			isPlay: computed(() => store.state.song.isPlay),

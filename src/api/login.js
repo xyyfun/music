@@ -21,7 +21,7 @@ export const loginTourist = () => request({ url: `/register/anonimous`, method: 
  */
 export const QRkey = () => {
 	return request({
-		url: `/login/qr/key?timestamp=${Date.now()}`,
+		url: `/login/qr/key`,
 		method: 'get',
 	});
 };
@@ -34,7 +34,7 @@ export const QRkey = () => {
  */
 export const QRbase = key => {
 	return request({
-		url: `/login/qr/create?key=${key}&qrimg=true&timestamp=${Date.now()}`,
+		url: `/login/qr/create?key=${key}&qrimg=true`,
 		method: 'get',
 	});
 };
@@ -47,7 +47,7 @@ export const QRbase = key => {
  */
 export const QRstate = key => {
 	return request({
-		url: `/login/qr/check?key=${key}&timestamp=${Date.now()}`,
+		url: `/login/qr/check?key=${key}&noCookie=true`,
 		method: 'get',
 	});
 };

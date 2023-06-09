@@ -206,7 +206,7 @@ export default {
 							padding: 0 0.5rem;
 							transition: all 0.2s;
 							&:hover {
-								background-color: var(--global-hover-bg);
+								background-color: var(--global-bg7);
 							}
 							a {
 								font-size: 0.9rem;

@@ -21,7 +21,7 @@ export const getPrivateMessage = offset => {
  */
 export const getCommentMessage = (uid, before = '') => {
 	return request({
-		url: `/msg/comments?uid=${uid}&limit=30&before=${before}&timestamp=${Date.now()}`,
+		url: `/msg/comments?uid=${uid}&limit=30&before=${before}`,
 	});
 };
 
@@ -57,7 +57,7 @@ export const getNoticeMessage = () => {
  */
 export const getPrivateContent = (uid, before = '') => {
 	return request({
-		url: `/msg/private/history?uid=${uid}&limit=30&before=${before}&timestamp=${Date.now()}`,
+		url: `/msg/private/history?uid=${uid}&limit=30&before=${before}`,
 	});
 };
 

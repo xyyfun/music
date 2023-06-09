@@ -1,27 +1,37 @@
 <template>
 	<div class="popup">
 		<ul>
-			<li @click="playOrder(4)"><i class="iconfont icon-suiji"></i>随机播放</li>
-			<li @click="playOrder(2)"><i class="iconfont icon-shunxu"></i>顺序播放</li>
-			<li @click="playOrder(1)"><i class="iconfont icon-liebiao"></i>列表循环</li>
-			<li @click="playOrder(3)"><i class="iconfont icon-danqu"></i>单曲循环</li>
+			<li
+				v-for="item in popup"
+				:key="item.order"
+				@click="playOrder(item.order)"
+				:class="{ active: playOrderNum === item.order }">
+				<i class="iconfont" :class="item.icon"></i>{{ item.name }}
+			</li>
 		</ul>
 	</div>
 </template>
 
 <script>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 export default {
 	name: 'AppPlayOrder',
-	emits: ['popupCbk'],
-	setup(props, { emit }) {
+	setup() {
 		const store = useStore();
+		const popup = [
+			{ name: '随机播放', icon: 'icon-suiji', order: 4 },
+			{ name: '顺序播放', icon: 'icon-shunxu', order: 2 },
+			{ name: '列表循环', icon: 'icon-liebiao', order: 1 },
+			{ name: '单曲循环', icon: 'icon-danqu', order: 3 },
+		];
 		const playOrder = val => {
 			store.commit('song/changPlayOrder', val);
-			emit('popupCbk');
 		};
 		return {
+			popup,
 			playOrder,
+			playOrderNum: computed(() => store.state.song.playOrder),
 		};
 	},
 };
@@ -59,6 +69,9 @@ export default {
 			&:hover {
 				color: var(--theme-color);
 			}
+		}
+		.active {
+			color: var(--theme-color);
 		}
 	}
 }

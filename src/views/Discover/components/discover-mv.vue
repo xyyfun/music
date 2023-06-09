@@ -47,7 +47,6 @@ export default {
 				display: block;
 				position: relative;
 				transition: transform 0.3s;
-				background-color: var(--global-bg3);
 				img {
 					width: 100%;
 					max-height: 191px;

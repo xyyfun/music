@@ -5,7 +5,7 @@ import request from '@/utils/request';
  * @description  : 获取登录状态
  * @return        {*}
  */
-export const getUserStatus = () => request({ url: `/login/status?timestamp=${Date.now()}` });
+export const getUserStatus = () => request({ url: `/login/status` });
 
 /**
  * @Date         : 2023-04-11 21:13:46
@@ -100,13 +100,12 @@ export const getUserPlaylist = uid => {
 };
 
 /**
- * @Date         : 2023-05-12 14:28:03
- * @description  : 获取私人信息
- * @param         {*} offset:
+ * @Date         : 2023-05-25 18:39:39
+ * @description  : 关注用户
+ * @param         {*} id: 用户id
+ * @param         {*} t:1为关注,其他为取消关注
  * @return        {*}
  */
-export const getPrivateMessage = offset => {
-	return request({
-		url: `/msg/private?limit=30&offset=${(offset - 1) * 30}`,
-	});
+export const followUser = (id, t) => {
+	return request({ url: `/follow?id=${id}&t=${t}` });
 };

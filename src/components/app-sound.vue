@@ -90,7 +90,6 @@ export default {
 				height: 0.8rem;
 				background-color: var(--theme-color);
 				border-radius: 50%;
-				transition: transform 0.2s;
 				cursor: pointer;
 			}
 			.complete {
@@ -98,7 +97,6 @@ export default {
 				height: 100%;
 				background-color: var(--theme-color);
 				transform-origin: bottom;
-				transition: transform 0.2s;
 			}
 		}
 		.number {
