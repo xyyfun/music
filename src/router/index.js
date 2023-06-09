@@ -96,7 +96,7 @@ const routes = [
 			},
 			{
 				name: 'comment',
-				path: '/comment',
+				path: '/comment/:id',
 				component: () => import('@/views/Comment'),
 			},
 			{

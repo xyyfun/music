@@ -21,7 +21,7 @@
 				</div>
 			</div>
 			<MusicComment :comments="comments" :hotComments="hotComments" />
-			<AppMore v-if="hotComments.length" @loadMore="loadMore" :isMore="isMore" />
+			<AppMore v-if="comments.length || hotComments.length" @loadMore="loadMore" :isMore="isMore" />
 		</div>
 	</div>
 </template>
@@ -32,13 +32,14 @@ import AppMore from '@/components/app-more';
 import { getSongDetail } from '@/api/songs';
 import { getHotComment, getSongComment } from '@/api/comment';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
-import { computed, ref, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { computed, onMounted, ref, watch } from 'vue';
 export default {
 	name: 'AppComment',
 	components: { MusicComment, AppMore },
 	setup() {
 		const router = useRouter();
+		const route = useRoute();
 		const store = useStore();
 		const comments = ref([]); // 全部评论
 		const hotComments = ref([]); // 热门评论
@@ -56,31 +57,31 @@ export default {
 				isMore.value = data.data.more;
 			});
 		};
-		watch(
-			currentMusicID,
-			newVal => {
-				if (newVal) {
-					// 全部评论
-					getData();
-					// 热门评论
-					getHotComment(newVal, 0, 1).then(data => (hotComments.value = data.data.hotComments));
-					// 歌曲详情
-					getSongDetail(newVal).then(data => {
-						const { ar, al, name } = data.data.songs[0];
-						detail.value = { ar, al, name };
-					});
-				} else {
-					router.replace('/');
-				}
-			},
-			{ immediate: true }
-		);
+		onMounted(() => {
+			watch(
+				() => route.params.id,
+				newVal => {
+					if (newVal && route.name === 'comment') {
+						// 全部评论
+						getData();
+						// 热门评论
+						getHotComment(newVal, 0, 1).then(data => (hotComments.value = data.data.hotComments));
+						// 歌曲详情
+						getSongDetail(newVal).then(data => {
+							const { ar, al, name } = data.data.songs[0];
+							detail.value = { ar, al, name };
+						});
+					}
+				},
+				{ immediate: true }
+			);
+		});
 		return {
 			comments,
 			hotComments,
-			loadMore,
 			isMore,
 			detail,
+			loadMore,
 		};
 	},
 };
