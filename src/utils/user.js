@@ -4,7 +4,7 @@
  * @param         {*} val:
  * @return        {*}
  */
-export const setUserInfo = val => localStorage.setItem('userInfo', JSON.stringify(val));
+export const setUserInfo = (val = {}) => localStorage.setItem('userInfo', JSON.stringify(val));
 
 /**
  * @Date         : 2023-04-12 17:50:22
@@ -22,7 +22,7 @@ export const getUserInfo = () => {
  * @param         {*} val:
  * @return        {*}
  */
-export const setUserLike = val => localStorage.setItem('userLike', JSON.stringify(val));
+export const setUserLike = (val = []) => localStorage.setItem('userLike', JSON.stringify(val));
 
 /**
  * @Date         : 2023-04-19 15:11:57
