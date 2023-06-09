@@ -41,26 +41,23 @@ export default {
 	setup() {
 		const store = useStore();
 		// 用户状态
-		const getUserStatus = () => {
-			const result = store.dispatch('user/userStatus');
-			result.then(
-				userId => {
-					// 登录获取用户信息
-					store.dispatch('user/userInfo', userId);
-					// 获取用户喜欢歌曲
-					store.dispatch('user/userLike', userId);
-				},
-				() => {
-					message({ type: 'warn', message: '您当前的状态为游客，登录后使用更多功能！' });
-				}
-			);
+		const getUserStatus = async () => {
+			try {
+				const result = await store.dispatch('user/userStatus');
+				// 登录获取用户信息
+				store.dispatch('user/userInfo', result);
+				// 获取用户喜欢歌曲
+				store.dispatch('user/userLike', result);
+			} catch (error) {
+				message({ type: 'warn', message: '您当前的状态为游客，登录后使用更多功能！' });
+			}
 		};
 		onMounted(() => {
 			// 判断当前是否存在cookie
 			if (!getCookie()) {
 				// 不存在直接游客登录
 				loginTourist().then(data => {
-					setCookie(data.data.cookie);
+					setCookie(data.data.cookie, 0);
 				});
 			}
 			getUserStatus();

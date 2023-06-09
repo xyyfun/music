@@ -1,11 +1,19 @@
 /**
  * @Date         : 2023-04-12 15:57:07
  * @description  : 存储cookie
- * @param         {*} val:
+ * @param         {*} val: cookie
+ * @param         {*} status:状态 0：游客 1：登录用户
  * @return        {*}
  */
-export const setCookie = val => {
-	if (val) {
+export const setCookie = (val, status) => {
+	if (status) {
+		const cookie = val.replace(/\s*/g, '');
+		// 获取MUSIC_U之后所有字符
+		const str = cookie.substring(cookie.indexOf('MUSIC_U'));
+		// 截取MUSIC_U至HTTPOnly间字符
+		const MUSIC_U = str.substring(0, str.indexOf('HTTPOnly'));
+		document.cookie = MUSIC_U;
+	} else {
 		const cookie = val.replace(/\s*/g, '');
 		const array = cookie.split(';;');
 		array.forEach(e => (document.cookie = e));

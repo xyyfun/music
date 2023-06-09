@@ -35,27 +35,24 @@ export default {
 		const state = ref(true);
 		const stateInfo = ref(null);
 		// 获取用户状态
-		const getUserStatus = () => {
-			const result = store.dispatch('user/userStatus');
-			result.then(
-				userId => {
-					store.dispatch('user/userInfo', userId);
-					// 获取用户喜欢歌曲
-					store.dispatch('user/userLike', userId);
-					router.replace('/');
-					message({ type: 'success', message: '登录成功！' });
-				},
-				() => {
-					messageBox({
-						title: '提示',
-						message: '获取用户信息失败，请刷新页面重试！',
-						isShowCancel: true,
-					});
-				}
-			);
+		const getUserStatus = async () => {
+			try {
+				const result = await store.dispatch('user/userStatus');
+				store.dispatch('user/userInfo', result);
+				// 获取用户喜欢歌曲
+				store.dispatch('user/userLike', result);
+				router.replace('/');
+				message({ type: 'success', message: '登录成功！' });
+			} catch (err) {
+				messageBox({
+					title: '提示',
+					message: '获取用户信息失败，请刷新页面重试！',
+					isShowCancel: true,
+				});
+			}
 		};
-		onMounted(() => {
-			// 生成二维码key值
+		// 生成二维码
+		const createQRkey = () => {
 			QRkey()
 				.then(data => {
 					return Promise.resolve(data.data.data.unikey);
@@ -66,35 +63,44 @@ export default {
 						qrimg.value = data.data.data.qrimg;
 					});
 				});
-			// 监视key值变化
-			watch(key, newVal => {
-				if (newVal) {
-					timer.value = setInterval(() => {
-						QRstate(newVal).then(data => {
-							const code = data.data.code;
-							if (code === 800) {
-								clearInterval(timer.value);
-								isShowState.value = true;
-								state.value = false;
-								stateInfo.value = '二维码不存在或已过期，请重新获取';
-							}
-							if (code === 802) {
-								isShowState.value = true;
-								state.value = true;
-								stateInfo.value = '扫码成功，请在客户端确认是否登录';
-							}
-							// 授权成功
-							if (code === 803) {
-								clearInterval(timer.value);
-								removeCookie(); // 删除旧cookie
-								setCookie(data.data.cookie); // 存储新cookie
-								// 查询登陆状态
-								getUserStatus();
-							}
-						});
-					}, 3000);
+		};
+		// 查询登录状态
+		const loginStatus = key => {
+			QRstate(key).then(data => {
+				const code = data.data.code;
+				if (code === 800) {
+					clearInterval(timer.value);
+					isShowState.value = true;
+					state.value = false;
+					stateInfo.value = '二维码不存在或已过期，请重新获取';
+				}
+				if (code === 802) {
+					isShowState.value = true;
+					state.value = true;
+					stateInfo.value = '扫码成功，请在客户端确认是否登录';
+				}
+				// 授权成功
+				if (code === 803) {
+					clearInterval(timer.value);
+					removeCookie(); // 删除旧cookie
+					setCookie(data.data.cookie, 1); // 存储新cookie
+					// 查询用户状态
+					getUserStatus();
 				}
 			});
+		};
+		onMounted(() => {
+			createQRkey();
+			// 监视key值变化
+			watch(
+				key,
+				newVal => {
+					if (newVal) {
+						timer.value = setInterval(() => loginStatus(newVal), 3000);
+					}
+				},
+				{ immediate: true }
+			);
 		});
 		onUnmounted(() => clearInterval(timer.value));
 		return { qrimg, none, isShowState, state, stateInfo };

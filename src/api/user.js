@@ -5,7 +5,7 @@ import request from '@/utils/request';
  * @description  : 获取登录状态
  * @return        {*}
  */
-export const getUserStatus = () => request({ url: `/login/status` });
+export const getUserStatus = () => request({ url: `/login/status`, method: 'post' });
 
 /**
  * @Date         : 2023-04-11 21:13:46

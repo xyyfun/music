@@ -40,7 +40,7 @@ export default {
 						resolv(userId);
 					} else {
 						commit('changUserStatus', 1);
-						reject('tourist');
+						reject();
 					}
 				});
 			});
@@ -61,7 +61,7 @@ export default {
 			});
 		},
 		// 获取用户喜欢（歌曲id数组集合）
-		userLike({ commit }, id) {
+		userLike({}, id) {
 			getUserLike(id).then(data => {
 				setUserLike(data.data.ids);
 			});
