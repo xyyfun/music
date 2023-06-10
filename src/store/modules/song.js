@@ -1,8 +1,7 @@
-import { getSongUrl, getSongDetail, getSongLyric, checkMusci } from '@/api/songs';
+import { getSongUrl, getSongDetail, getSongLyric } from '@/api/songs';
 import { getUserLike } from '@/utils/user';
 import tidy from '@/utils/tidy';
 import { useDateFormat } from '@vueuse/core';
-import messageBox from '@/utils/message-box';
 export default {
 	// 开启命名空间
 	namespaced: true,
@@ -66,7 +65,7 @@ export default {
 		},
 		// 添加播放列表
 		addList(state, list) {
-			// val类型 Array Object
+			// val类型 Array Object 将对象添加至数组内
 			if (!(list instanceof Array)) {
 				list.isLike = false;
 				const like = getUserLike();
@@ -159,22 +158,12 @@ export default {
 			});
 		},
 		// 获取三件套
-		getMusic({ dispatch }, id) {
-			checkMusci(id).then(result => {
-				if (result.data.success) {
-					dispatch('songUrl', id);
-					dispatch('songDetail', id);
-					dispatch('songLyrics', id);
-				} else {
-					messageBox({
-						title: '提示',
-						message: '因合作方要求，该资源暂时无法收听，我们正在努力争取该歌曲回归',
-						isShowCancel: false,
-						isShowClose: false,
-						confirmButtonText: '好的',
-					});
-				}
-			});
+		getMusic({ dispatch, commit, state }, id) {
+			// 播放前判断当前是否有音乐暂停且暂停音乐是播放的音乐
+			if (state.currentMusicID === id) return commit('ISPLAY', true);
+			dispatch('songUrl', id);
+			dispatch('songDetail', id);
+			dispatch('songLyrics', id);
 		},
 	},
 	getters: {
