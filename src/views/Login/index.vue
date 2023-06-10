@@ -4,7 +4,9 @@
 			<div class="main">
 				<div class="login-logo">
 					<h1>
-						<router-link to="/"><img src="../../assets/images/logo.png" alt="" /></router-link>
+						<router-link to="/">
+							<img src="../../assets/images/logo_light.png" alt="" />
+						</router-link>
 					</h1>
 					<div>
 						<span> Q Q 音 乐 </span>

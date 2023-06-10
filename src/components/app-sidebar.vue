@@ -1,7 +1,9 @@
 <template>
 	<div class="app-sidebar scroll">
 		<div class="sidebar-content">
-			<h1 class="logo"><router-link to="/" title="QQ音乐">QQ音乐</router-link></h1>
+			<h1 class="logo">
+				<router-link to="/" title="QQ音乐" :style="logoStatus">QQ音乐</router-link>
+			</h1>
 			<div class="menu">
 				<span>在线音乐</span>
 				<ul>
@@ -78,14 +80,25 @@
 import { getUserPlaylist } from '@/api/user';
 import { ref, computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
+import { useDark } from '@vueuse/core';
+import logo_light from '@/assets/images/logo_light.png';
+import logo_dark from '@/assets/images/logo_dark.png';
 export default {
 	name: 'AppSidebar',
 	setup() {
 		const store = useStore();
 		const playlist = ref([]);
 		const userLike = ref(null);
+		const isDark = useDark();
 		const userId = computed(() => store.getters['user/userId']);
 		const status = computed(() => store.state.user.status);
+		const logoStatus = computed(() => {
+			if (isDark.value) {
+				return `background-image: url(${logo_dark})`;
+			} else {
+				return `background-image: url(${logo_light})`;
+			}
+		});
 		onMounted(() => {
 			watch(
 				status,
@@ -100,7 +113,7 @@ export default {
 				{ immediate: true }
 			);
 		});
-		return { userLike, playlist };
+		return { userLike, logoStatus, playlist };
 	},
 };
 </script>
@@ -119,12 +132,11 @@ export default {
 		.logo {
 			width: 14rem;
 			a {
-				// filter: invert(100%);
 				display: block;
 				height: 5rem;
 				width: 100%;
 				text-indent: -9999px;
-				background: url(../assets/images/logo.png) no-repeat center 1.4rem / contain;
+				background: no-repeat center 1.4rem / contain;
 				background-size: 7.1rem 1.9rem;
 			}
 		}
