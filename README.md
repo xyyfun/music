@@ -8,6 +8,8 @@
 
 ## Vue3 Music
 
+### 项目简介
+
 项目基于 Vue3 全家桶开发的 QQ 音乐播放器，项目界面模仿 QQ 音乐 Windows 客户端。
 
 后端 API [Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
@@ -20,12 +22,26 @@
 
 - 部分音乐由于版权问题无法播放
 - 频繁关/取关注歌手或用户会导致风控，解决方法是登录 PC 端网易云扫码验证解决
-- 雷达（电台）无法播放，请求接口提示无版权，有小伙伴有解决办法的欢迎 lssues
-- 评论区回复接口返回的数据太复杂，等有时间了再 push
+- 雷达（电台）无法播放，请求接口提示无版权，有小伙伴有解决办法的欢迎 lssues或pull request
+- 评论区回复接口返回的数据太复杂，等有时间再做
 - 视频小窗目前只支持拖动位置，暂不支持暂停/播放/修改进度
-- **项目有任何问题及 bug 欢迎提出 lssues**
+- **项目有任何问题或 bug 欢迎提出 lssues**
 
-### 安装
+### 快速导航
+
+- [Vue3 Music](#Vue3 Music)
+  - [项目简介](#项目简介)
+  - [快速上手](#快速上手)
+  - [进度](#进度)
+  - [技术栈](#技术栈)
+  - [项目预览](#项目预览)
+  - [如何贡献](#如何贡献)
+  - [之后的方向](#之后的方向)
+  - [鸣谢](#鸣谢)
+
+### 快速上手
+
+安装
 
 ```
 $ git clone https://github.com/xyyfun/music.git
@@ -33,13 +49,13 @@ $ cd vue-music
 $ npm install
 ```
 
-### 运行
+运行
 
 ```
 $ npm run serve
 ```
 
-### 打包部署
+打包部署
 
 ```
 $ npm run build
@@ -97,41 +113,50 @@ $ npm run build
 
 首页-推荐
 
-![首页](https://s1.ax1x.com/2023/05/30/p9vZtqU.png)
+![首页](https://s1.ax1x.com/2023/06/10/pCVewLT.png)
 
 音乐馆-精选
 
-![音乐馆-精选](https://s1.ax1x.com/2023/05/30/p9vZlPs.png)
+![音乐馆-精选](https://s1.ax1x.com/2023/06/10/pCVeaQ0.png)
 
 音乐馆-电台
 
-![音乐馆-有声电台](https://s1.ax1x.com/2023/05/30/p9vZJMV.png)
+![音乐馆-有声电台](https://s1.ax1x.com/2023/06/10/pCVedyV.png)
 
 音乐馆-排行
 
-![音乐馆-排行](https://s1.ax1x.com/2023/05/30/p9vZ32q.png)
+![音乐馆-排行](https://s1.ax1x.com/2023/06/10/pCVetWn.png)
 
 搜索
 
-![搜索](https://s1.ax1x.com/2023/05/30/p9vZM5j.png)
+![搜索](https://s1.ax1x.com/2023/06/10/pCVeQL8.png)
 
 播放器
 
-![播放器](https://s1.ax1x.com/2023/05/30/p9vZYrT.png)
+![播放器](https://s1.ax1x.com/2023/06/10/pCVe8oQ.png)
 
 歌单
 
-![歌单](https://s1.ax1x.com/2023/05/30/p9vZ8x0.png)
+![歌单](https://s1.ax1x.com/2023/06/10/pCVe1eS.png)
 
 视频
 
-![视频](https://s1.ax1x.com/2023/05/30/p9vZ1Gn.png)
+![视频](https://s1.ax1x.com/2023/06/10/pCVeJij.png)
+
+私信
+
+![私信](https://s1.ax1x.com/2023/06/10/pCVe3dg.png)
+
+### 如何贡献
+
+非常欢迎您的加入！[提一个lssue](https://github.com/xyyfun/music/issues)或提交一个[pull request](https://github.com/xyyfun/music/pulls)
+
 
 ### 之后的方向
 
-- 适配深色模式
+- 适配深色模式（已完成）
 - 根据当前用户网络状况加载对应大小预览图
-- 视频小窗
+- 视频小窗（已完成）
 - 回复评论&楼层评论
 - 电台播放
 - ...
