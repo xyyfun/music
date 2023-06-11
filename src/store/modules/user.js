@@ -1,5 +1,5 @@
 import { setUserLike, setUserInfo, getUserInfo } from '@/utils/user';
-import { getUserStatus, getUserLike, getUserDetail } from '@/api/user';
+import { getUserStatus, getUserLike, getUserDetail, getUserVIPinfo } from '@/api/user';
 export default {
 	// 开启命名空间
 	namespaced: true,
@@ -8,6 +8,8 @@ export default {
 		userInfo: getUserInfo() || {},
 		// 用户歌曲喜欢列表（歌单）
 		usersongLike: null,
+		// 用户VIP信息
+		userVIPinfo: {},
 		// 0：等待状态返回 1：未登录 2：登录成功
 		status: 0,
 	},
@@ -24,9 +26,31 @@ export default {
 		changUsreSongLike(state, val) {
 			state.usersongLike = val;
 		},
+		// 存储用户vip数据
+		setUserVIPinfo(state, val) {
+			let obj = {};
+			const { associator, redplus } = val;
+			const presentTime = Date.now();
+			if (associator['expireTime'] > presentTime) {
+				if (redplus['expireTime'] > presentTime) {
+					// svip用户
+					obj = { ...redplus, isMember: true };
+				} else {
+					// 普通会员用户
+					obj = { ...associator, isMember: true };
+				}
+			} else {
+				// 过期会员用户或无会员用户
+				obj = { ...associator, isMember: false };
+			}
+			state.userVIPinfo = obj;
+		},
 		// 删除用户信息
 		removeInfo(state) {
 			state.userInfo = {};
+			state.usersongLike = null;
+			state.userVIPinfo = {};
+			state.status = 0;
 		},
 	},
 	actions: {
@@ -64,6 +88,13 @@ export default {
 		userLike({}, id) {
 			getUserLike(id).then(data => {
 				setUserLike(data.data.ids);
+			});
+		},
+		// 获取用户vip信息
+		userVIPinfo({ commit }) {
+			getUserVIPinfo().then(result => {
+				const { associator, redplus } = result.data.data;
+				commit('setUserVIPinfo', { associator, redplus });
 			});
 		},
 	},

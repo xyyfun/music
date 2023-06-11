@@ -1,6 +1,6 @@
 <template>
 	<div class="app-icon">
-		<a href="javascript:;" v-if="fee === 1">
+		<a href="javascript:;" v-if="fee === 1 && !$store.state.user.userVIPinfo.isMember">
 			<i class="iconfont icon-shiting"></i>
 		</a>
 		<a href="javascript:;" v-if="fee === 1">

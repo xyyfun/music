@@ -17,9 +17,12 @@
 			</div>
 			<!-- 菜单 -->
 			<div class="menu">
-				<div class="picture"><img :src="userAvatarUrl" alt="" /></div>
-				<a href="javascript:;" v-if="userId">{{ userName }}</a>
-				<router-link to="/login" class="info" v-else>请登录</router-link>
+				<div class="picture">
+					<img v-lazy="userAvatarUrl" class="avatarUrl" alt="" />
+					<router-link :to="`/user?id=${userId}`" v-if="userId">{{ userName }}</router-link>
+					<router-link to="/login" class="info" v-else>请登录</router-link>
+					<img v-lazy="vipIcons" class="member" v-if="userId" alt="" />
+				</div>
 				<a href="javascript:;" @click="toggleDark()">
 					<div class="switch">
 						<div class="block" :class="isDark ? 'dark' : 'light'">
@@ -98,6 +101,9 @@ export default {
 		const isShowMore = ref(false);
 		const status = computed(() => store.state.user.status);
 		const isDark = useDark();
+		const vipIcons = computed(() => {
+			return store.state.user.userVIPinfo.dynamicIconUrl || store.state.user.userVIPinfo.iconUrl;
+		});
 		// 登出
 		const loginOut = () => {
 			messageBox({
@@ -132,6 +138,7 @@ export default {
 			isShowMore,
 			status,
 			isDark,
+			vipIcons,
 			loginOut,
 			showMore,
 			toggleDark,
@@ -170,14 +177,23 @@ export default {
 			display: flex;
 			align-items: center;
 			.picture {
-				overflow: hidden;
-				width: 2rem;
-				height: 2rem;
-				border-radius: 50%;
+				display: flex;
+				align-items: center;
 				img {
-					width: 100%;
-					height: 100%;
 					object-fit: cover;
+				}
+				.avatarUrl {
+					width: 2rem;
+					height: 2rem;
+					border-radius: 50%;
+				}
+				.member {
+					width: 2.63rem;
+					height: 1rem;
+				}
+				a {
+					margin: 0 0.5rem;
+					font-size: 1rem;
 				}
 			}
 			.switch {

@@ -4,12 +4,15 @@
 			<img v-lazy="userInfo.avatarUrl + '?param=300y300'" alt="" />
 			<div class="info">
 				<div class="nickname">
+					<span class="userName">{{ userInfo.nickname }}</span>
+				</div>
+				<div class="message_info">
+					<img :src="vipIcons" alt="" v-if="userInfo.userId === userId" />
+					<i>Lv.{{ level }}</i>
 					<span class="gender" v-if="userInfo.gender">
 						<i class="iconfont icon-boy" v-if="userInfo.gender === 1"></i>
 						<i class="iconfont icon-girl" v-else></i>
 					</span>
-					<span class="userName">{{ userInfo.nickname }}</span>
-					<i>Lv.{{ level }}</i>
 				</div>
 				<div class="identify" v-if="identify">
 					<div>
@@ -25,9 +28,9 @@
 				<div class="signature" v-if="userInfo.signature">
 					<span>个人介绍：{{ userInfo.signature }}</span>
 				</div>
-				<div class="utils">
+				<div class="utils" v-if="userInfo.userId !== userId">
 					<ul>
-						<li v-if="userInfo.userId !== userId">
+						<li>
 							<a href="javascript:;" @click="follow(0)" v-if="userInfo.followed">
 								<i class="iconfont icon-xihuan2"></i>已关注
 							</a>
@@ -57,6 +60,9 @@ export default {
 		const bindings = ref([]); // 绑定
 		const identify = ref(null); // 认证荣誉
 		const level = ref(0);
+		const vipIcons = computed(() => {
+			return store.state.user.userVIPinfo.dynamicIconUrl || store.state.user.userVIPinfo.iconUrl;
+		});
 		// 关注/取消关注
 		const follow = t => {
 			const id = userInfo.value.userId;
@@ -90,6 +96,7 @@ export default {
 			userInfo,
 			identify,
 			follow,
+			vipIcons,
 			userId: computed(() => store.getters['user/userId']),
 		};
 	},
@@ -117,11 +124,17 @@ export default {
 				font-size: 0.9rem;
 			}
 			.nickname {
+				.userName {
+					font-size: 1.5rem;
+				}
+			}
+			.message_info {
 				display: flex;
 				align-items: center;
-				.userName {
-					margin: 0 1rem;
-					font-size: 1.5rem;
+				img {
+					width: 3.8rem;
+					height: 1.5rem;
+					margin-right: 0.5rem;
 				}
 				.gender {
 					> i {
@@ -143,6 +156,7 @@ export default {
 					padding: 0 1rem;
 					border: 2px solid #f0483b;
 					color: #f0483b;
+					margin-right: 0.5rem;
 				}
 			}
 			.identify {

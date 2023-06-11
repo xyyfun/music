@@ -44,10 +44,9 @@ export default {
 		const getUserStatus = async () => {
 			try {
 				const result = await store.dispatch('user/userStatus');
-				// 登录获取用户信息
-				store.dispatch('user/userInfo', result);
-				// 获取用户喜欢歌曲
-				store.dispatch('user/userLike', result);
+				store.dispatch('user/userVIPinfo'); // 用户vip信息
+				store.dispatch('user/userInfo', result); // 登录获取用户信息
+				store.dispatch('user/userLike', result); // 获取用户喜欢歌曲
 			} catch (error) {
 				message({ type: 'warn', message: '您当前的状态为游客，登录后使用更多功能！' });
 			}
