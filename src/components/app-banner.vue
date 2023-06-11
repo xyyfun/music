@@ -140,13 +140,14 @@ export default {
 		}
 		.item {
 			position: absolute;
+			width: 33.75rem;
 			height: 100%;
 			background-color: var(--global-bg3);
 			border-radius: 0.5rem;
 			transition: all 0.7s;
 			a {
-				display: block;
 				img {
+					height: 100%;
 					border-radius: 0.5rem;
 				}
 				span {
