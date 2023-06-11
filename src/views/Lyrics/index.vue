@@ -59,7 +59,7 @@ export default {
 
 <style lang="less" scoped>
 .app-lyrics {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100vw;

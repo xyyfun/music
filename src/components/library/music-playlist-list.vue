@@ -14,7 +14,10 @@
 					class="item"
 					v-for="(item, index) in songLists"
 					:key="item.id"
-					:class="{ active: item.id === currentMusicID || item.id === currentShowPanel }">
+					:class="{
+						active: item.id === currentMusicID || item.id === currentShowPanel,
+						noCopyright: item.st === -200 || item.st === -1,
+					}">
 					<ul>
 						<li class="songs">
 							<span class="number">{{ index + 1 <= 9 ? '0' + (index + 1) : index + 1 }}</span>
@@ -254,6 +257,12 @@ export default {
 						}
 					}
 				}
+			}
+			.noCopyright {
+				a {
+					color: #7b7b7b;
+				}
+				color: #7b7b7b;
 			}
 			.active {
 				background-color: var(--global-hover2-bg);

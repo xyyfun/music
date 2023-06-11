@@ -11,7 +11,7 @@ const instance = axios.create({
 		!Vercel/腾讯云部署时请配置代理
 	 */
 	// 超时时间
-	timeout: 1000,
+	timeout: 5000,
 	// 允许携带cookie
 	withCredentials: true,
 });

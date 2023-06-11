@@ -151,7 +151,7 @@ export default {
 
 <style lang="less" scoped>
 .app-dialog {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	right: 0;
 	width: 20rem;

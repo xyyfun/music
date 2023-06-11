@@ -36,7 +36,8 @@ export default {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: rgba(0, 0, 0, 0.2);
+		background-color: rgba(225, 225, 225, 0.2);
+		border: 1px solid rgba(200, 200, 200, 0.4);
 		border-radius: 50%;
 		.arm {
 			position: absolute;
