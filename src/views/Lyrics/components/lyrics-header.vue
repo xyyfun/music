@@ -1,8 +1,11 @@
 <template>
 	<div class="lyrics-header">
 		<div class="header">
-			<i class="iconfont icon-xiangxiajiantou" @click="$store.commit('song/SHOWLYRICS', false)"></i>
-			<i class="iconfont icon-quanping" @click="$emit('enlarge')"></i>
+			<i class="iconfont icon-xiangxiajiantou" @click="$emit('closePanel')"></i>
+			<i
+				class="iconfont"
+				:class="isFull ? 'icon-quxiaoquanping' : 'icon-quanping'"
+				@click="$emit('enlarge')"></i>
 		</div>
 	</div>
 </template>
@@ -10,7 +13,13 @@
 <script>
 export default {
 	name: 'LyricsHeader',
-	emits: ['enlarge'],
+	emits: ['enlarge', 'closePanel'],
+	props: {
+		isFull: {
+			type: Boolean,
+			default: false,
+		},
+	},
 };
 </script>
 

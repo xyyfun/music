@@ -3,7 +3,7 @@
 		<div class="app-lyrics overflow" v-show="isShowLyrics" ref="lyricsContent">
 			<LyricsBac />
 			<div class="lyrics-content">
-				<LyricsHeader @enlarge="enlarge" />
+				<LyricsHeader :isFull="isFull" @closePanel="closePanel" @enlarge="enlarge" />
 				<div class="lyrics-main">
 					<LyricsDisc />
 					<LyricsSongs />
@@ -30,10 +30,29 @@ export default {
 		const lyricsContent = ref(null);
 		const store = useStore();
 		const isShowLyrics = computed(() => store.state.song.isShowLyrics);
+		const isFull = ref(false);
+		// 全屏
 		const enlarge = () => {
-			lyricsContent.value.requestFullscreen();
+			const full = document.fullscreenElement;
+			// 判断是否有元素进入全屏
+			if (full) {
+				document.exitFullscreen();
+				isFull.value = false;
+			} else {
+				lyricsContent.value.requestFullscreen();
+				isFull.value = true;
+			}
 		};
-		return { lyricsContent, isShowLyrics, enlarge };
+		const closePanel = () => {
+			const full = document.fullscreenElement;
+			// 判断是否有元素进入全屏 有则退出全屏
+			if (full) {
+				document.exitFullscreen();
+				isFull.value = false;
+			}
+			store.commit('song/SHOWLYRICS', false);
+		};
+		return { isFull, lyricsContent, isShowLyrics, closePanel, enlarge };
 	},
 };
 </script>
