@@ -101,6 +101,6 @@ export const getArtist = () => request({ url: '/toplist/artist', method: 'get' }
  */
 export const followSinger = (id, t) => {
 	return request({
-		url: `/artist/sub?id=${id}&t=${t}`,
+		url: `/artist/sub?id=${id}&t=${t}&timestamp=${Date.now()}`,
 	});
 };

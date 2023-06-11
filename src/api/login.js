@@ -1,18 +1,12 @@
 import request from '@/utils/request';
 
 /**
- * @Date         : 2023-04-11 19:52:47
- * @description  : 刷新登录
- * @return        {*}
- */
-export const loginRefresh = () => request({ url: '/login/refresh', method: 'get' });
-
-/**
  * @Date         : 2023-04-11 19:56:22
  * @description  : 游客登录
  * @return        {*}
  */
-export const loginTourist = () => request({ url: `/register/anonimous`, method: 'get' });
+export const loginTourist = () =>
+	request({ url: `/register/anonimous?timestamp=${Date.now()}`, method: 'get' });
 
 /**
  * @Date         : 2023-04-12 14:27:49
@@ -21,7 +15,7 @@ export const loginTourist = () => request({ url: `/register/anonimous`, method: 
  */
 export const QRkey = () => {
 	return request({
-		url: `/login/qr/key`,
+		url: `/login/qr/key?timestamp=${Date.now()}`,
 		method: 'get',
 	});
 };
@@ -34,7 +28,7 @@ export const QRkey = () => {
  */
 export const QRbase = key => {
 	return request({
-		url: `/login/qr/create?key=${key}&qrimg=true`,
+		url: `/login/qr/create?key=${key}&qrimg=true&timestamp=${Date.now()}`,
 		method: 'get',
 	});
 };
@@ -47,7 +41,7 @@ export const QRbase = key => {
  */
 export const QRstate = key => {
 	return request({
-		url: `/login/qr/check?key=${key}&noCookie=true`,
+		url: `/login/qr/check?key=${key}&noCookie=true&timestamp=${Date.now()}`,
 		method: 'get',
 	});
 };
@@ -59,7 +53,7 @@ export const QRstate = key => {
  */
 export const logout = () => {
 	return request({
-		url: '/logout',
+		url: `/logout?timestamp=${Date.now()}`,
 		method: 'get',
 	});
 };

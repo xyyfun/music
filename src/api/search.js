@@ -9,7 +9,9 @@ import request from '@/utils/request';
  */
 export const search = (keywords, type, offset) => {
 	return request({
-		url: `/cloudsearch?keywords=${keywords}&limit=50&type=${type}&offset=${(offset - 1) * 50}`,
+		url: `/cloudsearch?keywords=${keywords}&limit=50&type=${type}&offset=${
+			(offset - 1) * 50
+		}&timestamp=${Date.now()}`,
 		method: 'get',
 	});
 };
@@ -46,7 +48,7 @@ export const searchHot = () => {
  */
 export const searchSuggest = keyword => {
 	return request({
-		url: `/search/suggest?keywords=${keyword}`,
+		url: `/search/suggest?keywords=${keyword}&timestamp=${Date.now()}`,
 		method: 'get',
 	});
 };
@@ -59,6 +61,6 @@ export const searchSuggest = keyword => {
  */
 export const searchMultiMatch = keywords => {
 	return request({
-		url: `/search/multimatch?keywords=${keywords}`,
+		url: `/search/multimatch?keywords=${keywords}&timestamp=${Date.now()}`,
 	});
 };

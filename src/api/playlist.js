@@ -22,7 +22,7 @@ export const getPlaylistDetail = id => {
  */
 export const playlistSubscribe = (id, t) => {
 	return request({
-		url: `/playlist/subscribe?t=${t}&id=${id}`,
+		url: `/playlist/subscribe?t=${t}&id=${id}&timestamp=${Date.now()}`,
 	});
 };
 
@@ -50,6 +50,6 @@ export const getPlaylist = ({ before, cat }) => {
  */
 export const changPlaylist = (op, pid, tracks) => {
 	return request({
-		url: `/playlist/tracks?op=${op}&pid=${pid}&tracks=${tracks}`,
+		url: `/playlist/tracks?op=${op}&pid=${pid}&tracks=${tracks}&timestamp=${Date.now()}`,
 	});
 };

@@ -8,7 +8,7 @@ import request from '@/utils/request';
  */
 export const getPrivateMessage = offset => {
 	return request({
-		url: `/msg/private?limit=30&offset=${(offset - 1) * 30}`,
+		url: `/msg/private?limit=30&offset=${(offset - 1) * 30}&timestamp=${Date.now()}`,
 	});
 };
 
@@ -21,7 +21,7 @@ export const getPrivateMessage = offset => {
  */
 export const getCommentMessage = (uid, before = '') => {
 	return request({
-		url: `/msg/comments?uid=${uid}&limit=30&before=${before}`,
+		url: `/msg/comments?uid=${uid}&limit=30&before=${before}&timestamp=${Date.now()}`,
 	});
 };
 
@@ -33,7 +33,7 @@ export const getCommentMessage = (uid, before = '') => {
  */
 export const getFormeMessage = offset => {
 	return request({
-		url: `/msg/forwards?limit=10&offset=${(offset - 1) * 10}`,
+		url: `/msg/forwards?limit=10&offset=${(offset - 1) * 10}&timestamp=${Date.now()}`,
 	});
 };
 
@@ -44,7 +44,7 @@ export const getFormeMessage = offset => {
  */
 export const getNoticeMessage = () => {
 	return request({
-		url: `/msg/notices?limit=30`,
+		url: `/msg/notices?limit=30&timestamp=${Date.now()}`,
 	});
 };
 
@@ -57,7 +57,7 @@ export const getNoticeMessage = () => {
  */
 export const getPrivateContent = (uid, before = '') => {
 	return request({
-		url: `/msg/private/history?uid=${uid}&limit=30&before=${before}`,
+		url: `/msg/private/history?uid=${uid}&limit=30&before=${before}&timestamp=${Date.now()}`,
 	});
 };
 
@@ -70,6 +70,6 @@ export const getPrivateContent = (uid, before = '') => {
  */
 export const sendPrivate = (user_ids, msg) => {
 	return request({
-		url: `/send/text?user_ids=${user_ids}&msg=${msg}`,
+		url: `/send/text?user_ids=${user_ids}&msg=${msg}&timestamp=${Date.now()}`,
 	});
 };

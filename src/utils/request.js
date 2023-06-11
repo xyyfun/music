@@ -11,7 +11,7 @@ const instance = axios.create({
 		!Vercel/腾讯云部署时请配置代理
 	 */
 	// 超时时间
-	timeout: 10000,
+	timeout: 1000,
 	// 允许携带cookie
 	withCredentials: true,
 });
@@ -22,11 +22,6 @@ instance.interceptors.request.use(
 			cookie: document.cookie,
 		};
 		config.method = 'post';
-		if (config.url.indexOf('?') === -1) {
-			config.url = config.url + '?timestamp=' + Date.now();
-		} else {
-			config.url = config.url + '&timestamp=' + Date.now();
-		}
 		return config;
 	},
 	error => {
@@ -41,6 +36,9 @@ instance.interceptors.response.use(
 		return response;
 	},
 	error => {
+		if (!error.response) {
+			return message({ type: 'error', message: '请求超时，请稍后再试！' });
+		}
 		if (error.response.status === 400) {
 			const code = error.response.data.code;
 			if (code === -462) {

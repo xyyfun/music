@@ -5,7 +5,8 @@ import request from '@/utils/request';
  * @description  : 获取登录状态
  * @return        {*}
  */
-export const getUserStatus = () => request({ url: `/login/status`, method: 'post' });
+export const getUserStatus = () =>
+	request({ url: `/login/status?timestamp=${Date.now()}`, method: 'post' });
 
 /**
  * @Date         : 2023-04-11 21:13:46
@@ -15,7 +16,7 @@ export const getUserStatus = () => request({ url: `/login/status`, method: 'post
  */
 export const getUserDetail = uid => {
 	return request({
-		url: `/user/detail?uid=${uid}`,
+		url: `/user/detail?uid=${uid}&timestamp=${Date.now()}`,
 		method: 'get',
 	});
 };
@@ -27,7 +28,7 @@ export const getUserDetail = uid => {
  */
 export const getUserAccountInfo = () => {
 	return request({
-		url: `/user/account`,
+		url: `/user/account?timestamp=${Date.now()}`,
 		method: 'get',
 	});
 };
@@ -52,7 +53,7 @@ export const getUserLevel = () => {
  */
 export const getUserLike = uid => {
 	return request({
-		url: `/likelist?uid=${uid}`,
+		url: `/likelist?uid=${uid}&timestamp=${Date.now()}`,
 		method: 'get',
 	});
 };
@@ -66,7 +67,7 @@ export const getUserLike = uid => {
  */
 export const like = (id, bol) => {
 	return request({
-		url: `/like?id=${id}&like=${bol}`,
+		url: `/like?id=${id}&like=${bol}&timestamp=${Date.now()}`,
 		method: 'get',
 	});
 };
@@ -77,14 +78,16 @@ export const like = (id, bol) => {
  * @param         {*} uid:
  * @return        {*}
  */
-export const getUserRecordSong = () => request({ url: `/record/recent/song` });
+export const getUserRecordSong = () =>
+	request({ url: `/record/recent/song?timestamp=${Date.now()}` });
 
 /**
  * @Date         : 2023-05-05 14:18:41
  * @description  : 获取用户播放记录-视频
  * @return        {*}
  */
-export const getUserRecordVideo = () => request({ url: '/record/recent/video' });
+export const getUserRecordVideo = () =>
+	request({ url: `/record/recent/video?timestamp=${Date.now()}` });
 
 /**
  * @Date         : 2023-04-12 22:10:58
@@ -94,7 +97,7 @@ export const getUserRecordVideo = () => request({ url: '/record/recent/video' })
  */
 export const getUserPlaylist = uid => {
 	return request({
-		url: `/user/playlist?uid=${uid}`,
+		url: `/user/playlist?uid=${uid}&timestamp=${Date.now()}`,
 		method: 'get',
 	});
 };
@@ -107,5 +110,14 @@ export const getUserPlaylist = uid => {
  * @return        {*}
  */
 export const followUser = (id, t) => {
-	return request({ url: `/follow?id=${id}&t=${t}` });
+	return request({ url: `/follow?id=${id}&t=${t}&timestamp=${Date.now()}` });
+};
+
+/**
+ * @Date         : 2023-06-11 12:09:26
+ * @description  : 获取用户vip信息
+ * @return        {*}
+ */
+export const getUserVIPinfo = () => {
+	return request({ url: `/vip/info?timestamp=${Date.now()}` });
 };

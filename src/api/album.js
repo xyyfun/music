@@ -35,7 +35,8 @@ export const getAlbumData = id => {
  * @param         {*} t:
  * @return        {*}
  */
-export const albumSubscribe = (id, t) => request({ url: `/album/sub?t=${t}&id=${id}` });
+export const albumSubscribe = (id, t) =>
+	request({ url: `/album/sub?t=${t}&id=${id}&timestamp=${Date.now()}` });
 
 /**
  * @Date         : 2023-05-05 17:30:43
