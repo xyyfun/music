@@ -101,10 +101,10 @@ export default {
 		});
 		onMounted(() => {
 			watch(
-				status,
+				userId,
 				newVal => {
-					if (newVal === 2) {
-						getUserPlaylist(userId.value).then(data => {
+					if (newVal && status.value === 2) {
+						getUserPlaylist(newVal).then(data => {
 							playlist.value = data.data.playlist.splice(1);
 							store.commit('user/changUsreSongLike', data.data.playlist[0].id);
 						});
