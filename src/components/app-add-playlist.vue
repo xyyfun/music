@@ -1,6 +1,6 @@
 <template>
 	<div class="app-add-playlist">
-		<div class="add-playlist">
+		<div class="add-playlist scroll">
 			<ul>
 				<li v-for="item in playlist" :key="item.id">
 					<a href="javascript:;" class="ellipsis" @click="addSong(item.id)">{{ item.name }}</a>
@@ -52,7 +52,9 @@ export default {
 	left: 100%;
 	z-index: 2;
 	.add-playlist {
+		overflow-y: auto;
 		width: 10rem;
+		max-height: 13rem;
 		background-color: var(--global-bg2);
 		border-radius: 0.5rem;
 		box-shadow: 0 0 10px var(--shadow-black);

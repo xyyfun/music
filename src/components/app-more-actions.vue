@@ -65,6 +65,7 @@ import AppAddPlaylist from '@/components/app-add-playlist';
 import { useStore } from 'vuex';
 import { ref, computed } from 'vue';
 import message from '@/utils/message';
+import messageBox from '@/utils/message-box';
 import { onClickOutside } from '@vueuse/core';
 export default {
 	name: 'AppMoreActions',

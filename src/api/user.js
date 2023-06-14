@@ -97,7 +97,7 @@ export const getUserRecordVideo = () =>
  */
 export const getUserPlaylist = uid => {
 	return request({
-		url: `/user/playlist?uid=${uid}&timestamp=${Date.now()}`,
+		url: `/user/playlist?uid=${uid}`,
 		method: 'get',
 	});
 };

@@ -18,18 +18,20 @@
 
 如果觉得项目不错的话欢迎 star
 
+项目线上地址[http://47.102.197.149](http://47.102.197.149)
+
 **注**：
 
 - 部分音乐由于版权问题无法播放
 - 频繁关/取关注歌手或用户会导致风控，解决方法是登录 PC 端网易云扫码验证解决
-- 雷达（电台）无法播放，请求接口提示无版权，有小伙伴有解决办法的欢迎 lssues或pull request
+- 雷达（电台）无法播放，请求接口提示无版权，有小伙伴有解决办法的欢迎 lssues 或 pull request
 - 评论区回复接口返回的数据太复杂，等有时间再做
 - 视频小窗目前只支持拖动位置，暂不支持暂停/播放/修改进度
 - **项目有任何问题或 bug 欢迎提出 lssues**
 
 ### 快速导航
 
-- [Vue3 Music](#Vue3 Music)
+- [Vue3 Music](#Vue3Music)
   - [项目简介](#项目简介)
   - [快速上手](#快速上手)
   - [进度](#进度)
@@ -149,8 +151,7 @@ $ npm run build
 
 ### 如何贡献
 
-非常欢迎您的加入！[提一个lssue](https://github.com/xyyfun/music/issues)或提交一个[pull request](https://github.com/xyyfun/music/pulls)
-
+非常欢迎您的加入！[提一个 lssue](https://github.com/xyyfun/music/issues)或提交一个[pull request](https://github.com/xyyfun/music/pulls)
 
 ### 之后的方向
 
