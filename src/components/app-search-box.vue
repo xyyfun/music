@@ -239,6 +239,7 @@ export default {
 			padding: 0.5rem 1rem;
 			span {
 				padding-right: 1rem;
+				font-size: 0.9rem;
 			}
 			img {
 				width: 2rem;
@@ -249,18 +250,22 @@ export default {
 				li {
 					margin: 0.5rem 0;
 					height: 2rem;
-					border-radius: 0.5rem;
+					border-radius: 0.2rem;
 					text-overflow: -o-ellipsis-lastline;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					display: -webkit-box;
 					-webkit-line-clamp: 1;
 					-webkit-box-orient: vertical;
+					a {
+						display: flex;
+						font-size: 0.85rem;
+					}
 					&:first-child {
 						margin-top: 0;
 					}
 					&:hover {
-						background-color: var(--global-hover-bg);
+						background-color: var(--global-bg7);
 					}
 					.singer {
 						&::after {
@@ -282,7 +287,7 @@ export default {
 		}
 		.suggest-albums {
 			img {
-				border-radius: 0.3rem;
+				border-radius: 0.2rem;
 			}
 		}
 		.search-prompt {
