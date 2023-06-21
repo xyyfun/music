@@ -32,7 +32,11 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
 	response => {
-		// if (response.data.code === 400) return Promise.reject('error');
+		const {
+			data: { code, message: msg },
+		} = response;
+		if (code === 400) return Promise.reject('error');
+		if (code === -460) message({ type: 'error', message: msg });
 		return response;
 	},
 	error => {
