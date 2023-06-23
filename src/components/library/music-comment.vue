@@ -169,7 +169,7 @@ export default {
 					isShowCancel: true,
 				}).then(
 					() => {
-						router.push('/login');
+						store.commit('user/changPanelStatus', true);
 					},
 					() => {}
 				);

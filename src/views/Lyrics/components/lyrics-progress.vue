@@ -129,7 +129,7 @@ export default {
 				}).then(
 					() => {
 						store.commit('song/SHOWLYRICS', false);
-						router.push('/login');
+						store.commit('user/changPanelStatus', true);
 					},
 					() => {}
 				);

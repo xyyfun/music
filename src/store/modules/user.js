@@ -12,6 +12,8 @@ export default {
 		userVIPinfo: {},
 		// 0：等待状态返回 1：未登录 2：登录成功
 		status: 0,
+		// 是否显示登录面板
+		isShowLoginPanel: false,
 	},
 	mutations: {
 		// 修改用户状态
@@ -45,12 +47,17 @@ export default {
 			}
 			state.userVIPinfo = obj;
 		},
+		// 修改登录面板状态
+		changPanelStatus(state, val) {
+			state.isShowLoginPanel = val;
+		},
 		// 删除用户信息
 		removeInfo(state) {
 			state.userInfo = {};
 			state.usersongLike = null;
 			state.userVIPinfo = {};
 			state.status = 0;
+			state.isShowLoginPanel = false;
 		},
 	},
 	actions: {

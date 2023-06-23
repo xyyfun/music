@@ -13,6 +13,11 @@
 		<AppLyrics />
 		<MusicDialog />
 		<AppAudio />
+		<Teleport to="#app">
+			<Transition name="more-actions">
+				<AppLogin v-if="$store.state.user.isShowLoginPanel && $store.state.user.status === 1" />
+			</Transition>
+		</Teleport>
 	</div>
 </template>
 
@@ -22,6 +27,7 @@ import AppHeader from '@/components/app-header';
 import AppProgress from '@/components/app-progress';
 import AppLyrics from '@/views/Lyrics';
 import MusicDialog from '@/components/library/music-dialog';
+import AppLogin from '@/components/app-login';
 import AppAudio from '@/views/Audio';
 import message from '@/utils/message';
 import { loginTourist } from '@/api/login';
@@ -37,6 +43,7 @@ export default {
 		AppLyrics,
 		MusicDialog,
 		AppAudio,
+		AppLogin,
 	},
 	setup() {
 		const store = useStore();

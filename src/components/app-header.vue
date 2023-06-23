@@ -20,7 +20,13 @@
 				<div class="picture">
 					<img v-lazy="userAvatarUrl" class="avatarUrl" alt="" />
 					<router-link :to="`/user?id=${userId}`" v-if="userId">{{ userName }}</router-link>
-					<router-link to="/login" class="info" v-else>请登录</router-link>
+					<a
+						href="javascript:;"
+						@click="$store.commit('user/changPanelStatus', true)"
+						class="info"
+						v-else
+						>请登录</a
+					>
 					<img v-lazy="vipIcons" class="member" v-if="userId" alt="" />
 				</div>
 				<a href="javascript:;" @click="toggleDark()">
@@ -85,7 +91,6 @@ import AppSearchBox from '@/components/app-search-box';
 import { removeCookie } from '@/utils/cookie';
 import { removeUserInfo } from '@/utils/user';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 import { logout } from '@/api/login';
 import { onClickOutside, useDark, useToggle } from '@vueuse/core';
 import { ref, computed } from 'vue';
@@ -96,7 +101,6 @@ export default {
 	components: { AppSearchBox },
 	setup() {
 		const store = useStore();
-		const router = useRouter();
 		const moreBox = ref(null);
 		const isShowMore = ref(false);
 		const status = computed(() => store.state.user.status);
@@ -116,7 +120,7 @@ export default {
 						removeCookie(); // 移除cookie
 						removeUserInfo(); // 移除持久化用户信息
 						store.commit('user/removeInfo'); // 移除vuex信息
-						router.push('/login');
+						store.dispatch('user/userStatus');
 						message({ type: 'success', message: '退出成功！' });
 					});
 				})
