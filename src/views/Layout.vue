@@ -1,5 +1,5 @@
 <template>
-	<div class="container overflow">
+	<div class="container overflow" ref="appContainer">
 		<AppSidebar />
 		<div class="main-container">
 			<AppHeader />
@@ -33,7 +33,8 @@ import message from '@/utils/message';
 import { loginTourist } from '@/api/login';
 import { getCookie, setCookie } from '@/utils/cookie';
 import { useStore } from 'vuex';
-import { onMounted } from 'vue';
+import { onMounted, ref, provide, onUnmounted } from 'vue';
+import emitter from '@/utils/bus';
 export default {
 	name: 'Layout',
 	components: {
@@ -47,6 +48,9 @@ export default {
 	},
 	setup() {
 		const store = useStore();
+		const isFull = ref(false);
+		const appContainer = ref(null);
+		provide('isFull', isFull);
 		// 用户状态
 		const getUserStatus = async () => {
 			try {
@@ -59,6 +63,32 @@ export default {
 			}
 		};
 		onMounted(() => {
+			// 全屏
+			emitter.on('enlarge', () => {
+				const full = document.fullscreenElement;
+				// 判断是否有元素进入全屏
+				if (full) {
+					document.exitFullscreen();
+					isFull.value = false;
+				} else {
+					appContainer.value.requestFullscreen();
+					isFull.value = true;
+				}
+			});
+			// 取消全屏
+			emitter.on('closePanel', () => {
+				const full = document.fullscreenElement;
+				// 判断是否有元素进入全屏 有则退出全屏
+				if (full) {
+					document.exitFullscreen();
+					isFull.value = false;
+					setTimeout(() => {
+						store.commit('song/SHOWLYRICS', false);
+					}, 500);
+					return;
+				}
+				store.commit('song/SHOWLYRICS', false);
+			});
 			// 判断当前是否存在cookie
 			if (!getCookie()) {
 				// 不存在直接游客登录
@@ -68,6 +98,10 @@ export default {
 			}
 			getUserStatus();
 		});
+		onUnmounted(() => {
+			emitter.off(['enlarge', 'closePanel']);
+		});
+		return { appContainer };
 	},
 };
 </script>

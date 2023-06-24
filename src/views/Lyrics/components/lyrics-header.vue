@@ -1,24 +1,25 @@
 <template>
 	<div class="lyrics-header">
 		<div class="header">
-			<i class="iconfont icon-xiangxiajiantou" @click="$emit('closePanel')"></i>
+			<i class="iconfont icon-xiangxiajiantou" @click="closePanel"></i>
 			<i
 				class="iconfont"
 				:class="isFull ? 'icon-quxiaoquanping' : 'icon-quanping'"
-				@click="$emit('enlarge')"></i>
+				@click="enlarge"></i>
 		</div>
 	</div>
 </template>
 
 <script>
+import emitter from '@/utils/bus';
+import { inject } from 'vue';
 export default {
 	name: 'LyricsHeader',
-	emits: ['enlarge', 'closePanel'],
-	props: {
-		isFull: {
-			type: Boolean,
-			default: false,
-		},
+	setup() {
+		const isFull = inject('isFull');
+		const enlarge = () => emitter.emit('enlarge');
+		const closePanel = () => emitter.emit('closePanel');
+		return { isFull, enlarge, closePanel };
 	},
 };
 </script>

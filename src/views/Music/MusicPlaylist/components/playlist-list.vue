@@ -68,7 +68,7 @@ export default {
 			});
 		});
 		onUnmounted(() => {
-			emitter.all.clear();
+			emitter.off('changTitle');
 		});
 		return { title, params, playlists, loadMore, isMore };
 	},

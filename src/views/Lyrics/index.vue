@@ -1,9 +1,9 @@
 <template>
 	<Transition name="lyrics" mode="in-out">
-		<div class="app-lyrics overflow" v-show="isShowLyrics" ref="lyricsContent">
+		<div class="app-lyrics overflow" v-show="$store.state.song.isShowLyrics">
 			<LyricsBac />
 			<div class="lyrics-content">
-				<LyricsHeader :isFull="isFull" @closePanel="closePanel" @enlarge="enlarge" />
+				<LyricsHeader />
 				<div class="lyrics-main">
 					<LyricsDisc />
 					<LyricsSongs />
@@ -21,39 +21,9 @@ import LyricsDisc from './components/lyrics-disc';
 import LyricsSongs from './components/lyrics-songs';
 import LyricsProgress from './components/lyrics-progress.vue';
 import AppProgress from '@/components/app-progress';
-import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
 export default {
 	name: 'AppLyrics',
 	components: { LyricsBac, LyricsHeader, LyricsDisc, LyricsSongs, LyricsProgress, AppProgress },
-	setup() {
-		const lyricsContent = ref(null);
-		const store = useStore();
-		const isShowLyrics = computed(() => store.state.song.isShowLyrics);
-		const isFull = ref(false);
-		// 全屏
-		const enlarge = () => {
-			const full = document.fullscreenElement;
-			// 判断是否有元素进入全屏
-			if (full) {
-				document.exitFullscreen();
-				isFull.value = false;
-			} else {
-				lyricsContent.value.requestFullscreen();
-				isFull.value = true;
-			}
-		};
-		const closePanel = () => {
-			const full = document.fullscreenElement;
-			// 判断是否有元素进入全屏 有则退出全屏
-			if (full) {
-				document.exitFullscreen();
-				isFull.value = false;
-			}
-			store.commit('song/SHOWLYRICS', false);
-		};
-		return { isFull, lyricsContent, isShowLyrics, closePanel, enlarge };
-	},
 };
 </script>
 
