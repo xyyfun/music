@@ -98,6 +98,7 @@ export default {
 	actions: {
 		// 歌单详情
 		getPlaylistDetail({ commit }, id) {
+			commit('clearData');
 			getPlaylistDetail(id).then(data => {
 				commit('lists', data.data.playlist.tracks);
 				commit('playlistDetail', data.data.playlist);
@@ -105,6 +106,7 @@ export default {
 		},
 		// 专辑详情
 		getAlbumDetail({ commit }, id) {
+			commit('clearData');
 			getAlbumData(id).then(data => {
 				commit('lists', data.data.songs);
 				commit('albumDetail', data.data.album);
