@@ -59,9 +59,9 @@ export default {
 		const getUserStatus = async () => {
 			try {
 				const result = await store.dispatch('user/userStatus');
-				store.dispatch('user/userInfo', result);
-				// 获取用户喜欢歌曲
-				store.dispatch('user/userLike', result);
+				store.dispatch('user/userVIPinfo'); // 用户vip信息
+				store.dispatch('user/userInfo', result); // 登录获取用户信息
+				store.dispatch('user/userLike', result); // 获取用户喜欢歌曲
 				store.commit('user/changPanelStatus', false); // 关闭面板
 				message({ type: 'success', message: '登录成功！' });
 			} catch (err) {
