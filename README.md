@@ -113,41 +113,18 @@ $ npm run build
 
 ### 项目预览
 
-首页-推荐
 
-![首页](https://s1.ax1x.com/2023/06/10/pCVewLT.png)
-
-音乐馆-精选
-
-![音乐馆-精选](https://s1.ax1x.com/2023/06/10/pCVeaQ0.png)
-
-音乐馆-电台
-
-![音乐馆-有声电台](https://s1.ax1x.com/2023/06/10/pCVedyV.png)
-
-音乐馆-排行
-
-![音乐馆-排行](https://s1.ax1x.com/2023/06/10/pCVetWn.png)
-
-搜索
-
-![搜索](https://s1.ax1x.com/2023/06/10/pCVeQL8.png)
-
-播放器
-
-![播放器](https://s1.ax1x.com/2023/06/10/pCVe8oQ.png)
-
-歌单
-
-![歌单](https://s1.ax1x.com/2023/06/10/pCVe1eS.png)
-
-视频
-
-![视频](https://s1.ax1x.com/2023/06/10/pCVeJij.png)
-
-私信
-
-![私信](https://s1.ax1x.com/2023/06/10/pCVe3dg.png)
+|   浅色  |   深色  |
+|:------:|:------:|
+|![image](https://s1.ax1x.com/2023/07/11/pCfkkwV.png)|![image](https://s1.ax1x.com/2023/07/11/pCfkAoT.png)|
+|![image](https://s1.ax1x.com/2023/07/11/pCfk1w6.png)|![image](https://s1.ax1x.com/2023/07/11/pCfklex.png)|
+|![image](https://s1.ax1x.com/2023/07/11/pCfk400.png)|![image](https://s1.ax1x.com/2023/07/11/pCfkhmq.png)|
+|![image](https://s1.ax1x.com/2023/07/11/pCfkOXR.png)|![image](https://s1.ax1x.com/2023/07/11/pCfkLc9.png)|
+|![image](https://s1.ax1x.com/2023/07/11/pCfA1js.png)|![image](https://s1.ax1x.com/2023/07/11/pCfAlcj.png)|
+|![image](https://s1.ax1x.com/2023/07/11/pCfAJH0.png)|![image](https://s1.ax1x.com/2023/07/11/pCfAtEV.png)|
+|![image](https://s1.ax1x.com/2023/07/11/pCfAw34.png)|![image](https://s1.ax1x.com/2023/07/11/pCfAdCF.png)|
+|![image](https://s1.ax1x.com/2023/07/11/pCfECV0.png)|![image](https://s1.ax1x.com/2023/07/11/pCfEpbq.png)|
+|![image](https://s1.ax1x.com/2023/07/12/pCfVdX9.png)|![image](https://s1.ax1x.com/2023/07/12/pCfVa6J.png)|
 
 ### 如何贡献
 
