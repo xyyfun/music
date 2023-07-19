@@ -14,6 +14,7 @@
 					class="item"
 					v-for="(item, index) in songLists"
 					:key="item.id"
+					@dblclick="play(item.id)"
 					:class="{
 						active: item.id === currentMusicID || item.id === currentShowPanel,
 						noCopyright: item.st === -200 || item.st === -1,
