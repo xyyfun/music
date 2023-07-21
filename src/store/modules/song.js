@@ -135,35 +135,63 @@ export default {
 	actions: {
 		// 歌曲url
 		songUrl({ commit }, id) {
-			getSongUrl(id).then(data => {
-				const str = useDateFormat(data.data.data[0].time, 'mm:ss');
-				data.data.data[0].time = str.value;
-				commit('SONGURL', data.data.data[0]);
+			return new Promise((resolve, reject) => {
+				getSongUrl(id)
+					.then(data => {
+						const str = useDateFormat(data.data.data[0].time, 'mm:ss');
+						data.data.data[0].time = str.value;
+						commit('SONGURL', data.data.data[0]);
+						resolve(data.data.data[0]);
+					})
+					.catch(err => {
+						reject(err);
+					});
 			});
 		},
 		// 歌曲信息
 		songDetail({ commit }, id) {
-			getSongDetail(id).then(data => {
-				const str = useDateFormat(data.data.songs[0].dt, 'mm:ss');
-				data.data.songs[0].dt = str.value;
-				commit('SONGDETAIL', data.data.songs[0]);
-				commit('musicID', data.data.songs[0].id);
-				commit('addList', data.data.songs[0]);
+			return new Promise((resolve, reject) => {
+				getSongDetail(id)
+					.then(data => {
+						const str = useDateFormat(data.data.songs[0].dt, 'mm:ss');
+						data.data.songs[0].dt = str.value;
+						commit('SONGDETAIL', data.data.songs[0]);
+						commit('musicID', data.data.songs[0].id);
+						commit('addList', data.data.songs[0]);
+						resolve(data.data.songs[0]);
+					})
+					.catch(err => {
+						reject(err);
+					});
 			});
 		},
 		// 歌词
 		songLyrics({ commit }, id) {
-			getSongLyric(id).then(data => {
-				commit('SONGLYRIC', data.data.lrc);
+			return new Promise((resolve, reject) => {
+				getSongLyric(id)
+					.then(data => {
+						commit('SONGLYRIC', data.data.lrc);
+						resolve(data.data.lrc);
+					})
+					.catch(err => {
+						reject(err);
+					});
 			});
 		},
 		// 获取三件套
 		getMusic({ dispatch, commit, state }, id) {
 			// 播放前判断当前是否有音乐暂停且暂停音乐是播放的音乐
 			if (state.currentMusicID === id) return commit('ISPLAY', true);
-			dispatch('songUrl', id);
-			dispatch('songDetail', id);
-			dispatch('songLyrics', id);
+			return new Promise(async (resolve, reject) => {
+				try {
+					await dispatch('songUrl', id);
+					await dispatch('songDetail', id);
+					await dispatch('songLyrics', id);
+					resolve('ok');
+				} catch (error) {
+					reject(error);
+				}
+			});
 		},
 	},
 	getters: {

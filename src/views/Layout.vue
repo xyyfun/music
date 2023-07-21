@@ -35,6 +35,7 @@ import { getCookie, setCookie } from '@/utils/cookie';
 import { useStore } from 'vuex';
 import { onMounted, ref, provide, onUnmounted } from 'vue';
 import emitter from '@/utils/bus';
+import historyPlay from '@/utils/historyPlay';
 export default {
 	name: 'Layout',
 	components: {
@@ -63,6 +64,7 @@ export default {
 			}
 		};
 		onMounted(() => {
+			historyPlay();
 			// 全屏
 			emitter.on('enlarge', () => {
 				const full = document.fullscreenElement;
